@@ -1,0 +1,134 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum Role {
+  USER
+  ADMIN
+  MANAGER
+}
+
+enum CompanyStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+enum ProjectStatus {
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+model User {
+  id            String           @id @default(uuid())
+  name          String
+  email         String           @unique
+  passwordHash  String
+  role          Role
+  companyId     String
+  company       Company          @relation(fields: [companyId], references: [id])
+  refreshTokens RefreshToken[]
+  projects      Project[]        @relation("ResponsibleProjects")
+  comments      ProjectComment[]
+  histories     ProjectHistory[] @relation("UserHistories")
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  @@map("users")
+}
+
+model Company {
+  id          String        @id @default(uuid())
+  name        String
+  description String
+  status      CompanyStatus
+  users       User[]
+  projects    Project[]
+  invitations Invitation[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@map("companies")
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String
+  expiresAt DateTime
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@map("refresh_tokens")
+}
+
+model Invitation {
+  id        String           @id @default(uuid())
+  email     String
+  token     String
+  status    InvitationStatus
+  role      Role
+  expiresAt DateTime
+  companyId String
+  company   Company          @relation(fields: [companyId], references: [id])
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  @@map("invitations")
+}
+
+model Project {
+  id                String           @id @default(uuid())
+  title             String
+  description       String
+  status            ProjectStatus
+  responsibleUserId String
+  responsibleUser   User             @relation("ResponsibleProjects", fields: [responsibleUserId], references: [id])
+  companyId         String
+  company           Company          @relation(fields: [companyId], references: [id])
+  comments          ProjectComment[]
+  histories         ProjectHistory[]
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  @@map("projects")
+}
+
+model ProjectHistory {
+  id              String   @id @default(uuid())
+  action          String
+  oldValue        String
+  newValue        String
+  description     String
+  projectId       String
+  project         Project  @relation(fields: [projectId], references: [id])
+  changedByUserId String
+  changedByUser   User     @relation("UserHistories", fields: [changedByUserId], references: [id])
+  createdAt       DateTime @default(now())
+
+  @@map("project_histories")
+}
+
+model ProjectComment {
+  id        String   @id @default(uuid())
+  content   String
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("project_comments")
+}
