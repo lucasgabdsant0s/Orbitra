@@ -1,7 +1,7 @@
 {
   "name": "orbitrav2",
   "version": "1.0.0",
-  "description": "Multi-tenant project management system with clean architecture.",
+  "description": "A scalable multi-tenant project management platform that helps teams organize, track, and deliver projects efficiently, built with a clean and maintainable architecture.",
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",

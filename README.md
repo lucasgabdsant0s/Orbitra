@@ -1,65 +1,36 @@
 # English
 
-# Orbitra - Project Management System
+# Orbitra - Project Management System 
 
-Multi-tenant project management system with clean architecture.
+Orbitra is a multi-tenant project management platform designed with Clean Architecture principles, focusing on scalability, maintainability, and secure team collaboration.
 
 ## Quick Start
 
-### With Docker
+### Docker
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/lucasgabdsant0s/Orbitra.git
 cd Orbitra
 
+# Copy .env.example to .env
+cp .env.example .env
+
 # Start all services
-docker-compose up -d
+docker-compose -f compose.dev.yml up -d
 
 # Access
-# Frontend: http://localhost:5173
-# Backend: http://localhost:3000
-```
-
-### Local Development
-
-#### Backend
-
-```bash
-cd backend
-npm install
-npm run prisma:generate
-npm run prisma:migrate
-npm run dev
-```
-
-#### Frontend
-
-```bash
-cd frontend
-npm install
-npm run dev
+# Backend: http://localhost:3333
 ```
 
 ## Project Structure
 
 - `/backend` - Node.js API with Clean Architecture
-- `/frontend` - React with TypeScript
-- `/docker` - Docker configurations
-- `/docs` - Documentation
 
 ## Technologies
 
-- **Backend**: Node.js, TypeScript, Express, Prisma, PostgreSQL, Redis
-- **Frontend**: React, TypeScript, Vite, Tailwind CSS
-- **DevOps**: Docker, Docker Compose, Nginx
-
-## Documentation
-
-- [Architecture](./docs/architecture.md)
-- [API Routes](./docs/api-routes.md)
-- [Database](./docs/database.md)
-- [UX Flows](./docs/ux-flows.md)
+- **Backend**: Node.js, TypeScript, Fastify, Prisma, MySQL
+- **DevOps**: Docker, Docker Compose
 
 ## License
 
@@ -69,7 +40,7 @@ MIT
 
 # Orbitra - Sistema de Gerenciamento de Projetos
 
-Sistema multi-tenant para gerenciamento de projetos com arquitetura limpa.
+Orbitra é uma plataforma de gerenciamento de projetos multi-tenant projetada com princípios de arquitetura limpa, focando em escalabilidade, manutenibilidade e colaboração segura de equipe.
 
 ## Início Rápido
 
@@ -77,56 +48,28 @@ Sistema multi-tenant para gerenciamento de projetos com arquitetura limpa.
 
 ```bash
 # Clonar o repositório
-git clone <repository-url>
+git clone https://github.com/lucasgabdsant0s/Orbitra.git
 cd Orbitra
 
+# Copiar .env.example para .env
+cp .env.example .env
+
 # Iniciar todos os serviços
-docker-compose up -d
+docker-compose -f compose.dev.yml up -d
 
 # Acessar
-# Frontend: http://localhost:5173
-# Backend: http://localhost:3000
+# Backend: http://localhost:3333
 ```
 
-### Desenvolvimento Local
-
-#### Backend
-
-```bash
-cd backend
-npm install
-npm run prisma:generate
-npm run prisma:migrate
-npm run dev
-```
-
-#### Frontend
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
 
 ## Estrutura do Projeto
 
 - `/backend` - Node.js API com Clean Architecture
-- `/frontend` - React 
-- `/docker` - Docker configurations
-- `/docs` - Documentation
 
 ## Tecnologias
 
-- **Backend**: Node.js, TypeScript, Express, Prisma, PostgreSQL, Redis
-- **Frontend**: React, TypeScript, Vite, Tailwind CSS
-- **DevOps**: Docker, Docker Compose, Nginx
-
-## Documentação
-
-- [Arquitetura](./docs/architecture.md)
-- [Rotas da API](./docs/api-routes.md)
-- [Banco de Dados](./docs/database.md)
-- [Fluxos de UX](./docs/ux-flows.md)
+- **Backend**: Node.js, TypeScript, Fastify, Prisma, MySQL
+- **DevOps**: Docker, Docker Compose
 
 ## Licença
 
