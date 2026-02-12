@@ -1,0 +1,34 @@
+import type { FastifyReply, FastifyRequest } from 'fastify';
+import { ForbiddenError } from '../../../core/exceptions/index.js';
+import { prisma } from '../../database/prisma.js';
+
+export function rbacMiddleware(requiredRoles: string[]) {
+  return async (request: FastifyRequest, reply: FastifyReply) => {
+    const userId = (request as any).userId;
+    const userRole = (request as any).userRole;
+    const { projectId } = request.params as any;
+
+    if (userRole === 'OWNER' || userRole === 'ADMIN') {
+      return;
+    }
+    if (!projectId) {
+       if (requiredRoles.length > 0 && !requiredRoles.includes(userRole)) {
+         throw new ForbiddenError('Insufficient global permissions.');
+       }
+       return;
+    }
+    const member = await prisma.projectMember.findUnique({
+      where: {
+        projectId_userId: { projectId, userId },
+      },
+    });
+
+    if (!member) {
+      throw new ForbiddenError('You are not a member of this project.');
+    }
+
+    if (requiredRoles.length > 0 && !requiredRoles.includes(member.role)) {
+      throw new ForbiddenError(`Insufficient permissions in this project. Required: ${requiredRoles.join(', ')}`);
+    }
+  };
+}

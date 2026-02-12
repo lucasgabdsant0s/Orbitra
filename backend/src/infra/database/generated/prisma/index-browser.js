@@ -128,6 +128,9 @@ exports.Prisma.UserScalarFieldEnum = {
   name: 'name',
   role: 'role',
   isActive: 'isActive',
+  isVerified: 'isVerified',
+  totpSecret: 'totpSecret',
+  totpEnabled: 'totpEnabled',
   avatarUrl: 'avatarUrl',
   deletedAt: 'deletedAt',
   createdAt: 'createdAt',
@@ -180,9 +183,75 @@ exports.Prisma.TaskScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.CommentScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  projectId: 'projectId',
+  userId: 'userId',
+  parentId: 'parentId',
+  text: 'text',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.InviteScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  email: 'email',
+  role: 'role',
+  token: 'token',
+  status: 'status',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ProjectMemberScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  userId: 'userId',
+  projectId: 'projectId',
+  role: 'role',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AuditLogScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  userId: 'userId',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  action: 'action',
+  changes: 'changes',
+  timestamp: 'timestamp'
+};
+
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  userId: 'userId',
+  type: 'type',
+  message: 'message',
+  link: 'link',
+  isRead: 'isRead',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.EmailVerificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  token: 'token',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.NullsOrder = {
@@ -196,6 +265,7 @@ exports.Prisma.UserOrderByRelevanceFieldEnum = {
   email: 'email',
   passwordHash: 'passwordHash',
   name: 'name',
+  totpSecret: 'totpSecret',
   avatarUrl: 'avatarUrl'
 };
 
@@ -228,6 +298,61 @@ exports.Prisma.TaskOrderByRelevanceFieldEnum = {
   assigneeId: 'assigneeId',
   createdBy: 'createdBy'
 };
+
+exports.Prisma.CommentOrderByRelevanceFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  projectId: 'projectId',
+  userId: 'userId',
+  parentId: 'parentId',
+  text: 'text'
+};
+
+exports.Prisma.InviteOrderByRelevanceFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  email: 'email',
+  token: 'token'
+};
+
+exports.Prisma.ProjectMemberOrderByRelevanceFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  userId: 'userId',
+  projectId: 'projectId'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+};
+
+exports.Prisma.AuditLogOrderByRelevanceFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  userId: 'userId',
+  entityId: 'entityId'
+};
+
+exports.Prisma.NotificationOrderByRelevanceFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  userId: 'userId',
+  message: 'message',
+  link: 'link'
+};
+
+exports.Prisma.EmailVerificationOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  token: 'token'
+};
 exports.Role = exports.$Enums.Role = {
   OWNER: 'OWNER',
   ADMIN: 'ADMIN',
@@ -255,12 +380,43 @@ exports.TaskPriority = exports.$Enums.TaskPriority = {
   URGENT: 'URGENT'
 };
 
+exports.InviteStatus = exports.$Enums.InviteStatus = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED'
+};
+
+exports.AuditEntityType = exports.$Enums.AuditEntityType = {
+  PROJECT: 'PROJECT',
+  TASK: 'TASK'
+};
+
+exports.AuditAction = exports.$Enums.AuditAction = {
+  CREATE: 'CREATE',
+  UPDATE: 'UPDATE',
+  DELETE: 'DELETE'
+};
+
+exports.NotificationType = exports.$Enums.NotificationType = {
+  COMMENT: 'COMMENT',
+  INVITE: 'INVITE',
+  TASK_ASSIGN: 'TASK_ASSIGN',
+  DEADLINE: 'DEADLINE',
+  PROJECT_UPDATE: 'PROJECT_UPDATE'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Tenant: 'Tenant',
   RefreshToken: 'RefreshToken',
   Project: 'Project',
-  Task: 'Task'
+  Task: 'Task',
+  Comment: 'Comment',
+  Invite: 'Invite',
+  ProjectMember: 'ProjectMember',
+  AuditLog: 'AuditLog',
+  Notification: 'Notification',
+  EmailVerification: 'EmailVerification'
 };
 
 /**

@@ -47,3 +47,17 @@ export class ValidationError extends AppError {
     Object.setPrototypeOf(this, ValidationError.prototype);
   }
 }
+
+export class InviteExpiredError extends AppError {
+  constructor() {
+    super('Invite has expired or is no longer valid.', 410);
+    Object.setPrototypeOf(this, InviteExpiredError.prototype);
+  }
+}
+
+export class InsufficientPermissionsError extends AppError {
+  constructor(message = 'You do not have permission to perform this action.') {
+    super(message, 403);
+    Object.setPrototypeOf(this, InsufficientPermissionsError.prototype);
+  }
+}

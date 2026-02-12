@@ -24,3 +24,28 @@ export enum TaskPriority {
   HIGH = 'HIGH',
   URGENT = 'URGENT',
 }
+
+export enum InviteStatus {
+  PENDING = 'PENDING',
+  ACCEPTED = 'ACCEPTED',
+  REJECTED = 'REJECTED',
+}
+
+export enum AuditAction {
+  CREATE = 'CREATE',
+  UPDATE = 'UPDATE',
+  DELETE = 'DELETE',
+}
+
+export enum AuditEntityType {
+  PROJECT = 'PROJECT',
+  TASK = 'TASK',
+}
+
+export enum NotificationType {
+  COMMENT = 'COMMENT',
+  INVITE = 'INVITE',
+  TASK_ASSIGN = 'TASK_ASSIGN',
+  DEADLINE = 'DEADLINE',
+  PROJECT_UPDATE = 'PROJECT_UPDATE',
+}

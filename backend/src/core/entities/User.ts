@@ -8,6 +8,9 @@ export interface UserProps {
   name: string;
   role: Role;
   isActive?: boolean;
+  isVerified?: boolean;
+  totpSecret?: string | null;
+  totpEnabled?: boolean;
   avatarUrl?: string | null;
   deletedAt?: Date | null;
   createdAt?: Date;
@@ -22,6 +25,9 @@ export class User {
   public name: string;
   public role: Role;
   public isActive: boolean;
+  public isVerified: boolean;
+  public totpSecret: string | null;
+  public totpEnabled: boolean;
   public avatarUrl: string | null;
   public deletedAt: Date | null;
   public readonly createdAt?: Date;
@@ -35,6 +41,9 @@ export class User {
     this.name = props.name;
     this.role = props.role;
     this.isActive = props.isActive ?? true;
+    this.isVerified = props.isVerified ?? false;
+    this.totpSecret = props.totpSecret ?? null;
+    this.totpEnabled = props.totpEnabled ?? false;
     this.avatarUrl = props.avatarUrl ?? null;
     this.deletedAt = props.deletedAt ?? null;
     this.createdAt = props.createdAt;

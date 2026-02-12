@@ -1,4 +1,4 @@
-import { prisma } from '../../database/prisma';
+import { prisma } from '../../database/prisma.js';
 import type {
   IProjectRepository,
   ProjectFilters,
@@ -6,20 +6,6 @@ import type {
 import { Project } from '../../../core/entities/Project.js';
 import type { ProjectStatus } from '../../../core/enums/index.js';
 import type { PaginatedResult, PaginationOptions } from '../../../core/types/index.js';
-
-interface ProjectRecord {
-  id: string;
-  tenantId: string;
-  name: string;
-  description: string | null;
-  status: string;
-  startDate: Date | null;
-  endDate: Date | null;
-  createdBy: string;
-  deletedAt: Date | null;
-  createdAt: Date;
-  updatedAt: Date;
-}
 
 export class PrismaProjectRepository implements IProjectRepository {
   async create(project: Project): Promise<Project> {
@@ -35,14 +21,14 @@ export class PrismaProjectRepository implements IProjectRepository {
       },
     });
 
-    return this.toDomain(created as unknown as ProjectRecord);
+    return this.toDomain(created);
   }
 
   async findById(tenantId: string, id: string): Promise<Project | null> {
     const record = await prisma.project.findFirst({
-      where: { id, tenantId, deletedAt: null },
+      where: { id, tenantId },
     });
-    return record ? this.toDomain(record as unknown as ProjectRecord) : null;
+    return record ? this.toDomain(record) : null;
   }
 
   async findAll(
@@ -55,7 +41,6 @@ export class PrismaProjectRepository implements IProjectRepository {
 
     const where = {
       tenantId,
-      deletedAt: null as Date | null,
       ...(filters?.status && { status: filters.status }),
     };
 
@@ -70,7 +55,7 @@ export class PrismaProjectRepository implements IProjectRepository {
     ]);
 
     return {
-      data: (records as unknown as ProjectRecord[]).map((r: ProjectRecord) => this.toDomain(r)),
+      data: records.map((r) => this.toDomain(r)),
       total,
       page,
       limit,
@@ -80,7 +65,7 @@ export class PrismaProjectRepository implements IProjectRepository {
 
   async update(tenantId: string, id: string, data: Partial<Project>): Promise<Project> {
     const updated = await prisma.project.update({
-      where: { id },
+      where: { id, tenantId },
       data: {
         ...(data.name !== undefined && { name: data.name }),
         ...(data.description !== undefined && { description: data.description }),
@@ -90,17 +75,17 @@ export class PrismaProjectRepository implements IProjectRepository {
       },
     });
 
-    return this.toDomain(updated as unknown as ProjectRecord);
+    return this.toDomain(updated);
   }
 
   async softDelete(tenantId: string, id: string): Promise<void> {
     await prisma.project.update({
-      where: { id },
+      where: { id, tenantId },
       data: { deletedAt: new Date() },
     });
   }
 
-  private toDomain(record: ProjectRecord): Project {
+  private toDomain(record: any): Project {
     return new Project({
       id: record.id,
       tenantId: record.tenantId,

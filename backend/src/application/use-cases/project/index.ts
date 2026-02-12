@@ -3,9 +3,14 @@ import { Project } from '../../../core/entities/Project.js';
 import type { ProjectStatus } from '../../../core/enums/index.js';
 import type { PaginatedResult, PaginationOptions } from '../../../core/types/index.js';
 import { NotFoundError, ForbiddenError } from '../../../core/exceptions/index.js';
-import type { CreateProjectInput, UpdateProjectInput, ProjectOutput } from '../../dtos/index.js';
+import type { CreateProjectInput, UpdateProjectInput, ProjectOutput } from '../../dtos/index.js';
+import type { ICacheProvider } from '../../../core/interfaces/providers/ICacheProvider.js';
+
 export class CreateProjectUseCase {
-  constructor(private projectRepository: IProjectRepository) {}
+  constructor(
+    private projectRepository: IProjectRepository,
+    private cacheProvider?: ICacheProvider
+  ) {}
 
   async execute(
     tenantId: string,
@@ -21,30 +26,44 @@ export class CreateProjectUseCase {
       endDate: input.endDate ? new Date(input.endDate) : null,
       createdBy: userId,
     });
-
     const created = await this.projectRepository.create(project);
+    if (this.cacheProvider) {
+      this.cacheProvider.invalidatePattern(`projects:${tenantId}:*`);
+    }
     return toProjectOutput(created);
   }
-}
+}
+
 export class ListProjectsUseCase {
-  constructor(private projectRepository: IProjectRepository) {}
+  constructor(
+    private projectRepository: IProjectRepository,
+    private cacheProvider?: ICacheProvider
+  ) {}
 
   async execute(
     tenantId: string,
     options: PaginationOptions,
     filters?: ProjectFilters,
   ): Promise<PaginatedResult<ProjectOutput>> {
+    const cacheKey = `projects:${tenantId}:${options.page}:${options.limit}:${filters?.status ?? 'all'}`;
+    if (this.cacheProvider) {
+      const cached = this.cacheProvider.get<PaginatedResult<ProjectOutput>>(cacheKey);
+      if (cached) return cached;
+    }
     const result = await this.projectRepository.findAll(tenantId, options, filters);
-
-    return {
+    const output = {
       ...result,
       data: result.data.map(toProjectOutput),
     };
+    if (this.cacheProvider) {
+      this.cacheProvider.set(cacheKey, output, 60);
+    }
+    return output;
   }
-}
+}
+
 export class GetProjectUseCase {
   constructor(private projectRepository: IProjectRepository) {}
-
   async execute(tenantId: string, projectId: string): Promise<ProjectOutput> {
     const project = await this.projectRepository.findById(tenantId, projectId);
     if (!project) {
@@ -52,9 +71,13 @@ export class GetProjectUseCase {
     }
     return toProjectOutput(project);
   }
-}
+}
+
 export class UpdateProjectUseCase {
-  constructor(private projectRepository: IProjectRepository) {}
+  constructor(
+    private projectRepository: IProjectRepository,
+    private cacheProvider?: ICacheProvider
+  ) {}
 
   async execute(
     tenantId: string,
@@ -66,14 +89,12 @@ export class UpdateProjectUseCase {
     const existing = await this.projectRepository.findById(tenantId, projectId);
     if (!existing) {
       throw new NotFoundError('Project not found.');
-    }
+    }
     const isAdminOrOwner = requesterRole === 'OWNER' || requesterRole === 'ADMIN';
     const isCreator = existing.createdBy === requesterId;
-
     if (!isAdminOrOwner && !isCreator) {
       throw new ForbiddenError('You do not have permission to edit this project.');
     }
-
     const updated = await this.projectRepository.update(tenantId, projectId, {
       ...(input.name !== undefined && { name: input.name }),
       ...(input.description !== undefined && { description: input.description }),
@@ -81,32 +102,38 @@ export class UpdateProjectUseCase {
       ...(input.startDate !== undefined && { startDate: new Date(input.startDate) }),
       ...(input.endDate !== undefined && { endDate: new Date(input.endDate) }),
     });
-
+    if (this.cacheProvider) {
+      this.cacheProvider.invalidatePattern(`projects:${tenantId}:*`);
+    }
     return toProjectOutput(updated);
   }
-}
-export class DeleteProjectUseCase {
-  constructor(private projectRepository: IProjectRepository) {}
+}
 
+export class DeleteProjectUseCase {
+  constructor(
+    private projectRepository: IProjectRepository,
+    private cacheProvider?: ICacheProvider
+  ) {}
   async execute(
     tenantId: string,
     projectId: string,
     requesterRole: string,
-  ): Promise<void> {
+  ): Promise<void> {
     const isAdminOrOwner = requesterRole === 'OWNER' || requesterRole === 'ADMIN';
-
     if (!isAdminOrOwner) {
       throw new ForbiddenError('Only admins can delete projects.');
     }
-
     const existing = await this.projectRepository.findById(tenantId, projectId);
     if (!existing) {
       throw new NotFoundError('Project not found.');
     }
-
     await this.projectRepository.softDelete(tenantId, projectId);
+    if (this.cacheProvider) {
+      this.cacheProvider.invalidatePattern(`projects:${tenantId}:*`);
+    }
   }
-}
+}
+
 function toProjectOutput(p: Project): ProjectOutput {
   return {
     id: p.id!,

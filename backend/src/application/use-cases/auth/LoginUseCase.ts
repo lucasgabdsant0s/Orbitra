@@ -13,12 +13,14 @@ export class LoginUseCase {
     private refreshTokenRepository: IRefreshTokenRepository,
   ) {}
 
-  async execute(input: LoginInput): Promise<LoginOutput> {
+  async execute(input: LoginInput): Promise<LoginOutput> {
+
     const user = await this.userRepository.findByEmailGlobal(input.email);
 
     if (!user || !user.isActive) {
       throw new UnauthorizedError('Invalid credentials.');
-    }
+    }
+
     const passwordMatched = await this.hashProvider.compareHash(
       input.password,
       user.passwordHash,
@@ -26,7 +28,8 @@ export class LoginUseCase {
 
     if (!passwordMatched) {
       throw new UnauthorizedError('Invalid credentials.');
-    }
+    }
+
     const tokenPayload = {
       sub: user.id!,
       tenantId: user.tenantId,
@@ -34,7 +37,8 @@ export class LoginUseCase {
     };
 
     const accessToken = this.tokenProvider.generateAccessToken(tokenPayload);
-    const refreshToken = this.tokenProvider.generateRefreshToken(tokenPayload);
+    const refreshToken = this.tokenProvider.generateRefreshToken(tokenPayload);
+
     await this.refreshTokenRepository.create({
       token: refreshToken,
       userId: user.id!,
@@ -48,6 +52,7 @@ export class LoginUseCase {
         email: user.email,
         role: user.role,
         tenantId: user.tenantId,
+        totpEnabled: user.totpEnabled,
       },
       accessToken,
       refreshToken,

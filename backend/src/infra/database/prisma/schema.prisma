@@ -34,6 +34,31 @@ enum TaskPriority {
   URGENT
 }
 
+enum InviteStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+enum AuditAction {
+  CREATE
+  UPDATE
+  DELETE
+}
+
+enum AuditEntityType {
+  PROJECT
+  TASK
+}
+
+enum NotificationType {
+  COMMENT
+  INVITE
+  TASK_ASSIGN
+  DEADLINE
+  PROJECT_UPDATE
+}
+
 model User {
   id           String    @id @default(uuid())
   tenantId     String
@@ -42,16 +67,24 @@ model User {
   name         String
   role         Role      @default(MEMBER)
   isActive     Boolean   @default(true)
+  isVerified   Boolean   @default(false)
+  totpSecret   String?
+  totpEnabled  Boolean   @default(false)
   avatarUrl    String?
   deletedAt    DateTime?
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 
-  tenant          Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  createdProjects Project[]      @relation("ProjectCreator")
-  assignedTasks   Task[]         @relation("TaskAssignee")
-  createdTasks    Task[]         @relation("TaskCreator")
-  refreshTokens   RefreshToken[]
+  tenant             Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  createdProjects    Project[]           @relation("ProjectCreator")
+  assignedTasks      Task[]              @relation("TaskAssignee")
+  createdTasks       Task[]              @relation("TaskCreator")
+  refreshTokens      RefreshToken[]
+  comments           Comment[]
+  notifications      Notification[]
+  auditLogs          AuditLog[]
+  projectMemberships ProjectMember[]
+  emailVerifications EmailVerification[]
 
   @@unique([tenantId, email])
   @@index([tenantId])
@@ -65,9 +98,14 @@ model Tenant {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  users    User[]
-  projects Project[]
-  tasks    Task[]
+  users          User[]
+  projects       Project[]
+  tasks          Task[]
+  invites        Invite[]
+  comments       Comment[]
+  notifications  Notification[]
+  auditLogs      AuditLog[]
+  projectMembers ProjectMember[]
 
   @@map("tenants")
 }
@@ -97,9 +135,11 @@ model Project {
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 
-  tenant  Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  creator User   @relation("ProjectCreator", fields: [createdBy], references: [id])
-  tasks   Task[]
+  tenant   Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  creator  User            @relation("ProjectCreator", fields: [createdBy], references: [id])
+  tasks    Task[]
+  comments Comment[]
+  members  ProjectMember[]
 
   @@index([tenantId])
   @@index([tenantId, status])
@@ -130,4 +170,110 @@ model Task {
   @@index([projectId])
   @@index([tenantId, projectId, status])
   @@map("tasks")
+}
+
+model Comment {
+  id        String    @id @default(uuid())
+  tenantId  String
+  projectId String
+  userId    String
+  parentId  String?
+  text      String    @db.Text
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  tenant  Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  project Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user    User      @relation(fields: [userId], references: [id])
+  parent  Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies Comment[] @relation("CommentReplies")
+
+  @@index([tenantId])
+  @@index([projectId])
+  @@index([parentId])
+  @@map("comments")
+}
+
+model Invite {
+  id        String       @id @default(uuid())
+  tenantId  String
+  email     String
+  role      Role         @default(MEMBER)
+  token     String       @unique
+  status    InviteStatus @default(PENDING)
+  expiresAt DateTime
+  createdAt DateTime     @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([token])
+  @@map("invites")
+}
+
+model ProjectMember {
+  id        String   @id @default(uuid())
+  tenantId  String
+  userId    String
+  projectId String
+  role      Role     @default(MEMBER)
+  createdAt DateTime @default(now())
+
+  tenant  Tenant  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, userId])
+  @@index([tenantId])
+  @@map("project_members")
+}
+
+model AuditLog {
+  id         String          @id @default(uuid())
+  tenantId   String
+  userId     String
+  entityType AuditEntityType
+  entityId   String
+  action     AuditAction
+  changes    Json
+  timestamp  DateTime        @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@index([tenantId])
+  @@index([entityType, entityId])
+  @@map("audit_logs")
+}
+
+model Notification {
+  id        String           @id @default(uuid())
+  tenantId  String
+  userId    String
+  type      NotificationType
+  message   String           @db.Text
+  link      String?
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([userId])
+  @@map("notifications")
+}
+
+model EmailVerification {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("email_verifications")
 }

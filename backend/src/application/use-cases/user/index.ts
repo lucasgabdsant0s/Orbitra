@@ -1,7 +1,8 @@
 import type { IUserRepository } from '../../../core/interfaces/repositories/IUserRepository.js';
 import type { PaginatedResult, PaginationOptions } from '../../../core/types/index.js';
 import { NotFoundError, ForbiddenError } from '../../../core/exceptions/index.js';
-import type { UpdateUserInput, UserOutput } from '../../dtos/index.js';
+import type { UpdateUserInput, UserOutput } from '../../dtos/index.js';
+
 export class ListUsersUseCase {
   constructor(private userRepository: IUserRepository) {}
 
@@ -16,7 +17,8 @@ export class ListUsersUseCase {
       data: result.data.map(toUserOutput),
     };
   }
-}
+}
+
 export class GetUserUseCase {
   constructor(private userRepository: IUserRepository) {}
 
@@ -29,7 +31,8 @@ export class GetUserUseCase {
 
     return toUserOutput(user);
   }
-}
+}
+
 export class UpdateUserUseCase {
   constructor(private userRepository: IUserRepository) {}
 
@@ -39,11 +42,13 @@ export class UpdateUserUseCase {
     requesterId: string,
     requesterRole: string,
     input: UpdateUserInput,
-  ): Promise<UserOutput> {
+  ): Promise<UserOutput> {
+
     const isAdmin = requesterRole === 'OWNER' || requesterRole === 'ADMIN';
     if (requesterId !== userId && !isAdmin) {
       throw new ForbiddenError('You can only edit your own profile.');
-    }
+    }
+
     if ((input.role || input.isActive !== undefined) && !isAdmin) {
       throw new ForbiddenError('Only admins can change role or status.');
     }
@@ -63,7 +68,8 @@ export class UpdateUserUseCase {
 
     return toUserOutput(updated);
   }
-}
+}
+
 export class DeleteUserUseCase {
   constructor(private userRepository: IUserRepository) {}
 
@@ -80,15 +86,28 @@ export class DeleteUserUseCase {
     const existing = await this.userRepository.findById(tenantId, userId);
     if (!existing) {
       throw new NotFoundError('User not found.');
-    }
+    }
+
     if (existing.role === 'OWNER') {
       throw new ForbiddenError('Cannot remove the organization owner.');
     }
 
     await this.userRepository.softDelete(tenantId, userId);
   }
-}
-function toUserOutput(user: { id?: string; tenantId: string; name: string; email: string; role: string; isActive: boolean; avatarUrl: string | null; createdAt?: Date }): UserOutput {
+}
+
+function toUserOutput(user: {
+  id?: string;
+  tenantId: string;
+  name: string;
+  email: string;
+  role: string;
+  isActive: boolean;
+  isVerified: boolean;
+  totpEnabled: boolean;
+  avatarUrl: string | null;
+  createdAt?: Date;
+}): UserOutput {
   return {
     id: user.id!,
     tenantId: user.tenantId,
@@ -96,6 +115,8 @@ function toUserOutput(user: { id?: string; tenantId: string; name: string; email
     email: user.email,
     role: user.role,
     isActive: user.isActive,
+    isVerified: user.isVerified,
+    totpEnabled: user.totpEnabled,
     avatarUrl: user.avatarUrl,
     createdAt: user.createdAt ?? new Date(),
   };

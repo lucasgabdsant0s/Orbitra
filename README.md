@@ -10,27 +10,90 @@ Orbitra is a high-performance, multi-tenant project management platform built wi
 
 ---
 
+## Architecture Overview
+
+Orbitra follows the **Clean Architecture** principles to ensure decoupling of business logic from external frameworks and tools.
+
+```mermaid
+graph TD
+    subgraph "Infra Layer (Frameworks & Drivers)"
+        HTTP[Fastify API]
+        DB[Prisma / MySQL]
+        Logger[Pino]
+    end
+
+    subgraph "Application Layer (Use Cases)"
+        UC[Business Rules & Use Cases]
+        DTO[Data Transfer Objects]
+    end
+
+    subgraph "Core Layer (Entities & Interfaces)"
+        Ent[Domain Entities]
+        Int[Repository Interfaces]
+    end
+
+    HTTP --> UC
+    UC --> Int
+    Int -.-> DB
+    UC --> Ent
+```
+
 ## Core Features
 
-- **Multi-Tenancy**: Logical data isolation ensuring cross-tenant security.
+- **Multi-Tenancy**: Logical data isolation ensuring cross-tenant security. Every request is scoped to a `tenantId`.
 - **Clean Architecture**: Domain-centric design for high testability and maintenance.
-- **Secure Auth**: JWT with Refresh Tokens and industry-standard security practices.
-- **Resource Management**: Complete lifecycle for Tenants, Users, Projects, and Tasks.
-- **High Performance**: Built on Fastify with Zod for lightning-fast validation.
+- **Secure Auth**: JWT with Refresh Tokens, bcrypt hashing, and 2FA support.
+- **Project Management**: complete lifecycle for Projects and Tasks with status transitions and priorities.
+- **Collaborative**: Invitation-based member management within tenants.
 - **Soft Delete**: Data safety first with audit-friendly deletion patterns.
-- **Rate Limiting**: Built-in protection against brute-force and DDoS.
+- **Audit Logs**: Comprehensive tracking of all entity changes for compliance and security.
 
 ## Tech Stack
 
-| Layer          | Technology                                                                             |
-| -------------- | -------------------------------------------------------------------------------------- |
-| **Runtime**    | [Node.js v20+](https://nodejs.org/)                                                    |
-| **Language**   | [TypeScript](https://www.typescriptlang.org/)                                          |
-| **Framework**  | [Fastify v5+](https://fastify.io/)                                                     |
-| **ORM**        | [Prisma v7+](https://www.prisma.io/)                                                   |
-| **Database**   | [MariaDB / MySQL](https://mariadb.org/)                                                |
-| **Validation** | [Zod v3+](https://zod.dev/)                                                            |
-| **DevOps**     | [Docker](https://www.docker.com/) & [Docker Compose](https://docs.docker.com/compose/) |
+| Layer          | Technology                                                                   |
+| -------------- | ---------------------------------------------------------------------------- |
+| **Runtime**    | [Node.js v20+](https://nodejs.org/)                                          |
+| **Language**   | [TypeScript 5+](https://www.typescriptlang.org/)                             |
+| **Framework**  | [Fastify v5+](https://fastify.io/)                                           |
+| **ORM**        | [Prisma v7+](https://www.prisma.io/)                                         |
+| **Database**   | [MySQL 8+](https://www.mysql.com/)                                           |
+| **Validation** | [Zod v3+](https://zod.dev/)                                                  |
+| **Testing**    | [Jest](https://jestjs.io/) & [Supertest](https://github.com/ladjs/supertest) |
+
+## Automated Tests
+
+Orbitra uses **Jest** and **Supertest** for comprehensive integration testing. Our tests cover the entire vertical slice of the application, from HTTP endpoints down to real database interactions.
+
+### Setup Test Environment
+
+The development environment is pre-configured to handle tests.
+
+```bash
+cd backend
+npm install
+```
+
+### Running Tests
+
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Generate coverage report
+npm run test:coverage
+```
+
+### Test Strategy
+
+Our suites ensure that:
+
+1. **Authentication**: Login, registration, and token refresh work as expected.
+2. **Isolation**: Data from `Tenant A` is never visible to `Tenant B`.
+3. **Security**: 2FA flows and role-based access control (RBAC) are strictly enforced.
+4. **Resilience**: Validation errors and edge cases are gracefully handled.
 
 ## Quick Start (Docker)
 
@@ -48,80 +111,46 @@ cp backend/.env.example backend/.env.development
 docker compose -f compose.dev.yml up -d --build
 ```
 
-> [!TIP]
-> Once running, access the **Scalar API Reference** at `http://localhost:3333/docs`.
-
-## Local Development Setup
-
-If you prefer running without Docker:
-
-1. **Prerequisites**: Node 20+, MariaDB/MySQL instance.
-2. **Setup**:
-   ```bash
-   cd backend
-   npm install
-   cp .env.example .env
-   ```
-3. **Database**:
-   ```bash
-   npx prisma generate
-   npx prisma migrate dev
-   ```
-4. **Start**:
-   ```bash
-   npm run dev
-   ```
-
-## Project Structure
-
-```text
-.
-├── backend/               # Main SaaS API (Node.js + TS)
-│   ├── prisma/            # Database schema and migrations
-│   └── src/               # Clean Architecture implementation
-│       ├── application/   # Use Cases & Business Rules
-│       ├── core/          # Entities & Interfaces
-│       └── infra/         # External implementations (HTTP, Database)
-├── .github/               # Workflows and CI/CD
-└── compose.dev.yml        # Development orchestration
-```
-
-## Contributing
-
-We love contributions! Please read our [Contributing Guide](CONTRIBUTING.md) to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes.
-
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
 ---
 
 ## 🇧🇷 Versão em Português
 
 # Orbitra - SaaS de Gerenciamento de Projetos Multi-tenant
 
-Orbitra é uma plataforma de gerenciamento de projetos multi-tenant de alto desempenho, construída com **Clean Architecture** e **Domain-Driven Design**. Projetada para o cenário SaaS de 2026, oferece isolamento estrito de tenants, padrões de banco de dados escaláveis e uma experiência focada no desenvolvedor.
+Orbitra é uma plataforma de gerenciamento de projetos multi-tenant de alto desempenho, construída com **Clean Architecture** e **Domain-Driven Design**.
+
+## Arquitetura e Fluxo de Autenticação
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant API
+    participant DB
+
+    Client->>API: POST /auth/login (email, password)
+    API->>DB: Find user by email
+    DB-->>API: User Data + PasswordHash
+    API->>API: Verify Password
+    API-->>Client: 200 OK (AccessToken + RefreshToken)
+```
 
 ## Funcionalidades Principais
 
--  **Multi-Tenancy**: Isolamento lógico de dados garantindo segurança cross-tenant.
--  **Clean Architecture**: Design centrado no domínio para alta testabilidade e manutenção.
--  **Auth Segura**: JWT com Refresh Tokens e práticas de segurança de padrão de mercado.
--  **Gestão de Recursos**: Ciclo completo para Tenants, Usuários, Projetos e Tarefas.
--  **Alta Performance**: Construído em Fastify com Zod para validação ultrarrápida.
--  **Soft Delete**: Segurança de dados com padrões de exclusão auditáveis.
--  **Rate Limiting**: Proteção nativa contra brute-force e DDoS.
+- **Multi-Tenancy**: Isolamento lógico de dados via `tenantId`.
+- **Clean Architecture**: Separação clara entre regra de negócio e infraestrutura.
+- **Segurança**: Suporte nativo a 2FA e Rate Limiting.
+- **Gestão de Tarefas**: CRUD completo com suporte a prioridades e comentários.
 
-## Início Rápido (Docker)
+## Testes Automatizados
+
+Orbitra utiliza uma suíte robusta de testes de integração para garantir a estabilidade do sistema.
 
 ```bash
-git clone https://github.com/lucasgabdsant0s/Orbitra.git
-cd Orbitra
-cp backend/.env.example backend/.env.development
-docker compose -f compose.dev.yml up -d --build
+cd backend
+npm test
 ```
 
-Acesse a **Documentação Scalar** em `http://localhost:3333/docs`.
+A cobertura foca em cenários reais de uso, garantindo que as permissões e o isolamento de dados funcionem perfeitamente.
 
 ---
 

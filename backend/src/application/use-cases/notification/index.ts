@@ -1,0 +1,41 @@
+import { INotificationRepository, NotificationFilters } from '../../../core/interfaces/repositories/INotificationRepository.js';
+import { Notification } from '../../../core/entities/Notification.js';
+import { NotFoundError } from '../../../core/exceptions/index.js';
+import type { NotificationOutput } from '../../dtos/index.js';
+import type { PaginatedResult, PaginationOptions } from '../../../core/types/index.js';
+
+export class ListNotificationsUseCase {
+  constructor(private notificationRepository: INotificationRepository) {}
+
+  async execute(
+    tenantId: string,
+    userId: string,
+    options: PaginationOptions,
+    filters?: NotificationFilters,
+  ): Promise<PaginatedResult<NotificationOutput>> {
+    const result = await this.notificationRepository.findAllByUser(tenantId, userId, options, filters);
+    return {
+      ...result,
+      data: result.data.map(n => ({
+        id: n.id!,
+        type: n.type,
+        message: n.message,
+        link: n.link,
+        isRead: n.isRead,
+        createdAt: n.createdAt ?? new Date(),
+      })),
+    };
+  }
+}
+
+export class MarkNotificationReadUseCase {
+  constructor(private notificationRepository: INotificationRepository) {}
+
+  async execute(tenantId: string, userId: string, notificationId: string): Promise<void> {
+    await this.notificationRepository.markAsRead(tenantId, notificationId);
+  }
+
+  async executeReadAll(tenantId: string, userId: string): Promise<void> {
+    await this.notificationRepository.markAllAsRead(tenantId, userId);
+  }
+}

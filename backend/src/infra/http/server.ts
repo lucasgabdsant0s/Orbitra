@@ -10,6 +10,11 @@ import { userRoutes } from './routes/user.routes.js';
 import { projectRoutes } from './routes/project.routes.js';
 import { taskRoutes } from './routes/task.routes.js';
 import { tenantRoutes } from './routes/tenant.routes.js';
+import { commentRoutes } from './routes/comment.routes.js';
+import { inviteRoutes } from './routes/invite.routes.js';
+import { notificationRoutes } from './routes/notification.routes.js';
+import { securityRoutes } from './routes/security.routes.js';
+import { auditLogRoutes } from './routes/audit-log.routes.js';
 import { ZodError } from 'zod';
 import { getTenantContextSafe } from '../context/tenant-context.js';
 
@@ -22,7 +27,7 @@ export function buildServer() {
           translateTime: 'HH:MM:ss Z',
           ignore: 'pid,hostname',
         },
-      },
+      },
       mixin: () => {
         const ctx = getTenantContextSafe();
         return {
@@ -31,16 +36,16 @@ export function buildServer() {
         };
       },
     } as any,
-  });
+  });
   app.register(cors, {
     origin: true,
     credentials: true,
-  });
+  });
   app.register(rateLimit, {
     max: 100,
     timeWindow: '1 minute',
     allowList: ['127.0.0.1'],
-  });
+  });
   app.setValidatorCompiler(validatorCompiler);
   app.setSerializerCompiler(serializerCompiler);
 
@@ -56,6 +61,10 @@ export function buildServer() {
         { name: 'Users', description: 'User management' },
         { name: 'Projects', description: 'Project management' },
         { name: 'Tasks', description: 'Task management' },
+        { name: 'Comments', description: 'Project discussion comments' },
+        { name: 'Invites', description: 'Tenant invitations' },
+        { name: 'Notifications', description: 'In-app notifications' },
+        { name: 'Security', description: '2FA and security settings' },
       ],
       components: {
         securitySchemes: {
@@ -78,8 +87,8 @@ export function buildServer() {
         title: 'Orbitra API Docs',
       },
     },
-  });
-  app.setErrorHandler((error: any, request, reply) => {
+  });
+  app.setErrorHandler((error: any, request, reply) => {
     if (error instanceof ZodError) {
       const formattedErrors: Record<string, string[]> = {};
       for (const issue of error.issues) {
@@ -94,14 +103,20 @@ export function buildServer() {
         message: 'Dados de entrada inválidos.',
         errors: formattedErrors,
       });
-    }
+    }
     return errorHandler(error, request, reply);
-  });
-  app.register(authRoutes);
+  });
+  app.register(authRoutes);
   app.register(userRoutes);
   app.register(projectRoutes);
   app.register(taskRoutes);
-  app.register(tenantRoutes);
+  app.register(tenantRoutes);
+  app.register(commentRoutes);
+  app.register(inviteRoutes);
+  app.register(notificationRoutes);
+  app.register(securityRoutes);
+  app.register(auditLogRoutes);
+
   app.get('/health', async () => {
     return { status: 'ok', timestamp: new Date().toISOString() };
   });

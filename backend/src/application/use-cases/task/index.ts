@@ -4,11 +4,14 @@ import { Task } from '../../../core/entities/Task.js';
 import type { TaskStatus, TaskPriority } from '../../../core/enums/index.js';
 import type { PaginatedResult, PaginationOptions } from '../../../core/types/index.js';
 import { NotFoundError } from '../../../core/exceptions/index.js';
-import type { CreateTaskInput, UpdateTaskInput, TaskOutput } from '../../dtos/index.js';
+import type { CreateTaskInput, UpdateTaskInput, TaskOutput } from '../../dtos/index.js';
+import type { ICacheProvider } from '../../../core/interfaces/providers/ICacheProvider.js';
+
 export class CreateTaskUseCase {
   constructor(
     private taskRepository: ITaskRepository,
     private projectRepository: IProjectRepository,
+    private cacheProvider?: ICacheProvider,
   ) {}
 
   async execute(
@@ -16,7 +19,7 @@ export class CreateTaskUseCase {
     projectId: string,
     userId: string,
     input: CreateTaskInput,
-  ): Promise<TaskOutput> {
+  ): Promise<TaskOutput> {
     const project = await this.projectRepository.findById(tenantId, projectId);
     if (!project) {
       throw new NotFoundError('Project not found.');
@@ -35,11 +38,20 @@ export class CreateTaskUseCase {
     });
 
     const created = await this.taskRepository.create(task);
+    
+    if (this.cacheProvider) {
+      this.cacheProvider.invalidatePattern(`tasks:${tenantId}:${projectId}:*`);
+    }
+
     return toTaskOutput(created);
   }
-}
+}
+
 export class ListTasksUseCase {
-  constructor(private taskRepository: ITaskRepository) {}
+  constructor(
+    private taskRepository: ITaskRepository,
+    private cacheProvider?: ICacheProvider,
+  ) {}
 
   async execute(
     tenantId: string,
@@ -47,14 +59,27 @@ export class ListTasksUseCase {
     options: PaginationOptions,
     filters?: TaskFilters,
   ): Promise<PaginatedResult<TaskOutput>> {
-    const result = await this.taskRepository.findAllByProject(tenantId, projectId, options, filters);
+    const cacheKey = `tasks:${tenantId}:${projectId}:${options.page}:${options.limit}:${filters?.status ?? 'all'}:${filters?.priority ?? 'all'}`;
 
-    return {
+    if (this.cacheProvider) {
+      const cached = this.cacheProvider.get<PaginatedResult<TaskOutput>>(cacheKey);
+      if (cached) return cached;
+    }
+
+    const result = await this.taskRepository.findAllByProject(tenantId, projectId, options, filters);
+    const output = {
       ...result,
       data: result.data.map(toTaskOutput),
     };
+
+    if (this.cacheProvider) {
+      this.cacheProvider.set(cacheKey, output, 60);
+    }
+
+    return output;
   }
-}
+}
+
 export class GetTaskUseCase {
   constructor(private taskRepository: ITaskRepository) {}
 
@@ -65,9 +90,13 @@ export class GetTaskUseCase {
     }
     return toTaskOutput(task);
   }
-}
+}
+
 export class UpdateTaskUseCase {
-  constructor(private taskRepository: ITaskRepository) {}
+  constructor(
+    private taskRepository: ITaskRepository,
+    private cacheProvider?: ICacheProvider,
+  ) {}
 
   async execute(
     tenantId: string,
@@ -88,11 +117,19 @@ export class UpdateTaskUseCase {
       ...(input.dueDate !== undefined && { dueDate: input.dueDate ? new Date(input.dueDate) : null }),
     });
 
+    if (this.cacheProvider) {
+      this.cacheProvider.invalidatePattern(`tasks:${tenantId}:${existing.projectId}:*`);
+    }
+
     return toTaskOutput(updated);
   }
-}
+}
+
 export class DeleteTaskUseCase {
-  constructor(private taskRepository: ITaskRepository) {}
+  constructor(
+    private taskRepository: ITaskRepository,
+    private cacheProvider?: ICacheProvider,
+  ) {}
 
   async execute(tenantId: string, taskId: string): Promise<void> {
     const existing = await this.taskRepository.findById(tenantId, taskId);
@@ -101,8 +138,13 @@ export class DeleteTaskUseCase {
     }
 
     await this.taskRepository.softDelete(tenantId, taskId);
+
+    if (this.cacheProvider) {
+      this.cacheProvider.invalidatePattern(`tasks:${tenantId}:${existing.projectId}:*`);
+    }
   }
-}
+}
+
 function toTaskOutput(t: Task): TaskOutput {
   return {
     id: t.id!,

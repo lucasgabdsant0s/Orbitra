@@ -3,6 +3,7 @@ export interface RegisterTenantInput {
   userName: string;
   email: string;
   password: string;
+  isPersonal?: boolean;
 }
 
 export interface RegisterTenantOutput {
@@ -15,12 +16,14 @@ export interface RegisterTenantOutput {
 export interface LoginInput {
   email: string;
   password: string;
+  code?: string;
 }
 
 export interface LoginOutput {
-  user: { id: string; name: string; email: string; role: string; tenantId: string };
+  user: { id: string; name: string; email: string; role: string; tenantId: string; totpEnabled: boolean };
   accessToken: string;
   refreshToken: string;
+  require2FA?: boolean;
 }
 
 export interface RefreshTokenInput {
@@ -47,6 +50,8 @@ export interface UserOutput {
   email: string;
   role: string;
   isActive: boolean;
+  isVerified: boolean;
+  totpEnabled: boolean;
   avatarUrl: string | null;
   createdAt: Date;
 }
@@ -111,4 +116,66 @@ export interface TaskOutput {
   createdBy: string;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface CreateCommentInput {
+  text: string;
+  parentId?: string;
+}
+
+export interface CommentOutput {
+  id: string;
+  projectId: string;
+  userId: string;
+  userName?: string;
+  parentId: string | null;
+  text: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface CreateInviteInput {
+  email: string;
+  role?: string;
+}
+
+export interface InviteOutput {
+  id: string;
+  tenantId: string;
+  email: string;
+  role: string;
+  token: string;
+  status: string;
+  expiresAt: Date;
+  createdAt: Date;
+}
+
+export interface NotificationOutput {
+  id: string;
+  type: string;
+  message: string;
+  link: string | null;
+  isRead: boolean;
+  createdAt: Date;
+}
+
+export interface AuditLogOutput {
+  id: string;
+  userId: string;
+  userName?: string;
+  entityType: string;
+  entityId: string;
+  action: string;
+  changes: any;
+  timestamp: Date;
+}
+
+export interface CreateTenantInput {
+  name: string;
+  slug: string;
+}
+
+export interface Setup2FAOutput {
+  secret: string;
+  qrCodeUrl: string;
 }

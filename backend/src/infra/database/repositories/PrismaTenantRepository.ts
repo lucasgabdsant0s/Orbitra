@@ -1,4 +1,4 @@
-import { prisma } from '../../database/prisma';
+import { prisma } from '../../database/prisma.js';
 import type { ITenantRepository } from '../../../core/interfaces/repositories/ITenantRepository.js';
 import { Tenant } from '../../../core/entities/Tenant.js';
 
