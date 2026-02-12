@@ -1,0 +1,19 @@
+import type { FastifyInstance } from 'fastify';
+import { authMiddleware } from '../middlewares/auth.middleware.js';
+import { tenantMiddleware } from '../middlewares/tenant.middleware.js';
+import {
+  deleteTenantUseCase,
+} from '../../container.js';
+
+export async function tenantRoutes(app: FastifyInstance): Promise<void> {
+  app.addHook('preHandler', authMiddleware);
+  app.addHook('preHandler', tenantMiddleware);
+  app.delete('/tenants/me', { schema: { tags: ['Auth'], security: [{ bearerAuth: [] }] } }, async (request, reply) => {
+    const tenantId = (request as any).tenantId;
+    const requesterRole = (request as any).userRole;
+
+    await deleteTenantUseCase.execute(tenantId, requesterRole);
+
+    return reply.status(204).send();
+  });
+}

@@ -7,9 +7,7 @@ import {
     serializerCompiler,
     validatorCompiler,
     type ZodTypeProvider,
-} from 'fastify-type-provider-zod';
-// import { authRoutes } from './api/routes/authRoutes.js';
-// import './infra/config/env.js';
+} from 'fastify-type-provider-zod';
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -48,9 +46,7 @@ app.register(ScalarApiReference, {
 
 app.get('/', async (request, reply) => {
     return reply.send('Hello World!');
-});
-
-// app.register(authRoutes);
+});
 
 app.listen({ port: 3333, host: '0.0.0.0' }).then(() => {
     console.log(`Server running on http://localhost:3333`);

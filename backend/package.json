@@ -4,7 +4,7 @@
   "description": "A scalable multi-tenant project management platform that helps teams organize, track, and deliver projects efficiently, built with a clean and maintainable architecture.",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx watch src/server.ts",
+    "dev": "tsx watch src/main.ts",
     "build": "tsc",
     "start": "node dist/server.js",
     "format": "biome format --write",
@@ -15,12 +15,13 @@
   "license": "ISC",
   "dependencies": {
     "@fastify/cors": "^11.2.0",
-    "@prisma/adapter-mariadb": "^7.2.0",
-    "@prisma/client": "^7.2.0",
+    "@fastify/rate-limit": "^10.3.0",
+    "@prisma/adapter-mariadb": "^7.4.0",
+    "@prisma/client": "^7.4.0",
     "@scalar/fastify-api-reference": "^1.43.1",
     "bcrypt": "^6.0.0",
     "dotenv": "^17.2.3",
-    "fastify": "^5.6.2",
+    "fastify": "^5.7.4",
     "fastify-type-provider-zod": "^6.1.0",
     "jsonwebtoken": "^9.0.3",
     "typescript": "^5.9.3",
@@ -30,7 +31,7 @@
     "@types/bcrypt": "^6.0.0",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.0.6",
-    "prisma": "^6.19.2",
+    "prisma": "^7.4.0",
     "tsx": "^4.21.0"
   }
 }

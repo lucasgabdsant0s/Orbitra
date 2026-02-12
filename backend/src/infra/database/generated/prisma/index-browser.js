@@ -24,12 +24,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.2.0
- * Query Engine version: 0c8ef2ce45c83248ab3df073180d5eda9e8be7a3
+ * Prisma Client JS version: 7.4.0
+ * Query Engine version: ab56fe763f921d033a6c195e7ddeb3e255bdbb57
  */
 Prisma.prismaVersion = {
-  client: "7.2.0",
-  engine: "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3"
+  client: "7.4.0",
+  engine: "ab56fe763f921d033a6c195e7ddeb3e255bdbb57"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -122,20 +122,22 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
-  name: 'name',
+  tenantId: 'tenantId',
   email: 'email',
   passwordHash: 'passwordHash',
+  name: 'name',
   role: 'role',
-  companyId: 'companyId',
+  isActive: 'isActive',
+  avatarUrl: 'avatarUrl',
+  deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.CompanyScalarFieldEnum = {
+exports.Prisma.TenantScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  description: 'description',
-  status: 'status',
+  slug: 'slug',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -148,45 +150,32 @@ exports.Prisma.RefreshTokenScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
-exports.Prisma.InvitationScalarFieldEnum = {
+exports.Prisma.ProjectScalarFieldEnum = {
   id: 'id',
-  email: 'email',
-  token: 'token',
+  tenantId: 'tenantId',
+  name: 'name',
+  description: 'description',
   status: 'status',
-  role: 'role',
-  expiresAt: 'expiresAt',
-  companyId: 'companyId',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  createdBy: 'createdBy',
+  deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.ProjectScalarFieldEnum = {
+exports.Prisma.TaskScalarFieldEnum = {
   id: 'id',
+  tenantId: 'tenantId',
+  projectId: 'projectId',
   title: 'title',
   description: 'description',
   status: 'status',
-  responsibleUserId: 'responsibleUserId',
-  companyId: 'companyId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.ProjectHistoryScalarFieldEnum = {
-  id: 'id',
-  action: 'action',
-  oldValue: 'oldValue',
-  newValue: 'newValue',
-  description: 'description',
-  projectId: 'projectId',
-  changedByUserId: 'changedByUserId',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.ProjectCommentScalarFieldEnum = {
-  id: 'id',
-  content: 'content',
-  projectId: 'projectId',
-  userId: 'userId',
+  priority: 'priority',
+  assigneeId: 'assigneeId',
+  dueDate: 'dueDate',
+  createdBy: 'createdBy',
+  deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -196,18 +185,24 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
-exports.Prisma.UserOrderByRelevanceFieldEnum = {
-  id: 'id',
-  name: 'name',
-  email: 'email',
-  passwordHash: 'passwordHash',
-  companyId: 'companyId'
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 
-exports.Prisma.CompanyOrderByRelevanceFieldEnum = {
+exports.Prisma.UserOrderByRelevanceFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  email: 'email',
+  passwordHash: 'passwordHash',
+  name: 'name',
+  avatarUrl: 'avatarUrl'
+};
+
+exports.Prisma.TenantOrderByRelevanceFieldEnum = {
   id: 'id',
   name: 'name',
-  description: 'description'
+  slug: 'slug'
 };
 
 exports.Prisma.RefreshTokenOrderByRelevanceFieldEnum = {
@@ -216,68 +211,56 @@ exports.Prisma.RefreshTokenOrderByRelevanceFieldEnum = {
   userId: 'userId'
 };
 
-exports.Prisma.InvitationOrderByRelevanceFieldEnum = {
-  id: 'id',
-  email: 'email',
-  token: 'token',
-  companyId: 'companyId'
-};
-
 exports.Prisma.ProjectOrderByRelevanceFieldEnum = {
   id: 'id',
+  tenantId: 'tenantId',
+  name: 'name',
+  description: 'description',
+  createdBy: 'createdBy'
+};
+
+exports.Prisma.TaskOrderByRelevanceFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  projectId: 'projectId',
   title: 'title',
   description: 'description',
-  responsibleUserId: 'responsibleUserId',
-  companyId: 'companyId'
-};
-
-exports.Prisma.ProjectHistoryOrderByRelevanceFieldEnum = {
-  id: 'id',
-  action: 'action',
-  oldValue: 'oldValue',
-  newValue: 'newValue',
-  description: 'description',
-  projectId: 'projectId',
-  changedByUserId: 'changedByUserId'
-};
-
-exports.Prisma.ProjectCommentOrderByRelevanceFieldEnum = {
-  id: 'id',
-  content: 'content',
-  projectId: 'projectId',
-  userId: 'userId'
+  assigneeId: 'assigneeId',
+  createdBy: 'createdBy'
 };
 exports.Role = exports.$Enums.Role = {
-  USER: 'USER',
+  OWNER: 'OWNER',
   ADMIN: 'ADMIN',
-  MANAGER: 'MANAGER'
-};
-
-exports.CompanyStatus = exports.$Enums.CompanyStatus = {
-  ACTIVE: 'ACTIVE',
-  INACTIVE: 'INACTIVE'
-};
-
-exports.InvitationStatus = exports.$Enums.InvitationStatus = {
-  PENDING: 'PENDING',
-  ACCEPTED: 'ACCEPTED',
-  REJECTED: 'REJECTED'
+  MEMBER: 'MEMBER',
+  GUEST: 'GUEST'
 };
 
 exports.ProjectStatus = exports.$Enums.ProjectStatus = {
+  ACTIVE: 'ACTIVE',
+  ARCHIVED: 'ARCHIVED',
+  COMPLETED: 'COMPLETED'
+};
+
+exports.TaskStatus = exports.$Enums.TaskStatus = {
+  TODO: 'TODO',
   IN_PROGRESS: 'IN_PROGRESS',
-  COMPLETED: 'COMPLETED',
-  CANCELLED: 'CANCELLED'
+  DONE: 'DONE',
+  BLOCKED: 'BLOCKED'
+};
+
+exports.TaskPriority = exports.$Enums.TaskPriority = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  URGENT: 'URGENT'
 };
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Company: 'Company',
+  Tenant: 'Tenant',
   RefreshToken: 'RefreshToken',
-  Invitation: 'Invitation',
   Project: 'Project',
-  ProjectHistory: 'ProjectHistory',
-  ProjectComment: 'ProjectComment'
+  Task: 'Task'
 };
 
 /**

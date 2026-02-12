@@ -1,0 +1,21 @@
+import { AsyncLocalStorage } from 'node:async_hooks';
+
+export interface TenantStore {
+  tenantId: string;
+  userId: string;
+  userRole: string;
+}
+
+export const tenantContext = new AsyncLocalStorage<TenantStore>();
+
+export function getTenantContext(): TenantStore {
+  const store = tenantContext.getStore();
+  if (!store) {
+    throw new Error('Tenant context not available. Ensure the request passes through tenant middleware.');
+  }
+  return store;
+}
+
+export function getTenantContextSafe(): TenantStore | undefined {
+  return tenantContext.getStore();
+}

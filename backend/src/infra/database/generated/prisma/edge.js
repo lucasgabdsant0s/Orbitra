@@ -39,12 +39,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.2.0
- * Query Engine version: 0c8ef2ce45c83248ab3df073180d5eda9e8be7a3
+ * Prisma Client JS version: 7.4.0
+ * Query Engine version: ab56fe763f921d033a6c195e7ddeb3e255bdbb57
  */
 Prisma.prismaVersion = {
-  client: "7.2.0",
-  engine: "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3"
+  client: "7.4.0",
+  engine: "ab56fe763f921d033a6c195e7ddeb3e255bdbb57"
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -94,20 +94,22 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
-  name: 'name',
+  tenantId: 'tenantId',
   email: 'email',
   passwordHash: 'passwordHash',
+  name: 'name',
   role: 'role',
-  companyId: 'companyId',
+  isActive: 'isActive',
+  avatarUrl: 'avatarUrl',
+  deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.CompanyScalarFieldEnum = {
+exports.Prisma.TenantScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  description: 'description',
-  status: 'status',
+  slug: 'slug',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -120,45 +122,32 @@ exports.Prisma.RefreshTokenScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
-exports.Prisma.InvitationScalarFieldEnum = {
+exports.Prisma.ProjectScalarFieldEnum = {
   id: 'id',
-  email: 'email',
-  token: 'token',
+  tenantId: 'tenantId',
+  name: 'name',
+  description: 'description',
   status: 'status',
-  role: 'role',
-  expiresAt: 'expiresAt',
-  companyId: 'companyId',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  createdBy: 'createdBy',
+  deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.ProjectScalarFieldEnum = {
+exports.Prisma.TaskScalarFieldEnum = {
   id: 'id',
+  tenantId: 'tenantId',
+  projectId: 'projectId',
   title: 'title',
   description: 'description',
   status: 'status',
-  responsibleUserId: 'responsibleUserId',
-  companyId: 'companyId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.ProjectHistoryScalarFieldEnum = {
-  id: 'id',
-  action: 'action',
-  oldValue: 'oldValue',
-  newValue: 'newValue',
-  description: 'description',
-  projectId: 'projectId',
-  changedByUserId: 'changedByUserId',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.ProjectCommentScalarFieldEnum = {
-  id: 'id',
-  content: 'content',
-  projectId: 'projectId',
-  userId: 'userId',
+  priority: 'priority',
+  assigneeId: 'assigneeId',
+  dueDate: 'dueDate',
+  createdBy: 'createdBy',
+  deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -168,18 +157,24 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
-exports.Prisma.UserOrderByRelevanceFieldEnum = {
-  id: 'id',
-  name: 'name',
-  email: 'email',
-  passwordHash: 'passwordHash',
-  companyId: 'companyId'
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 
-exports.Prisma.CompanyOrderByRelevanceFieldEnum = {
+exports.Prisma.UserOrderByRelevanceFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  email: 'email',
+  passwordHash: 'passwordHash',
+  name: 'name',
+  avatarUrl: 'avatarUrl'
+};
+
+exports.Prisma.TenantOrderByRelevanceFieldEnum = {
   id: 'id',
   name: 'name',
-  description: 'description'
+  slug: 'slug'
 };
 
 exports.Prisma.RefreshTokenOrderByRelevanceFieldEnum = {
@@ -188,89 +183,82 @@ exports.Prisma.RefreshTokenOrderByRelevanceFieldEnum = {
   userId: 'userId'
 };
 
-exports.Prisma.InvitationOrderByRelevanceFieldEnum = {
-  id: 'id',
-  email: 'email',
-  token: 'token',
-  companyId: 'companyId'
-};
-
 exports.Prisma.ProjectOrderByRelevanceFieldEnum = {
   id: 'id',
+  tenantId: 'tenantId',
+  name: 'name',
+  description: 'description',
+  createdBy: 'createdBy'
+};
+
+exports.Prisma.TaskOrderByRelevanceFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  projectId: 'projectId',
   title: 'title',
   description: 'description',
-  responsibleUserId: 'responsibleUserId',
-  companyId: 'companyId'
-};
-
-exports.Prisma.ProjectHistoryOrderByRelevanceFieldEnum = {
-  id: 'id',
-  action: 'action',
-  oldValue: 'oldValue',
-  newValue: 'newValue',
-  description: 'description',
-  projectId: 'projectId',
-  changedByUserId: 'changedByUserId'
-};
-
-exports.Prisma.ProjectCommentOrderByRelevanceFieldEnum = {
-  id: 'id',
-  content: 'content',
-  projectId: 'projectId',
-  userId: 'userId'
+  assigneeId: 'assigneeId',
+  createdBy: 'createdBy'
 };
 exports.Role = exports.$Enums.Role = {
-  USER: 'USER',
+  OWNER: 'OWNER',
   ADMIN: 'ADMIN',
-  MANAGER: 'MANAGER'
-};
-
-exports.CompanyStatus = exports.$Enums.CompanyStatus = {
-  ACTIVE: 'ACTIVE',
-  INACTIVE: 'INACTIVE'
-};
-
-exports.InvitationStatus = exports.$Enums.InvitationStatus = {
-  PENDING: 'PENDING',
-  ACCEPTED: 'ACCEPTED',
-  REJECTED: 'REJECTED'
+  MEMBER: 'MEMBER',
+  GUEST: 'GUEST'
 };
 
 exports.ProjectStatus = exports.$Enums.ProjectStatus = {
+  ACTIVE: 'ACTIVE',
+  ARCHIVED: 'ARCHIVED',
+  COMPLETED: 'COMPLETED'
+};
+
+exports.TaskStatus = exports.$Enums.TaskStatus = {
+  TODO: 'TODO',
   IN_PROGRESS: 'IN_PROGRESS',
-  COMPLETED: 'COMPLETED',
-  CANCELLED: 'CANCELLED'
+  DONE: 'DONE',
+  BLOCKED: 'BLOCKED'
+};
+
+exports.TaskPriority = exports.$Enums.TaskPriority = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  URGENT: 'URGENT'
 };
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Company: 'Company',
+  Tenant: 'Tenant',
   RefreshToken: 'RefreshToken',
-  Invitation: 'Invitation',
   Project: 'Project',
-  ProjectHistory: 'ProjectHistory',
-  ProjectComment: 'ProjectComment'
+  Task: 'Task'
 };
 /**
  * Create the Client
  */
 const config = {
   "previewFeatures": [],
-  "clientVersion": "7.2.0",
-  "engineVersion": "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3",
+  "clientVersion": "7.4.0",
+  "engineVersion": "ab56fe763f921d033a6c195e7ddeb3e255bdbb57",
   "activeProvider": "mysql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n}\n\nenum Role {\n  USER\n  ADMIN\n  MANAGER\n}\n\nenum CompanyStatus {\n  ACTIVE\n  INACTIVE\n}\n\nenum InvitationStatus {\n  PENDING\n  ACCEPTED\n  REJECTED\n}\n\nenum ProjectStatus {\n  IN_PROGRESS\n  COMPLETED\n  CANCELLED\n}\n\nmodel User {\n  id            String           @id @default(uuid())\n  name          String\n  email         String           @unique\n  passwordHash  String\n  role          Role\n  companyId     String\n  company       Company          @relation(fields: [companyId], references: [id])\n  refreshTokens RefreshToken[]\n  projects      Project[]        @relation(\"ResponsibleProjects\")\n  comments      ProjectComment[]\n  histories     ProjectHistory[] @relation(\"UserHistories\")\n  createdAt     DateTime         @default(now())\n  updatedAt     DateTime         @updatedAt\n\n  @@map(\"users\")\n}\n\nmodel Company {\n  id          String        @id @default(uuid())\n  name        String\n  description String\n  status      CompanyStatus\n  users       User[]\n  projects    Project[]\n  invitations Invitation[]\n  createdAt   DateTime      @default(now())\n  updatedAt   DateTime      @updatedAt\n\n  @@map(\"companies\")\n}\n\nmodel RefreshToken {\n  id        String   @id @default(uuid())\n  token     String\n  expiresAt DateTime\n  userId    String\n  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n  createdAt DateTime @default(now())\n\n  @@map(\"refresh_tokens\")\n}\n\nmodel Invitation {\n  id        String           @id @default(uuid())\n  email     String\n  token     String\n  status    InvitationStatus\n  role      Role\n  expiresAt DateTime\n  companyId String\n  company   Company          @relation(fields: [companyId], references: [id])\n  createdAt DateTime         @default(now())\n  updatedAt DateTime         @updatedAt\n\n  @@map(\"invitations\")\n}\n\nmodel Project {\n  id                String           @id @default(uuid())\n  title             String\n  description       String\n  status            ProjectStatus\n  responsibleUserId String\n  responsibleUser   User             @relation(\"ResponsibleProjects\", fields: [responsibleUserId], references: [id])\n  companyId         String\n  company           Company          @relation(fields: [companyId], references: [id])\n  comments          ProjectComment[]\n  histories         ProjectHistory[]\n  createdAt         DateTime         @default(now())\n  updatedAt         DateTime         @updatedAt\n\n  @@map(\"projects\")\n}\n\nmodel ProjectHistory {\n  id              String   @id @default(uuid())\n  action          String\n  oldValue        String\n  newValue        String\n  description     String\n  projectId       String\n  project         Project  @relation(fields: [projectId], references: [id])\n  changedByUserId String\n  changedByUser   User     @relation(\"UserHistories\", fields: [changedByUserId], references: [id])\n  createdAt       DateTime @default(now())\n\n  @@map(\"project_histories\")\n}\n\nmodel ProjectComment {\n  id        String   @id @default(uuid())\n  content   String\n  projectId String\n  project   Project  @relation(fields: [projectId], references: [id])\n  userId    String\n  user      User     @relation(fields: [userId], references: [id])\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@map(\"project_comments\")\n}\n"
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n}\n\nenum Role {\n  OWNER\n  ADMIN\n  MEMBER\n  GUEST\n}\n\nenum ProjectStatus {\n  ACTIVE\n  ARCHIVED\n  COMPLETED\n}\n\nenum TaskStatus {\n  TODO\n  IN_PROGRESS\n  DONE\n  BLOCKED\n}\n\nenum TaskPriority {\n  LOW\n  MEDIUM\n  HIGH\n  URGENT\n}\n\nmodel User {\n  id           String    @id @default(uuid())\n  tenantId     String\n  email        String\n  passwordHash String\n  name         String\n  role         Role      @default(MEMBER)\n  isActive     Boolean   @default(true)\n  avatarUrl    String?\n  deletedAt    DateTime? // Soft delete\n  createdAt    DateTime  @default(now())\n  updatedAt    DateTime  @updatedAt\n\n  tenant          Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)\n  createdProjects Project[]      @relation(\"ProjectCreator\")\n  assignedTasks   Task[]         @relation(\"TaskAssignee\")\n  createdTasks    Task[]         @relation(\"TaskCreator\")\n  refreshTokens   RefreshToken[]\n\n  @@unique([tenantId, email])\n  @@index([tenantId])\n  @@map(\"users\")\n}\n\nmodel Tenant {\n  id        String   @id @default(uuid())\n  name      String\n  slug      String   @unique\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  users    User[]\n  projects Project[]\n  tasks    Task[]\n\n  @@map(\"tenants\")\n}\n\nmodel RefreshToken {\n  id        String   @id @default(uuid())\n  token     String   @unique\n  expiresAt DateTime\n  userId    String\n  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n  createdAt DateTime @default(now())\n\n  @@index([userId])\n  @@map(\"refresh_tokens\")\n}\n\nmodel Project {\n  id          String        @id @default(uuid())\n  tenantId    String\n  name        String\n  description String?       @db.Text\n  status      ProjectStatus @default(ACTIVE)\n  startDate   DateTime?\n  endDate     DateTime?\n  createdBy   String\n  deletedAt   DateTime? // Soft delete\n  createdAt   DateTime      @default(now())\n  updatedAt   DateTime      @updatedAt\n\n  tenant  Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)\n  creator User   @relation(\"ProjectCreator\", fields: [createdBy], references: [id])\n  tasks   Task[]\n\n  @@index([tenantId])\n  @@index([tenantId, status])\n  @@map(\"projects\")\n}\n\nmodel Task {\n  id          String       @id @default(uuid())\n  tenantId    String\n  projectId   String\n  title       String\n  description String?      @db.Text\n  status      TaskStatus   @default(TODO)\n  priority    TaskPriority @default(MEDIUM)\n  assigneeId  String?\n  dueDate     DateTime?\n  createdBy   String\n  deletedAt   DateTime? // Soft delete\n  createdAt   DateTime     @default(now())\n  updatedAt   DateTime     @updatedAt\n\n  tenant   Tenant  @relation(fields: [tenantId], references: [id], onDelete: Cascade)\n  project  Project @relation(fields: [projectId], references: [id], onDelete: Cascade)\n  assignee User?   @relation(\"TaskAssignee\", fields: [assigneeId], references: [id])\n  creator  User    @relation(\"TaskCreator\", fields: [createdBy], references: [id])\n\n  @@index([tenantId])\n  @@index([projectId])\n  @@index([tenantId, projectId, status])\n  @@map(\"tasks\")\n}\n"
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"passwordHash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"companyId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"company\",\"kind\":\"object\",\"type\":\"Company\",\"relationName\":\"CompanyToUser\"},{\"name\":\"refreshTokens\",\"kind\":\"object\",\"type\":\"RefreshToken\",\"relationName\":\"RefreshTokenToUser\"},{\"name\":\"projects\",\"kind\":\"object\",\"type\":\"Project\",\"relationName\":\"ResponsibleProjects\"},{\"name\":\"comments\",\"kind\":\"object\",\"type\":\"ProjectComment\",\"relationName\":\"ProjectCommentToUser\"},{\"name\":\"histories\",\"kind\":\"object\",\"type\":\"ProjectHistory\",\"relationName\":\"UserHistories\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"users\"},\"Company\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"CompanyStatus\"},{\"name\":\"users\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"CompanyToUser\"},{\"name\":\"projects\",\"kind\":\"object\",\"type\":\"Project\",\"relationName\":\"CompanyToProject\"},{\"name\":\"invitations\",\"kind\":\"object\",\"type\":\"Invitation\",\"relationName\":\"CompanyToInvitation\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"companies\"},\"RefreshToken\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"RefreshTokenToUser\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"refresh_tokens\"},\"Invitation\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"InvitationStatus\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"companyId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"company\",\"kind\":\"object\",\"type\":\"Company\",\"relationName\":\"CompanyToInvitation\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"invitations\"},\"Project\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"ProjectStatus\"},{\"name\":\"responsibleUserId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"responsibleUser\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ResponsibleProjects\"},{\"name\":\"companyId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"company\",\"kind\":\"object\",\"type\":\"Company\",\"relationName\":\"CompanyToProject\"},{\"name\":\"comments\",\"kind\":\"object\",\"type\":\"ProjectComment\",\"relationName\":\"ProjectToProjectComment\"},{\"name\":\"histories\",\"kind\":\"object\",\"type\":\"ProjectHistory\",\"relationName\":\"ProjectToProjectHistory\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"projects\"},\"ProjectHistory\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"action\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"oldValue\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"newValue\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"projectId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"project\",\"kind\":\"object\",\"type\":\"Project\",\"relationName\":\"ProjectToProjectHistory\"},{\"name\":\"changedByUserId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"changedByUser\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserHistories\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"project_histories\"},\"ProjectComment\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"projectId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"project\",\"kind\":\"object\",\"type\":\"Project\",\"relationName\":\"ProjectToProjectComment\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ProjectCommentToUser\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"project_comments\"}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tenantId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"passwordHash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"avatarUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"deletedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"tenant\",\"kind\":\"object\",\"type\":\"Tenant\",\"relationName\":\"TenantToUser\"},{\"name\":\"createdProjects\",\"kind\":\"object\",\"type\":\"Project\",\"relationName\":\"ProjectCreator\"},{\"name\":\"assignedTasks\",\"kind\":\"object\",\"type\":\"Task\",\"relationName\":\"TaskAssignee\"},{\"name\":\"createdTasks\",\"kind\":\"object\",\"type\":\"Task\",\"relationName\":\"TaskCreator\"},{\"name\":\"refreshTokens\",\"kind\":\"object\",\"type\":\"RefreshToken\",\"relationName\":\"RefreshTokenToUser\"}],\"dbName\":\"users\"},\"Tenant\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"users\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"TenantToUser\"},{\"name\":\"projects\",\"kind\":\"object\",\"type\":\"Project\",\"relationName\":\"ProjectToTenant\"},{\"name\":\"tasks\",\"kind\":\"object\",\"type\":\"Task\",\"relationName\":\"TaskToTenant\"}],\"dbName\":\"tenants\"},\"RefreshToken\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"RefreshTokenToUser\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"refresh_tokens\"},\"Project\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tenantId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"ProjectStatus\"},{\"name\":\"startDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"endDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"deletedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"tenant\",\"kind\":\"object\",\"type\":\"Tenant\",\"relationName\":\"ProjectToTenant\"},{\"name\":\"creator\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ProjectCreator\"},{\"name\":\"tasks\",\"kind\":\"object\",\"type\":\"Task\",\"relationName\":\"ProjectToTask\"}],\"dbName\":\"projects\"},\"Task\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tenantId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"projectId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"TaskStatus\"},{\"name\":\"priority\",\"kind\":\"enum\",\"type\":\"TaskPriority\"},{\"name\":\"assigneeId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dueDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"deletedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"tenant\",\"kind\":\"object\",\"type\":\"Tenant\",\"relationName\":\"TaskToTenant\"},{\"name\":\"project\",\"kind\":\"object\",\"type\":\"Project\",\"relationName\":\"ProjectToTask\"},{\"name\":\"assignee\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"TaskAssignee\"},{\"name\":\"creator\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"TaskCreator\"}],\"dbName\":\"tasks\"}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
+config.parameterizationSchema = {
+  strings: JSON.parse("[\"where\",\"orderBy\",\"cursor\",\"users\",\"tenant\",\"creator\",\"project\",\"assignee\",\"tasks\",\"_count\",\"projects\",\"createdProjects\",\"assignedTasks\",\"createdTasks\",\"user\",\"refreshTokens\",\"User.findUnique\",\"User.findUniqueOrThrow\",\"User.findFirst\",\"User.findFirstOrThrow\",\"User.findMany\",\"data\",\"User.createOne\",\"User.createMany\",\"User.updateOne\",\"User.updateMany\",\"create\",\"update\",\"User.upsertOne\",\"User.deleteOne\",\"User.deleteMany\",\"having\",\"_min\",\"_max\",\"User.groupBy\",\"User.aggregate\",\"Tenant.findUnique\",\"Tenant.findUniqueOrThrow\",\"Tenant.findFirst\",\"Tenant.findFirstOrThrow\",\"Tenant.findMany\",\"Tenant.createOne\",\"Tenant.createMany\",\"Tenant.updateOne\",\"Tenant.updateMany\",\"Tenant.upsertOne\",\"Tenant.deleteOne\",\"Tenant.deleteMany\",\"Tenant.groupBy\",\"Tenant.aggregate\",\"RefreshToken.findUnique\",\"RefreshToken.findUniqueOrThrow\",\"RefreshToken.findFirst\",\"RefreshToken.findFirstOrThrow\",\"RefreshToken.findMany\",\"RefreshToken.createOne\",\"RefreshToken.createMany\",\"RefreshToken.updateOne\",\"RefreshToken.updateMany\",\"RefreshToken.upsertOne\",\"RefreshToken.deleteOne\",\"RefreshToken.deleteMany\",\"RefreshToken.groupBy\",\"RefreshToken.aggregate\",\"Project.findUnique\",\"Project.findUniqueOrThrow\",\"Project.findFirst\",\"Project.findFirstOrThrow\",\"Project.findMany\",\"Project.createOne\",\"Project.createMany\",\"Project.updateOne\",\"Project.updateMany\",\"Project.upsertOne\",\"Project.deleteOne\",\"Project.deleteMany\",\"Project.groupBy\",\"Project.aggregate\",\"Task.findUnique\",\"Task.findUniqueOrThrow\",\"Task.findFirst\",\"Task.findFirstOrThrow\",\"Task.findMany\",\"Task.createOne\",\"Task.createMany\",\"Task.updateOne\",\"Task.updateMany\",\"Task.upsertOne\",\"Task.deleteOne\",\"Task.deleteMany\",\"Task.groupBy\",\"Task.aggregate\",\"AND\",\"OR\",\"NOT\",\"id\",\"tenantId\",\"projectId\",\"title\",\"description\",\"TaskStatus\",\"status\",\"TaskPriority\",\"priority\",\"assigneeId\",\"dueDate\",\"createdBy\",\"deletedAt\",\"createdAt\",\"updatedAt\",\"equals\",\"in\",\"notIn\",\"lt\",\"lte\",\"gt\",\"gte\",\"not\",\"contains\",\"startsWith\",\"endsWith\",\"search\",\"name\",\"ProjectStatus\",\"startDate\",\"endDate\",\"token\",\"expiresAt\",\"userId\",\"slug\",\"every\",\"some\",\"none\",\"email\",\"passwordHash\",\"Role\",\"role\",\"isActive\",\"avatarUrl\",\"tenantId_email\",\"is\",\"isNot\",\"connectOrCreate\",\"upsert\",\"createMany\",\"set\",\"disconnect\",\"delete\",\"connect\",\"updateMany\",\"deleteMany\",\"_relevance\"]"),
+  graph: "hgMiRhQEAAC0AQAgCwAApAEAIAwAAKUBACANAAClAQAgDwAAvAEAIFwAALkBADBdAAADABBeAAC5AQAwXwEAAAABYAEAoQEAIWtAALMBACFsQACiAQAhbUAAogEAIXoBAKEBACGFAQEAoQEAIYYBAQChAQAhiAEAALoBiAEiiQEgALsBACGKAQEAsAEAIYsBAAC9AQAgAQAAAAEAIBMEAAC0AQAgCwAApAEAIAwAAKUBACANAAClAQAgDwAAvAEAIFwAALkBADBdAAADABBeAAC5AQAwXwEAoQEAIWABAKEBACFrQACzAQAhbEAAogEAIW1AAKIBACF6AQChAQAhhQEBAKEBACGGAQEAoQEAIYgBAAC6AYgBIokBIAC7AQAhigEBALABACEIBAAA0QIAIAsAAMcCACAMAADIAgAgDQAAyAIAIA8AANUCACBrAAC-AQAgigEAAL4BACCXAQAA1gIAIAMAAAADACABAAAEADACAAABACARBAAAtAEAIAUAAK4BACAIAAClAQAgXAAAtwEAMF0AAAYAEF4AALcBADBfAQChAQAhYAEAoQEAIWMBALABACFlAAC4AXwiagEAoQEAIWtAALMBACFsQACiAQAhbUAAogEAIXoBAKEBACF8QACzAQAhfUAAswEAIQgEAADRAgAgBQAAzwIAIAgAAMgCACBjAAC-AQAgawAAvgEAIHwAAL4BACB9AAC-AQAglwEAANQCACARBAAAtAEAIAUAAK4BACAIAAClAQAgXAAAtwEAMF0AAAYAEF4AALcBADBfAQAAAAFgAQChAQAhYwEAsAEAIWUAALgBfCJqAQChAQAha0AAswEAIWxAAKIBACFtQACiAQAhegEAoQEAIXxAALMBACF9QACzAQAhAwAAAAYAIAEAAAcAMAIAAAgAIBQEAAC0AQAgBQAArgEAIAYAALUBACAHAAC2AQAgXAAArwEAMF0AAAoAEF4AAK8BADBfAQChAQAhYAEAoQEAIWEBAKEBACFiAQChAQAhYwEAsAEAIWUAALEBZSJnAACyAWciaAEAsAEAIWlAALMBACFqAQChAQAha0AAswEAIWxAAKIBACFtQACiAQAhCQQAANECACAFAADPAgAgBgAA0gIAIAcAAM8CACBjAAC-AQAgaAAAvgEAIGkAAL4BACBrAAC-AQAglwEAANMCACAUBAAAtAEAIAUAAK4BACAGAAC1AQAgBwAAtgEAIFwAAK8BADBdAAAKABBeAACvAQAwXwEAAAABYAEAoQEAIWEBAKEBACFiAQChAQAhYwEAsAEAIWUAALEBZSJnAACyAWciaAEAsAEAIWlAALMBACFqAQChAQAha0AAswEAIWxAAKIBACFtQACiAQAhAwAAAAoAIAEAAAsAMAIAAAwAIAEAAAADACABAAAACgAgAwAAAAoAIAEAAAsAMAIAAAwAIAEAAAADACABAAAABgAgAQAAAAoAIAMAAAAGACABAAAHADACAAAIACADAAAACgAgAQAACwAwAgAADAAgAwAAAAoAIAEAAAsAMAIAAAwAIAkOAACuAQAgXAAArQEAMF0AABcAEF4AAK0BADBfAQChAQAhbEAAogEAIX4BAKEBACF_QACiAQAhgAEBAKEBACECDgAAzwIAIJcBAADQAgAgCQ4AAK4BACBcAACtAQAwXQAAFwAQXgAArQEAMF8BAAAAAWxAAKIBACF-AQAAAAF_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_QADHAQAhgAEBAMIBACECAAAAGQAgFQAAUgAgBV8BAMIBACFsQADHAQAhfgEAwgEAIX9AAMcBACGAAQEAwgEAIQIAAAAXACAVAABUACADAAAAGQAgGgAATgAgGwAAUgAgAQAAABkAIAEAAAAXACADCQAA5gEAICAAAOgBACAhAADnAQAgCFwAAJ4BADBdAABaABBeAACeAQAwXwEAhgEAIWxAAIsBACF-AQCGAQAhf0AAiwEAIYABAQCGAQAhAwAAABcAIAEAAFkAMB8AAFoAIAMAAAAXACABAAAYADACAAAZACABAAAACAAgAQAAAAgAIAMAAAAGACABAAAHADACAAAIACADAAAABgAgAQAABwAwAgAACAAgAwAAAAYAIAEAAAcAMAIAAAgAIA4EAADjAQAgBQAA5AEAIAgAAOUBACBfAQAAAAFgAQAAAAFjAQAAAAFlAAAAfAJqAQAAAAFrQAAAAAFsQAAAAAFtQAAAAAF6AQAAAAF8QAAAAAF9QAAAAAEBFQAAYgAgC18BAAAAAWABAAAAAWMBAAAAAWUAAAB8AmoBAAAAAWtAAAAAAWxAAAAAAW1AAAAAAXoBAAAAAXxAAAAAAX1AAAAAAQEVAABkADAOBAAA1AEAIAUAANUBACAIAADWAQAgXwEAwgEAIWABAMIBACFjAQDDAQAhZQAA0wF8ImoBAMIBACFrQADGAQAhbEAAxwEAIW1AAMcBACF6AQDCAQAhfEAAxgEAIX1AAMYBACECAAAACAAgFQAAZgAgC18BAMIBACFgAQDCAQAhYwEAwwEAIWUAANMBfCJqAQDCAQAha0AAxgEAIWxAAMcBACFtQADHAQAhegEAwgEAIXxAAMYBACF9QADGAQAhAgAAAAYAIBUAAGgAIAMAAAAIACAaAABiACAbAABmACABAAAACAAgAQAAAAYAIAcJAADQAQAgIAAA0gEAICEAANEBACBjAAC-AQAgawAAvgEAIHwAAL4BACB9AAC-AQAgDlwAAJoBADBdAABuABBeAACaAQAwXwEAhgEAIWABAIYBACFjAQCHAQAhZQAAmwF8ImoBAIYBACFrQACKAQAhbEAAiwEAIW1AAIsBACF6AQCGAQAhfEAAigEAIX1AAIoBACEDAAAABgAgAQAAbQAwHwAAbgAgAwAAAAYAIAEAAAcAMAIAAAgAIAEAAAAMACABAAAADAAgAwAAAAoAIAEAAAsAMAIAAAwAIAMAAAAKACABAAALADACAAAMACADAAAACgAgAQAACwAwAgAADAAgEQQAAMwBACAFAADPAQAgBgAAzQEAIAcAAM4BACBfAQAAAAFgAQAAAAFhAQAAAAFiAQAAAAFjAQAAAAFlAAAAZQJnAAAAZwJoAQAAAAFpQAAAAAFqAQAAAAFrQAAAAAFsQAAAAAFtQAAAAAEBFQAAdgAgDV8BAAAAAWABAAAAAWEBAAAAAWIBAAAAAWMBAAAAAWUAAABlAmcAAABnAmgBAAAAAWlAAAAAAWoBAAAAAWtAAAAAAWxAAAAAAW1AAAAAAQEVAAB4ADARBAAAyAEAIAUAAMsBACAGAADJAQAgBwAAygEAIF8BAMIBACFgAQDCAQAhYQEAwgEAIWIBAMIBACFjAQDDAQAhZQAAxAFlImcAAMUBZyJoAQDDAQAhaUAAxgEAIWoBAMIBACFrQADGAQAhbEAAxwEAIW1AAMcBACECAAAADAAgFQAAegAgDV8BAMIBACFgAQDCAQAhYQEAwgEAIWIBAMIBACFjAQDDAQAhZQAAxAFlImcAAMUBZyJoAQDDAQAhaUAAxgEAIWoBAMIBACFrQADGAQAhbEAAxwEAIW1AAMcBACECAAAACgAgFQAAfAAgAwAAAAwAIBoAAHYAIBsAAHoAIAEAAAAMACABAAAACgAgBwkAAL8BACAgAADBAQAgIQAAwAEAIGMAAL4BACBoAAC-AQAgaQAAvgEAIGsAAL4BACAQXAAAhQEAMF0AAIIBABBeAACFAQAwXwEAhgEAIWABAIYBACFhAQCGAQAhYgEAhgEAIWMBAIcBACFlAACIAWUiZwAAiQFnImgBAIcBACFpQACKAQAhagEAhgEAIWtAAIoBACFsQACLAQAhbUAAiwEAIQMAAAAKACABAACBAQAwHwAAggEAIAMAAAAKACABAAALADACAAAMACAQXAAAhQEAMF0AAIIBABBeAACFAQAwXwEAhgEAIWABAIYBACFhAQCGAQAhYgEAhgEAIWMBAIcBACFlAACIAWUiZwAAiQFnImgBAIcBACFpQACKAQAhagEAhgEAIWtAAIoBACFsQACLAQAhbUAAiwEAIQ8JAACNAQAgIAAAmQEAICEAAJkBACBuAQAAAAFvAQAAAARwAQAAAARxAQAAAAFyAQAAAAFzAQAAAAF0AQAAAAF1AQCYAQAhdgEAAAABdwEAAAABeAEAAAABeQEAAAABDwkAAJABACAgAACXAQAgIQAAlwEAIG4BAAAAAW8BAAAABXABAAAABXEBAAAAAXIBAAAAAXMBAAAAAXQBAAAAAXUBAJYBACF2AQAAAAF3AQAAAAF4AQAAAAF5AQAAAAEHCQAAjQEAICAAAJUBACAhAACVAQAgbgAAAGUCbwAAAGUIcAAAAGUIdQAAlAFlIgcJAACNAQAgIAAAkwEAICEAAJMBACBuAAAAZwJvAAAAZwhwAAAAZwh1AACSAWciCwkAAJABACAgAACRAQAgIQAAkQEAIG5AAAAAAW9AAAAABXBAAAAABXFAAAAAAXJAAAAAAXNAAAAAAXRAAAAAAXVAAI8BACELCQAAjQEAICAAAI4BACAhAACOAQAgbkAAAAABb0AAAAAEcEAAAAAEcUAAAAABckAAAAABc0AAAAABdEAAAAABdUAAjAEAIQsJAACNAQAgIAAAjgEAICEAAI4BACBuQAAAAAFvQAAAAARwQAAAAARxQAAAAAFyQAAAAAFzQAAAAAF0QAAAAAF1QACMAQAhCG4CAAAAAW8CAAAABHACAAAABHECAAAAAXICAAAAAXMCAAAAAXQCAAAAAXUCAI0BACEIbkAAAAABb0AAAAAEcEAAAAAEcUAAAAABckAAAAABc0AAAAABdEAAAAABdUAAjgEAIQsJAACQAQAgIAAAkQEAICEAAJEBACBuQAAAAAFvQAAAAAVwQAAAAAVxQAAAAAFyQAAAAAFzQAAAAAF0QAAAAAF1QACPAQAhCG4CAAAAAW8CAAAABXACAAAABXECAAAAAXICAAAAAXMCAAAAAXQCAAAAAXUCAJABACEIbkAAAAABb0AAAAAFcEAAAAAFcUAAAAABckAAAAABc0AAAAABdEAAAAABdUAAkQEAIQcJAACNAQAgIAAAkwEAICEAAJMBACBuAAAAZwJvAAAAZwhwAAAAZwh1AACSAWciBG4AAABnAm8AAABnCHAAAABnCHUAAJMBZyIHCQAAjQEAICAAAJUBACAhAACVAQAgbgAAAGUCbwAAAGUIcAAAAGUIdQAAlAFlIgRuAAAAZQJvAAAAZQhwAAAAZQh1AACVAWUiDwkAAJABACAgAACXAQAgIQAAlwEAIG4BAAAAAW8BAAAABXABAAAABXEBAAAAAXIBAAAAAXMBAAAAAXQBAAAAAXUBAJYBACF2AQAAAAF3AQAAAAF4AQAAAAF5AQAAAAEMbgEAAAABbwEAAAAFcAEAAAAFcQEAAAABcgEAAAABcwEAAAABdAEAAAABdQEAlwEAIXYBAAAAAXcBAAAAAXgBAAAAAXkBAAAAAQ8JAACNAQAgIAAAmQEAICEAAJkBACBuAQAAAAFvAQAAAARwAQAAAARxAQAAAAFyAQAAAAFzAQAAAAF0AQAAAAF1AQCYAQAhdgEAAAABdwEAAAABeAEAAAABeQEAAAABDG4BAAAAAW8BAAAABHABAAAABHEBAAAAAXIBAAAAAXMBAAAAAXQBAAAAAXUBAJkBACF2AQAAAAF3AQAAAAF4AQAAAAF5AQAAAAEOXAAAmgEAMF0AAG4AEF4AAJoBADBfAQCGAQAhYAEAhgEAIWMBAIcBACFlAACbAXwiagEAhgEAIWtAAIoBACFsQACLAQAhbUAAiwEAIXoBAIYBACF8QACKAQAhfUAAigEAIQcJAACNAQAgIAAAnQEAICEAAJ0BACBuAAAAfAJvAAAAfAhwAAAAfAh1AACcAXwiBwkAAI0BACAgAACdAQAgIQAAnQEAIG4AAAB8Am8AAAB8CHAAAAB8CHUAAJwBfCIEbgAAAHwCbwAAAHwIcAAAAHwIdQAAnQF8IghcAACeAQAwXQAAWgAQXgAAngEAMF8BAIYBACFsQACLAQAhfgEAhgEAIX9AAIsBACGAAQEAhgEAIQhcAACfAQAwXQAARgAQXgAAnwEAMF8BAIYBACFsQACLAQAhbUAAiwEAIXoBAIYBACGBAQEAhgEAIQsDAACjAQAgCAAApQEAIAoAAKQBACBcAACgAQAwXQAANQAQXgAAoAEAMF8BAKEBACFsQACiAQAhbUAAogEAIXoBAKEBACGBAQEAoQEAIQxuAQAAAAFvAQAAAARwAQAAAARxAQAAAAFyAQAAAAFzAQAAAAF0AQAAAAF1AQCZAQAhdgEAAAABdwEAAAABeAEAAAABeQEAAAABCG5AAAAAAW9AAAAABHBAAAAABHFAAAAAAXJAAAAAAXNAAAAAAXRAAAAAAXVAAI4BACEDggEAAAMAIIMBAAADACCEAQAAAwAgA4IBAAAGACCDAQAABgAghAEAAAYAIAOCAQAACgAggwEAAAoAIIQBAAAKACAOXAAApgEAMF0AAC8AEF4AAKYBADBfAQCGAQAhYAEAhgEAIWtAAIoBACFsQACLAQAhbUAAiwEAIXoBAIYBACGFAQEAhgEAIYYBAQCGAQAhiAEAAKcBiAEiiQEgAKgBACGKAQEAhwEAIQcJAACNAQAgIAAArAEAICEAAKwBACBuAAAAiAECbwAAAIgBCHAAAACIAQh1AACrAYgBIgUJAACNAQAgIAAAqgEAICEAAKoBACBuIAAAAAF1IACpAQAhBQkAAI0BACAgAACqAQAgIQAAqgEAIG4gAAAAAXUgAKkBACECbiAAAAABdSAAqgEAIQcJAACNAQAgIAAArAEAICEAAKwBACBuAAAAiAECbwAAAIgBCHAAAACIAQh1AACrAYgBIgRuAAAAiAECbwAAAIgBCHAAAACIAQh1AACsAYgBIgkOAACuAQAgXAAArQEAMF0AABcAEF4AAK0BADBfAQChAQAhbEAAogEAIX4BAKEBACF_QACiAQAhgAEBAKEBACEVBAAAtAEAIAsAAKQBACAMAAClAQAgDQAApQEAIA8AALwBACBcAAC5AQAwXQAAAwAQXgAAuQEAMF8BAKEBACFgAQChAQAha0AAswEAIWxAAKIBACFtQACiAQAhegEAoQEAIYUBAQChAQAhhgEBAKEBACGIAQAAugGIASKJASAAuwEAIYoBAQCwAQAhjAEAAAMAII0BAAADACAUBAAAtAEAIAUAAK4BACAGAAC1AQAgBwAAtgEAIFwAAK8BADBdAAAKABBeAACvAQAwXwEAoQEAIWABAKEBACFhAQChAQAhYgEAoQEAIWMBALABACFlAACxAWUiZwAAsgFnImgBALABACFpQACzAQAhagEAoQEAIWtAALMBACFsQACiAQAhbUAAogEAIQxuAQAAAAFvAQAAAAVwAQAAAAVxAQAAAAFyAQAAAAFzAQAAAAF0AQAAAAF1AQCXAQAhdgEAAAABdwEAAAABeAEAAAABeQEAAAABBG4AAABlAm8AAABlCHAAAABlCHUAAJUBZSIEbgAAAGcCbwAAAGcIcAAAAGcIdQAAkwFnIghuQAAAAAFvQAAAAAVwQAAAAAVxQAAAAAFyQAAAAAFzQAAAAAF0QAAAAAF1QACRAQAhDQMAAKMBACAIAAClAQAgCgAApAEAIFwAAKABADBdAAA1ABBeAACgAQAwXwEAoQEAIWxAAKIBACFtQACiAQAhegEAoQEAIYEBAQChAQAhjAEAADUAII0BAAA1ACATBAAAtAEAIAUAAK4BACAIAAClAQAgXAAAtwEAMF0AAAYAEF4AALcBADBfAQChAQAhYAEAoQEAIWMBALABACFlAAC4AXwiagEAoQEAIWtAALMBACFsQACiAQAhbUAAogEAIXoBAKEBACF8QACzAQAhfUAAswEAIYwBAAAGACCNAQAABgAgFQQAALQBACALAACkAQAgDAAApQEAIA0AAKUBACAPAAC8AQAgXAAAuQEAMF0AAAMAEF4AALkBADBfAQChAQAhYAEAoQEAIWtAALMBACFsQACiAQAhbUAAogEAIXoBAKEBACGFAQEAoQEAIYYBAQChAQAhiAEAALoBiAEiiQEgALsBACGKAQEAsAEAIYwBAAADACCNAQAAAwAgEQQAALQBACAFAACuAQAgCAAApQEAIFwAALcBADBdAAAGABBeAAC3AQAwXwEAoQEAIWABAKEBACFjAQCwAQAhZQAAuAF8ImoBAKEBACFrQACzAQAhbEAAogEAIW1AAKIBACF6AQChAQAhfEAAswEAIX1AALMBACEEbgAAAHwCbwAAAHwIcAAAAHwIdQAAnQF8IhMEAAC0AQAgCwAApAEAIAwAAKUBACANAAClAQAgDwAAvAEAIFwAALkBADBdAAADABBeAAC5AQAwXwEAoQEAIWABAKEBACFrQACzAQAhbEAAogEAIW1AAKIBACF6AQChAQAhhQEBAKEBACGGAQEAoQEAIYgBAAC6AYgBIokBIAC7AQAhigEBALABACEEbgAAAIgBAm8AAACIAQhwAAAAiAEIdQAArAGIASICbiAAAAABdSAAqgEAIQOCAQAAFwAggwEAABcAIIQBAAAXACACYAEAAAABhQEBAAAAAQAAAAABkQEBAAAAAQGRAQEAAAABAZEBAAAAZQIBkQEAAABnAgGRAUAAAAABAZEBQAAAAAEFGgAA-QIAIBsAAIUDACCOAQAA-gIAII8BAACEAwAglAEAADIAIAUaAAD3AgAgGwAAggMAII4BAAD4AgAgjwEAAIEDACCUAQAACAAgBxoAAPUCACAbAAD_AgAgjgEAAPYCACCPAQAA_gIAIJIBAAADACCTAQAAAwAglAEAAAEAIAUaAADzAgAgGwAA_AIAII4BAAD0AgAgjwEAAPsCACCUAQAAAQAgAxoAAPkCACCOAQAA-gIAIJQBAAAyACADGgAA9wIAII4BAAD4AgAglAEAAAgAIAMaAAD1AgAgjgEAAPYCACCUAQAAAQAgAxoAAPMCACCOAQAA9AIAIJQBAAABACAAAAABkQEAAAB8AgUaAADqAgAgGwAA8QIAII4BAADrAgAgjwEAAPACACCUAQAAMgAgBRoAAOgCACAbAADuAgAgjgEAAOkCACCPAQAA7QIAIJQBAAABACALGgAA1wEAMBsAANwBADCOAQAA2AEAMI8BAADZAQAwkAEAANoBACCRAQAA2wEAMJIBAADbAQAwkwEAANsBADCUAQAA2wEAMJUBAADdAQAwlgEAAN4BADAPBAAAzAEAIAUAAM8BACAHAADOAQAgXwEAAAABYAEAAAABYgEAAAABYwEAAAABZQAAAGUCZwAAAGcCaAEAAAABaUAAAAABagEAAAABa0AAAAABbEAAAAABbUAAAAABAgAAAAwAIBoAAOIBACADAAAADAAgGgAA4gEAIBsAAOEBACABFQAA7AIAMBQEAAC0AQAgBQAArgEAIAYAALUBACAHAAC2AQAgXAAArwEAMF0AAAoAEF4AAK8BADBfAQAAAAFgAQChAQAhYQEAoQEAIWIBAKEBACFjAQCwAQAhZQAAsQFlImcAALIBZyJoAQCwAQAhaUAAswEAIWoBAKEBACFrQACzAQAhbEAAogEAIW1AAKIBACECAAAADAAgFQAA4QEAIAIAAADfAQAgFQAA4AEAIBBcAADeAQAwXQAA3wEAEF4AAN4BADBfAQChAQAhYAEAoQEAIWEBAKEBACFiAQChAQAhYwEAsAEAIWUAALEBZSJnAACyAWciaAEAsAEAIWlAALMBACFqAQChAQAha0AAswEAIWxAAKIBACFtQACiAQAhEFwAAN4BADBdAADfAQAQXgAA3gEAMF8BAKEBACFgAQChAQAhYQEAoQEAIWIBAKEBACFjAQCwAQAhZQAAsQFlImcAALIBZyJoAQCwAQAhaUAAswEAIWoBAKEBACFrQACzAQAhbEAAogEAIW1AAKIBACEMXwEAwgEAIWABAMIBACFiAQDCAQAhYwEAwwEAIWUAAMQBZSJnAADFAWciaAEAwwEAIWlAAMYBACFqAQDCAQAha0AAxgEAIWxAAMcBACFtQADHAQAhDwQAAMgBACAFAADLAQAgBwAAygEAIF8BAMIBACFgAQDCAQAhYgEAwgEAIWMBAMMBACFlAADEAWUiZwAAxQFnImgBAMMBACFpQADGAQAhagEAwgEAIWtAAMYBACFsQADHAQAhbUAAxwEAIQ8EAADMAQAgBQAAzwEAIAcAAM4BACBfAQAAAAFgAQAAAAFiAQAAAAFjAQAAAAFlAAAAZQJnAAAAZwJoAQAAAAFpQAAAAAFqAQAAAAFrQAAAAAFsQAAAAAFtQAAAAAEDGgAA6gIAII4BAADrAgAglAEAADIAIAMaAADoAgAgjgEAAOkCACCUAQAAAQAgBBoAANcBADCOAQAA2AEAMJABAADaAQAglAEAANsBADAAAAAFGgAA4wIAIBsAAOYCACCOAQAA5AIAII8BAADlAgAglAEAAAEAIAMaAADjAgAgjgEAAOQCACCUAQAAAQAgAAAACxoAAIYCADAbAACLAgAwjgEAAIcCADCPAQAAiAIAMJABAACJAgAgkQEAAIoCADCSAQAAigIAMJMBAACKAgAwlAEAAIoCADCVAQAAjAIAMJYBAACNAgAwCxoAAPoBADAbAAD_AQAwjgEAAPsBADCPAQAA_AEAMJABAAD9AQAgkQEAAP4BADCSAQAA_gEAMJMBAAD-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-AQAwkgEAAP4BADCTAQAA_gEAMJQBAAD-AQAwlQEAALoCADCWAQAAgQIAMAsaAACsAgAwGwAAsAIAMI4BAACtAgAwjwEAAK4CADCQAQAArwIAIJEBAADbAQAwkgEAANsBADCTAQAA2wEAMJQBAADbAQAwlQEAALECADCWAQAA3gEAMAsaAACjAgAwGwAApwIAMI4BAACkAgAwjwEAAKUCADCQAQAApgIAIJEBAADbAQAwkgEAANsBADCTAQAA2wEAMJQBAADbAQAwlQEAAKgCADCWAQAA3gEAMAsaAACXAgAwGwAAnAIAMI4BAACYAgAwjwEAAJkCADCQAQAAmgIAIJEBAACbAgAwkgEAAJsCADCTAQAAmwIAMJQBAACbAgAwlQEAAJ0CADCWAQAAngIAMARfAQAAAAFsQAAAAAF-AQAAAAF_QAAAAAECAAAAGQAgGgAAogIAIAMAAAAZACAaAACiAgAgGwAAoQIAIAEVAADfAgAwCQ4AAK4BACBcAACtAQAwXQAAFwAQXgAArQEAMF8BAAAAAWxAAKIBACF-AQAAAAF_QACiAQAhgAEBAKEBACECAAAAGQAgFQAAoQIAIAIAAACfAgAgFQAAoAIAIAhcAACeAgAwXQAAnwIAEF4AAJ4CADBfAQChAQAhbEAAogEAIX4BAKEBACF_QACiAQAhgAEBAKEBACEIXAAAngIAMF0AAJ8CABBeAACeAgAwXwEAoQEAIWxAAKIBACF-AQChAQAhf0AAogEAIYABAQChAQAhBF8BAMIBACFsQADHAQAhfgEAwgEAIX9AAMcBACEEXwEAwgEAIWxAAMcBACF-AQDCAQAhf0AAxwEAIQRfAQAAAAFsQAAAAAF-AQAAAAF_QAAAAAEPBAAAzAEAIAYAAM0BACAHAADOAQAgXwEAAAABYAEAAAABYQEAAAABYgEAAAABYwEAAAABZQAAAGUCZwAAAGcCaAEAAAABaUAAAAABa0AAAAABbEAAAAABbUAAAAABAgAAAAwAIBoAAKsCACADAAAADAAgGgAAqwIAIBsAAKoCACABFQAA3gIAMAIAAAAMACAVAACqAgAgAgAAAN8BACAVAACpAgAgDF8BAMIBACFgAQDCAQAhYQEAwgEAIWIBAMIBACFjAQDDAQAhZQAAxAFlImcAAMUBZyJoAQDDAQAhaUAAxgEAIWtAAMYBACFsQADHAQAhbUAAxwEAIQ8EAADIAQAgBgAAyQEAIAcAAMoBACBfAQDCAQAhYAEAwgEAIWEBAMIBACFiAQDCAQAhYwEAwwEAIWUAAMQBZSJnAADFAWciaAEAwwEAIWlAAMYBACFrQADGAQAhbEAAxwEAIW1AAMcBACEPBAAAzAEAIAYAAM0BACAHAADOAQAgXwEAAAABYAEAAAABYQEAAAABYgEAAAABYwEAAAABZQAAAGUCZwAAAGcCaAEAAAABaUAAAAABa0AAAAABbEAAAAABbUAAAAABDwQAAMwBACAFAADPAQAgBgAAzQEAIF8BAAAAAWABAAAAAWEBAAAAAWIBAAAAAWMBAAAAAWUAAABlAmcAAABnAmlAAAAAAWoBAAAAAWtAAAAAAWxAAAAAAW1AAAAAAQIAAAAMACAaAAC0AgAgAwAAAAwAIBoAALQCACAbAACzAgAgARUAAN0CADACAAAADAAgFQAAswIAIAIAAADfAQAgFQAAsgIAIAxfAQDCAQAhYAEAwgEAIWEBAMIBACFiAQDCAQAhYwEAwwEAIWUAAMQBZSJnAADFAWciaUAAxgEAIWoBAMIBACFrQADGAQAhbEAAxwEAIW1AAMcBACEPBAAAyAEAIAUAAMsBACAGAADJAQAgXwEAwgEAIWABAMIBACFhAQDCAQAhYgEAwgEAIWMBAMMBACFlAADEAWUiZwAAxQFnImlAAMYBACFqAQDCAQAha0AAxgEAIWxAAMcBACFtQADHAQAhDwQAAMwBACAFAADPAQAgBgAAzQEAIF8BAAAAAWABAAAAAWEBAAAAAWIBAAAAAWMBAAAAAWUAAABlAmcAAABnAmlAAAAAAWoBAAAAAWtAAAAAAWxAAAAAAW1AAAAAAQwEAADjAQAgCAAA5QEAIF8BAAAAAWABAAAAAWMBAAAAAWUAAAB8AmtAAAAAAWxAAAAAAW1AAAAAAXoBAAAAAXxAAAAAAX1AAAAAAQIAAAAIACAaAAC9AgAgAwAAAAgAIBoAAL0CACAbAAC8AgAgARUAANwCADACAAAACAAgFQAAvAIAIAIAAACCAgAgFQAAuwIAIApfAQDCAQAhYAEAwgEAIWMBAMMBACFlAADTAXwia0AAxgEAIWxAAMcBACFtQADHAQAhegEAwgEAIXxAAMYBACF9QADGAQAhDAQAANQBACAIAADWAQAgXwEAwgEAIWABAMIBACFjAQDDAQAhZQAA0wF8ImtAAMYBACFsQADHAQAhbUAAxwEAIXoBAMIBACF8QADGAQAhfUAAxgEAIQwEAADjAQAgCAAA5QEAIF8BAAAAAWABAAAAAWMBAAAAAWUAAAB8AmtAAAAAAWxAAAAAAW1AAAAAAXoBAAAAAXxAAAAAAX1AAAAAAQ4LAAC_AgAgDAAAwAIAIA0AAMECACAPAADCAgAgXwEAAAABa0AAAAABbEAAAAABbUAAAAABegEAAAABhQEBAAAAAYYBAQAAAAGIAQAAAIgBAokBIAAAAAGKAQEAAAABBBoAALUCADCOAQAAtgIAMJABAAC4AgAglAEAAP4BADAEGgAArAIAMI4BAACtAgAwkAEAAK8CACCUAQAA2wEAMAQaAACjAgAwjgEAAKQCADCQAQAApgIAIJQBAADbAQAwBBoAAJcCADCOAQAAmAIAMJABAACaAgAglAEAAJsCADAEGgAAhgIAMI4BAACHAgAwkAEAAIkCACCUAQAAigIAMAQaAAD6AQAwjgEAAPsBADCQAQAA_QEAIJQBAAD-AQAwBBoAAPEBADCOAQAA8gEAMJABAAD0AQAglAEAANsBADAAAAABeQEAAAABAAAABRoAANcCACAbAADaAgAgjgEAANgCACCPAQAA2QIAIJQBAAAyACADGgAA1wIAII4BAADYAgAglAEAADIAIAgEAADRAgAgCwAAxwIAIAwAAMgCACANAADIAgAgDwAA1QIAIGsAAL4BACCKAQAAvgEAIJcBAADWAgAgAXkBAAAAAQQDAADGAgAgCAAAyAIAIAoAAMcCACCXAQAAyQIAIAgEAADRAgAgBQAAzwIAIAgAAMgCACBjAAC-AQAgawAAvgEAIHwAAL4BACB9AAC-AQAglwEAANQCACABeQEAAAABAXkBAAAAAQABeQEAAAABBwgAAMUCACAKAADEAgAgXwEAAAABbEAAAAABbUAAAAABegEAAAABgQEBAAAAAQIAAAAyACAaAADXAgAgAwAAADUAIBoAANcCACAbAADbAgAgCQAAADUAIAgAAPABACAKAADvAQAgFQAA2wIAIF8BAMIBACFsQADHAQAhbUAAxwEAIXoBAMIBACGBAQEAwgEAIQcIAADwAQAgCgAA7wEAIF8BAMIBACFsQADHAQAhbUAAxwEAIXoBAMIBACGBAQEAwgEAIQpfAQAAAAFgAQAAAAFjAQAAAAFlAAAAfAJrQAAAAAFsQAAAAAFtQAAAAAF6AQAAAAF8QAAAAAF9QAAAAAEMXwEAAAABYAEAAAABYQEAAAABYgEAAAABYwEAAAABZQAAAGUCZwAAAGcCaUAAAAABagEAAAABa0AAAAABbEAAAAABbUAAAAABDF8BAAAAAWABAAAAAWEBAAAAAWIBAAAAAWMBAAAAAWUAAABlAmcAAABnAmgBAAAAAWlAAAAAAWtAAAAAAWxAAAAAAW1AAAAAAQRfAQAAAAFsQAAAAAF-AQAAAAF_QAAAAAEKXwEAAAABa0AAAAABbEAAAAABbUAAAAABegEAAAABhQEBAAAAAYYBAQAAAAGIAQAAAIgBAokBIAAAAAGKAQEAAAABCl8BAAAAAWMBAAAAAWUAAAB8AmoBAAAAAWtAAAAAAWxAAAAAAW1AAAAAAXoBAAAAAXxAAAAAAX1AAAAAAQxfAQAAAAFhAQAAAAFiAQAAAAFjAQAAAAFlAAAAZQJnAAAAZwJoAQAAAAFpQAAAAAFqAQAAAAFrQAAAAAFsQAAAAAFtQAAAAAEPBAAAzgIAIAsAAL8CACAMAADAAgAgDQAAwQIAIF8BAAAAAWABAAAAAWtAAAAAAWxAAAAAAW1AAAAAAXoBAAAAAYUBAQAAAAGGAQEAAAABiAEAAACIAQKJASAAAAABigEBAAAAAQIAAAABACAaAADjAgAgAwAAAAMAIBoAAOMCACAbAADnAgAgEQAAAAMAIAQAAM0CACALAACTAgAgDAAAlAIAIA0AAJUCACAVAADnAgAgXwEAwgEAIWABAMIBACFrQADGAQAhbEAAxwEAIW1AAMcBACF6AQDCAQAhhQEBAMIBACGGAQEAwgEAIYgBAACQAogBIokBIACRAgAhigEBAMMBACEPBAAAzQIAIAsAAJMCACAMAACUAgAgDQAAlQIAIF8BAMIBACFgAQDCAQAha0AAxgEAIWxAAMcBACFtQADHAQAhegEAwgEAIYUBAQDCAQAhhgEBAMIBACGIAQAAkAKIASKJASAAkQIAIYoBAQDDAQAhDwQAAM4CACAMAADAAgAgDQAAwQIAIA8AAMICACBfAQAAAAFgAQAAAAFrQAAAAAFsQAAAAAFtQAAAAAF6AQAAAAGFAQEAAAABhgEBAAAAAYgBAAAAiAECiQEgAAAAAYoBAQAAAAECAAAAAQAgGgAA6AIAIAcDAADDAgAgCAAAxQIAIF8BAAAAAWxAAAAAAW1AAAAAAXoBAAAAAYEBAQAAAAECAAAAMgAgGgAA6gIAIAxfAQAAAAFgAQAAAAFiAQAAAAFjAQAAAAFlAAAAZQJnAAAAZwJoAQAAAAFpQAAAAAFqAQAAAAFrQAAAAAFsQAAAAAFtQAAAAAEDAAAAAwAgGgAA6AIAIBsAAO8CACARAAAAAwAgBAAAzQIAIAwAAJQCACANAACVAgAgDwAAlgIAIBUAAO8CACBfAQDCAQAhYAEAwgEAIWtAAMYBACFsQADHAQAhbUAAxwEAIXoBAMIBACGFAQEAwgEAIYYBAQDCAQAhiAEAAJACiAEiiQEgAJECACGKAQEAwwEAIQ8EAADNAgAgDAAAlAIAIA0AAJUCACAPAACWAgAgXwEAwgEAIWABAMIBACFrQADGAQAhbEAAxwEAIW1AAMcBACF6AQDCAQAhhQEBAMIBACGGAQEAwgEAIYgBAACQAogBIokBIACRAgAhigEBAMMBACEDAAAANQAgGgAA6gIAIBsAAPICACAJAAAANQAgAwAA7gEAIAgAAPABACAVAADyAgAgXwEAwgEAIWxAAMcBACFtQADHAQAhegEAwgEAIYEBAQDCAQAhBwMAAO4BACAIAADwAQAgXwEAwgEAIWxAAMcBACFtQADHAQAhegEAwgEAIYEBAQDCAQAhDwQAAM4CACALAAC_AgAgDAAAwAIAIA8AAMICACBfAQAAAAFgAQAAAAFrQAAAAAFsQAAAAAFtQAAAAAF6AQAAAAGFAQEAAAABhgEBAAAAAYgBAAAAiAECiQEgAAAAAYoBAQAAAAECAAAAAQAgGgAA8wIAIA8EAADOAgAgCwAAvwIAIA0AAMECACAPAADCAgAgXwEAAAABYAEAAAABa0AAAAABbEAAAAABbUAAAAABegEAAAABhQEBAAAAAYYBAQAAAAGIAQAAAIgBAokBIAAAAAGKAQEAAAABAgAAAAEAIBoAAPUCACANBAAA4wEAIAUAAOQBACBfAQAAAAFgAQAAAAFjAQAAAAFlAAAAfAJqAQAAAAFrQAAAAAFsQAAAAAFtQAAAAAF6AQAAAAF8QAAAAAF9QAAAAAECAAAACAAgGgAA9wIAIAcDAADDAgAgCgAAxAIAIF8BAAAAAWxAAAAAAW1AAAAAAXoBAAAAAYEBAQAAAAECAAAAMgAgGgAA-QIAIAMAAAADACAaAADzAgAgGwAA_QIAIBEAAAADACAEAADNAgAgCwAAkwIAIAwAAJQCACAPAACWAgAgFQAA_QIAIF8BAMIBACFgAQDCAQAha0AAxgEAIWxAAMcBACFtQADHAQAhegEAwgEAIYUBAQDCAQAhhgEBAMIBACGIAQAAkAKIASKJASAAkQIAIYoBAQDDAQAhDwQAAM0CACALAACTAgAgDAAAlAIAIA8AAJYCACBfAQDCAQAhYAEAwgEAIWtAAMYBACFsQADHAQAhbUAAxwEAIXoBAMIBACGFAQEAwgEAIYYBAQDCAQAhiAEAAJACiAEiiQEgAJECACGKAQEAwwEAIQMAAAADACAaAAD1AgAgGwAAgAMAIBEAAAADACAEAADNAgAgCwAAkwIAIA0AAJUCACAPAACWAgAgFQAAgAMAIF8BAMIBACFgAQDCAQAha0AAxgEAIWxAAMcBACFtQADHAQAhegEAwgEAIYUBAQDCAQAhhgEBAMIBACGIAQAAkAKIASKJASAAkQIAIYoBAQDDAQAhDwQAAM0CACALAACTAgAgDQAAlQIAIA8AAJYCACBfAQDCAQAhYAEAwgEAIWtAAMYBACFsQADHAQAhbUAAxwEAIXoBAMIBACGFAQEAwgEAIYYBAQDCAQAhiAEAAJACiAEiiQEgAJECACGKAQEAwwEAIQMAAAAGACAaAAD3AgAgGwAAgwMAIA8AAAAGACAEAADUAQAgBQAA1QEAIBUAAIMDACBfAQDCAQAhYAEAwgEAIWMBAMMBACFlAADTAXwiagEAwgEAIWtAAMYBACFsQADHAQAhbUAAxwEAIXoBAMIBACF8QADGAQAhfUAAxgEAIQ0EAADUAQAgBQAA1QEAIF8BAMIBACFgAQDCAQAhYwEAwwEAIWUAANMBfCJqAQDCAQAha0AAxgEAIWxAAMcBACFtQADHAQAhegEAwgEAIXxAAMYBACF9QADGAQAhAwAAADUAIBoAAPkCACAbAACGAwAgCQAAADUAIAMAAO4BACAKAADvAQAgFQAAhgMAIF8BAMIBACFsQADHAQAhbUAAxwEAIXoBAMIBACGBAQEAwgEAIQcDAADuAQAgCgAA7wEAIF8BAMIBACFsQADHAQAhbUAAxwEAIXoBAMIBACGBAQEAwgEAIQYEAAIJAAgLFAMMFQQNFgQPGgcEAwUBCBAECQAGCgkDBAQAAgUAAQgNBAkABQQEAAIFAAEGAAMHDgEBCA8AAwMRAAgTAAoSAAEOAAEECxsADBwADR0ADx4AAAMJAAsgAAwhAA0AAAADCQALIAAMIQANAwkAECAAESEAEgAAAAMJABAgABEhABIDCQAVIAAWIQAXAAAAAwkAFSAAFiEAFwMJABogABshABwAAAADCQAaIAAbIQAcAwkAHyAAICEAIQAAAAMJAB8gACAhACEQAgERHwESIAETIQEUIgEWJAEXJgkYKAEZKgkcKwEdLAEeLQkiMAojMQ4kMwIlNAImNwInOAIoOQIpOwIqPQkrPwIsQQktQgIuQwIvRAkwRw8xSBMySQczSgc0Swc1TAc2TQc3Twc4UQk5Uwc6VQk7Vgc8Vwc9WAk-WxQ_XBhAXQNBXgNCXwNDYANEYQNFYwNGZQlHZwNIaQlJagNKawNLbAlMbxlNcB1OcQRPcgRQcwRRdARSdQRTdwRUeQlVewRWfQlXfgRYfwRZgAEJWoMBHluEASI"
+}
 config.compilerWasm = {
-  getRuntime: async () => require('./query_compiler_bg.js'),
+  getRuntime: async () => require('./query_compiler_fast_bg.js'),
   getQueryCompilerWasmModule: async () => {
     const loader = (await import('#wasm-compiler-loader')).default
     const compiler = (await loader).default
     return compiler
-  }
+  },
+  importName: './query_compiler_fast_bg.js',
 }
 if (typeof globalThis !== 'undefined' && globalThis['DEBUG'] || (typeof process !== 'undefined' && process.env && process.env.DEBUG) || undefined) {
   Debug.enable(typeof globalThis !== 'undefined' && globalThis['DEBUG'] || (typeof process !== 'undefined' && process.env && process.env.DEBUG) || undefined)
