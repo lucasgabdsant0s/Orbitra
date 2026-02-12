@@ -112,7 +112,7 @@ model Tenant {
 
 model RefreshToken {
   id        String   @id @default(uuid())
-  token     String   @unique
+  token     String   @unique @db.VarChar(512)
   expiresAt DateTime
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -200,7 +200,7 @@ model Invite {
   tenantId  String
   email     String
   role      Role         @default(MEMBER)
-  token     String       @unique
+  token     String       @unique @db.VarChar(512)
   status    InviteStatus @default(PENDING)
   expiresAt DateTime
   createdAt DateTime     @default(now())
@@ -268,7 +268,7 @@ model Notification {
 model EmailVerification {
   id        String   @id @default(uuid())
   userId    String
-  token     String   @unique
+  token     String   @unique @db.VarChar(512)
   expiresAt DateTime
   createdAt DateTime @default(now())
 

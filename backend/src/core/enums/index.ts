@@ -1,51 +1,1 @@
-export enum Role {
-  OWNER = 'OWNER',
-  ADMIN = 'ADMIN',
-  MEMBER = 'MEMBER',
-  GUEST = 'GUEST',
-}
-
-export enum ProjectStatus {
-  ACTIVE = 'ACTIVE',
-  ARCHIVED = 'ARCHIVED',
-  COMPLETED = 'COMPLETED',
-}
-
-export enum TaskStatus {
-  TODO = 'TODO',
-  IN_PROGRESS = 'IN_PROGRESS',
-  DONE = 'DONE',
-  BLOCKED = 'BLOCKED',
-}
-
-export enum TaskPriority {
-  LOW = 'LOW',
-  MEDIUM = 'MEDIUM',
-  HIGH = 'HIGH',
-  URGENT = 'URGENT',
-}
-
-export enum InviteStatus {
-  PENDING = 'PENDING',
-  ACCEPTED = 'ACCEPTED',
-  REJECTED = 'REJECTED',
-}
-
-export enum AuditAction {
-  CREATE = 'CREATE',
-  UPDATE = 'UPDATE',
-  DELETE = 'DELETE',
-}
-
-export enum AuditEntityType {
-  PROJECT = 'PROJECT',
-  TASK = 'TASK',
-}
-
-export enum NotificationType {
-  COMMENT = 'COMMENT',
-  INVITE = 'INVITE',
-  TASK_ASSIGN = 'TASK_ASSIGN',
-  DEADLINE = 'DEADLINE',
-  PROJECT_UPDATE = 'PROJECT_UPDATE',
-}
+export enum Role {  OWNER = 'OWNER',  ADMIN = 'ADMIN',  MEMBER = 'MEMBER',  GUEST = 'GUEST',}export enum ProjectStatus {  ACTIVE = 'ACTIVE',  ARCHIVED = 'ARCHIVED',  COMPLETED = 'COMPLETED',}export enum TaskStatus {  TODO = 'TODO',  IN_PROGRESS = 'IN_PROGRESS',  DONE = 'DONE',  BLOCKED = 'BLOCKED',}export enum TaskPriority {  LOW = 'LOW',  MEDIUM = 'MEDIUM',  HIGH = 'HIGH',  URGENT = 'URGENT',}export enum InviteStatus {  PENDING = 'PENDING',  ACCEPTED = 'ACCEPTED',  REJECTED = 'REJECTED',}export enum AuditAction {  CREATE = 'CREATE',  UPDATE = 'UPDATE',  DELETE = 'DELETE',}export enum AuditEntityType {  PROJECT = 'PROJECT',  TASK = 'TASK',}export enum NotificationType {  COMMENT = 'COMMENT',  INVITE = 'INVITE',  TASK_ASSIGN = 'TASK_ASSIGN',  DEADLINE = 'DEADLINE',  PROJECT_UPDATE = 'PROJECT_UPDATE',}

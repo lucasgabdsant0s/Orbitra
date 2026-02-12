@@ -1,10 +1,1 @@
-import { ProjectMember } from '../../entities/ProjectMember.js';
-import { Role } from '../../enums/index.js';
-
-export interface IProjectMemberRepository {
-  addMember(member: ProjectMember): Promise<ProjectMember>;
-  removeMember(tenantId: string, projectId: string, userId: string): Promise<void>;
-  findMember(tenantId: string, projectId: string, userId: string): Promise<ProjectMember | null>;
-  listMembers(tenantId: string, projectId: string): Promise<ProjectMember[]>;
-  updateRole(tenantId: string, projectId: string, userId: string, role: Role): Promise<void>;
-}
+import { ProjectMember } from '../../entities/ProjectMember.js';import { Role } from '../../enums/index.js';export interface IProjectMemberRepository {  addMember(member: ProjectMember): Promise<ProjectMember>;  removeMember(tenantId: string, projectId: string, userId: string): Promise<void>;  findMember(tenantId: string, projectId: string, userId: string): Promise<ProjectMember | null>;  listMembers(tenantId: string, projectId: string): Promise<ProjectMember[]>;  updateRole(tenantId: string, projectId: string, userId: string, role: Role): Promise<void>;}

@@ -1,54 +1,1 @@
-import { IUserRepository } from '../../../core/interfaces/repositories/IUserRepository.js';
-import { IEmailVerificationRepository } from '../../../core/interfaces/repositories/IEmailVerificationRepository.js';
-import { TotpProvider } from '../../../core/interfaces/providers/ITotpProvider.js';
-import { IMailProvider } from '../../../core/interfaces/providers/IMailProvider.js';
-import { EmailVerification } from '../../../core/entities/EmailVerification.js';
-import { NotFoundError, ForbiddenError, InviteExpiredError } from '../../../core/exceptions/index.js';
-
-export class Setup2FAUseCase {
-  constructor(
-    private userRepository: IUserRepository,
-    private totpProvider: TotpProvider,
-  ) {}
-
-  async execute(tenantId: string, userId: string) {
-    const user = await this.userRepository.findById(tenantId, userId);
-    if (!user) throw new NotFoundError('User');
-    const { secret, otpauth_url } = this.totpProvider.generateSecret(user.email, 'Orbitra');
-    await this.userRepository.update(tenantId, userId, { totpSecret: secret } as any);
-    return { secret, qrCodeUrl: otpauth_url };
-  }
-}
-
-export class Verify2FAUseCase {
-  constructor(
-    private userRepository: IUserRepository,
-    private totpProvider: TotpProvider,
-  ) {}
-  async execute(tenantId: string, userId: string, token: string): Promise<void> {
-    const user = await this.userRepository.findById(tenantId, userId);
-    if (!user || !user.totpSecret) throw new ForbiddenError('2FA not set up.');
-    const isValid = this.totpProvider.verifyToken(user.totpSecret, token);
-    if (!isValid) throw new ForbiddenError('Invalid 2FA code.');
-    await this.userRepository.update(tenantId, userId, { totpEnabled: true } as any);
-  }
-}
-
-export class VerifyEmailUseCase {
-  constructor(
-    private userRepository: IUserRepository,
-    private emailVerificationRepository: IEmailVerificationRepository,
-  ) {}
-  async execute(token: string): Promise<void> {
-    const verification = await this.emailVerificationRepository.findByToken(token);
-    if (!verification) throw new NotFoundError('Verification token');
-    if (verification.expiresAt < new Date()) {
-      throw new InviteExpiredError();
-    }
-    const user = await this.userRepository.findById('any', verification.userId);
-    if (user) {
-        await this.userRepository.update(user.tenantId, user.id!, { isVerified: true } as any);
-        await this.emailVerificationRepository.deleteByUserId(user.id!);
-    }
-  }
-}
+import { IUserRepository } from '../../../core/interfaces/repositories/IUserRepository.js';import { IEmailVerificationRepository } from '../../../core/interfaces/repositories/IEmailVerificationRepository.js';import { TotpProvider } from '../../../core/interfaces/providers/ITotpProvider.js';import { IMailProvider } from '../../../core/interfaces/providers/IMailProvider.js';import { EmailVerification } from '../../../core/entities/EmailVerification.js';import { NotFoundError, ForbiddenError, InviteExpiredError } from '../../../core/exceptions/index.js';export class Setup2FAUseCase {  constructor(    private userRepository: IUserRepository,    private totpProvider: TotpProvider,  ) {}  async execute(tenantId: string, userId: string) {    const user = await this.userRepository.findById(tenantId, userId);    if (!user) throw new NotFoundError('User');    const { secret, otpauth_url } = this.totpProvider.generateSecret(user.email, 'Orbitra');    await this.userRepository.update(tenantId, userId, { totpSecret: secret } as any);    return { secret, qrCodeUrl: otpauth_url };  }}export class Verify2FAUseCase {  constructor(    private userRepository: IUserRepository,    private totpProvider: TotpProvider,  ) {}  async execute(tenantId: string, userId: string, token: string): Promise<void> {    const user = await this.userRepository.findById(tenantId, userId);    if (!user || !user.totpSecret) throw new ForbiddenError('2FA not set up.');    const isValid = this.totpProvider.verifyToken(user.totpSecret, token);    if (!isValid) throw new ForbiddenError('Invalid 2FA code.');    await this.userRepository.update(tenantId, userId, { totpEnabled: true } as any);  }}export class VerifyEmailUseCase {  constructor(    private userRepository: IUserRepository,    private emailVerificationRepository: IEmailVerificationRepository,  ) {}  async execute(token: string): Promise<void> {    const verification = await this.emailVerificationRepository.findByToken(token);    if (!verification) throw new NotFoundError('Verification token');    if (verification.expiresAt < new Date()) {      throw new InviteExpiredError();    }    const user = await this.userRepository.findById('any', verification.userId);    if (user) {        await this.userRepository.update(user.tenantId, user.id!, { isVerified: true } as any);        await this.emailVerificationRepository.deleteByUserId(user.id!);    }  }}

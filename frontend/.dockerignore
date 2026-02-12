@@ -1,0 +1,6 @@
+# Ignora node_modules e arquivos de build
+node_modules
+dist
+.env.local
+.DS_Store
+*.log

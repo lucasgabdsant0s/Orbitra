@@ -1,34 +1,1 @@
-import { AuditAction, AuditEntityType } from '../enums/index.js';
-
-export interface AuditLogProps {
-  id?: string;
-  tenantId: string;
-  userId: string;
-  entityType: AuditEntityType;
-  entityId: string;
-  action: AuditAction;
-  changes: any;
-  timestamp?: Date;
-}
-
-export class AuditLog {
-  public readonly id?: string;
-  public tenantId: string;
-  public userId: string;
-  public entityType: AuditEntityType;
-  public entityId: string;
-  public action: AuditAction;
-  public changes: any;
-  public readonly timestamp?: Date;
-
-  constructor(props: AuditLogProps) {
-    this.id = props.id;
-    this.tenantId = props.tenantId;
-    this.userId = props.userId;
-    this.entityType = props.entityType;
-    this.entityId = props.entityId;
-    this.action = props.action;
-    this.changes = props.changes;
-    this.timestamp = props.timestamp;
-  }
-}
+import { AuditAction, AuditEntityType } from '../enums/index.js';export interface AuditLogProps {  id?: string;  tenantId: string;  userId: string;  entityType: AuditEntityType;  entityId: string;  action: AuditAction;  changes: any;  timestamp?: Date;}export class AuditLog {  public readonly id?: string;  public tenantId: string;  public userId: string;  public entityType: AuditEntityType;  public entityId: string;  public action: AuditAction;  public changes: any;  public readonly timestamp?: Date;  constructor(props: AuditLogProps) {    this.id = props.id;    this.tenantId = props.tenantId;    this.userId = props.userId;    this.entityType = props.entityType;    this.entityId = props.entityId;    this.action = props.action;    this.changes = props.changes;    this.timestamp = props.timestamp;  }}

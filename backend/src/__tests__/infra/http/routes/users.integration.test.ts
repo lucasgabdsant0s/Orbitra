@@ -1,110 +1,1 @@
-import request from 'supertest';
-import { describe, it, expect, beforeAll, afterAll } from 'vitest';
-import { buildServer } from '../../../../infra/http/server.js';
-import { createTestTenant, createTestUser, generateAuthToken } from '../../../test-utils.js';
-
-describe('Users Integration Tests', () => {
-  let app: any;
-
-  beforeAll(async () => {
-    app = buildServer();
-    await app.ready();
-  });
-
-  afterAll(async () => {
-    await app.close();
-  });
-
-  describe('GET /users', () => {
-    it('should list users in a tenant', async () => {
-      const tenant = await createTestTenant('User List Tenant');
-      const user = await createTestUser(tenant.id, 'ADMIN');
-      const token = generateAuthToken(user.id, tenant.id, user.role);
-
-      const response = await request(app.server)
-        .get('/users')
-        .set('Authorization', `Bearer ${token}`)
-        .set('x-tenant-id', tenant.id);
-
-      if (response.status !== 200) {
-        console.error('[/users GET] unexpected response', {
-          status: response.status,
-          body: response.body,
-        });
-      }
-
-      expect(response.status).toBe(200);
-      expect(response.body).toHaveProperty('data');
-      expect(response.body.data).toHaveLength(1);
-      expect(response.body.data[0].email).toBe(user.email);
-    });
-
-    it('should return 401 when no token is provided', async () => {
-      const tenant = await createTestTenant('Unauthorized Tenant');
-      await createTestUser(tenant.id, 'ADMIN');
-
-      const response = await request(app.server)
-        .get('/users')
-        .set('x-tenant-id', tenant.id);
-
-      expect(response.status).toBe(401);
-    });
-  });
-
-  describe('PATCH /users/:id', () => {
-    it('should update current user profile', async () => {
-      const tenant = await createTestTenant('Update User Tenant');
-      const user = await createTestUser(tenant.id, 'MEMBER');
-      const token = generateAuthToken(user.id, tenant.id, user.role);
-
-      const response = await request(app.server)
-        .patch(`/users/${user.id}`)
-        .set('Authorization', `Bearer ${token}`)
-        .set('x-tenant-id', tenant.id)
-        .send({ name: 'Updated Name' });
-
-      if (response.status !== 200) {
-        console.error('[/users PATCH] unexpected response', {
-          status: response.status,
-          body: response.body,
-        });
-      }
-
-      expect(response.status).toBe(200);
-      expect(response.body.name).toBe('Updated Name');
-    });
-
-    it('should prevent users from updating other tenants users', async () => {
-      const tenantA = await createTestTenant('Tenant A');
-      const userA = await createTestUser(tenantA.id, 'ADMIN');
-      const tokenA = generateAuthToken(userA.id, tenantA.id, userA.role);
-
-      const tenantB = await createTestTenant('Tenant B');
-      const userB = await createTestUser(tenantB.id, 'ADMIN');
-
-      const response = await request(app.server)
-        .patch(`/users/${userB.id}`)
-        .set('Authorization', `Bearer ${tokenA}`)
-        .set('x-tenant-id', tenantA.id)
-        .send({ name: 'Hacked Name' });
-
-      expect(response.status).toBe(404);
-    });
-  });
-
-  describe('DELETE /users/:id', () => {
-    it('should allow ADMIN to soft-delete a user', async () => {
-      const tenant = await createTestTenant('Delete User Tenant');
-      const admin = await createTestUser(tenant.id, 'ADMIN');
-      const user = await createTestUser(tenant.id, 'MEMBER');
-      const token = generateAuthToken(admin.id, tenant.id, admin.role);
-
-      const response = await request(app.server)
-        .delete(`/users/${user.id}`)
-        .set('Authorization', `Bearer ${token}`)
-        .set('x-tenant-id', tenant.id);
-
-      expect(response.status).toBe(204);
-    });
-  });
-});
+import request from 'supertest';import { describe, it, expect, beforeAll, afterAll } from 'vitest';import { buildServer } from '../../../../infra/http/server.js';import { createTestTenant, createTestUser, generateAuthToken } from '../../../test-utils.js';describe('Users Integration Tests', () => {  let app: any;  beforeAll(async () => {    app = buildServer();    await app.ready();  });  afterAll(async () => {    await app.close();  });  describe('GET /users', () => {    it('should list users in a tenant', async () => {      const tenant = await createTestTenant('User List Tenant');      const user = await createTestUser(tenant.id, 'ADMIN');      const token = generateAuthToken(user.id, tenant.id, user.role);      const response = await request(app.server)        .get('/users')        .set('Authorization', `Bearer ${token}`)        .set('x-tenant-id', tenant.id);      if (response.status !== 200) {        console.error('[/users GET] unexpected response', {          status: response.status,          body: response.body,        });      }      expect(response.status).toBe(200);      expect(response.body).toHaveProperty('data');      expect(response.body.data).toHaveLength(1);      expect(response.body.data[0].email).toBe(user.email);    });    it('should return 401 when no token is provided', async () => {      const tenant = await createTestTenant('Unauthorized Tenant');      await createTestUser(tenant.id, 'ADMIN');      const response = await request(app.server)        .get('/users')        .set('x-tenant-id', tenant.id);      expect(response.status).toBe(401);    });  });  describe('PATCH /users/:id', () => {    it('should update current user profile', async () => {      const tenant = await createTestTenant('Update User Tenant');      const user = await createTestUser(tenant.id, 'MEMBER');      const token = generateAuthToken(user.id, tenant.id, user.role);      const response = await request(app.server)        .patch(`/users/${user.id}`)        .set('Authorization', `Bearer ${token}`)        .set('x-tenant-id', tenant.id)        .send({ name: 'Updated Name' });      if (response.status !== 200) {        console.error('[/users PATCH] unexpected response', {          status: response.status,          body: response.body,        });      }      expect(response.status).toBe(200);      expect(response.body.name).toBe('Updated Name');    });    it('should prevent users from updating other tenants users', async () => {      const tenantA = await createTestTenant('Tenant A');      const userA = await createTestUser(tenantA.id, 'ADMIN');      const tokenA = generateAuthToken(userA.id, tenantA.id, userA.role);      const tenantB = await createTestTenant('Tenant B');      const userB = await createTestUser(tenantB.id, 'ADMIN');      const response = await request(app.server)        .patch(`/users/${userB.id}`)        .set('Authorization', `Bearer ${tokenA}`)        .set('x-tenant-id', tenantA.id)        .send({ name: 'Hacked Name' });      expect(response.status).toBe(404);    });  });  describe('DELETE /users/:id', () => {    it('should allow ADMIN to soft-delete a user', async () => {      const tenant = await createTestTenant('Delete User Tenant');      const admin = await createTestUser(tenant.id, 'ADMIN');      const user = await createTestUser(tenant.id, 'MEMBER');      const token = generateAuthToken(admin.id, tenant.id, admin.role);      const response = await request(app.server)        .delete(`/users/${user.id}`)        .set('Authorization', `Bearer ${token}`)        .set('x-tenant-id', tenant.id);      expect(response.status).toBe(204);    });  });});

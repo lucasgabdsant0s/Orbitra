@@ -1,31 +1,1 @@
-import type { FastifyInstance } from 'fastify';
-import { registerSchema, loginSchema, refreshTokenSchema } from '../schemas/index.js';
-import {
-  registerTenantUseCase,
-  loginUseCase,
-  refreshTokenUseCase,
-} from '../../container.js';
-
-export async function authRoutes(app: FastifyInstance): Promise<void> {
-  app.post('/auth/register', { schema: registerSchema }, async (request, reply) => {
-    const body = registerSchema.parse(request.body);
-
-    const result = await registerTenantUseCase.execute(body);
-
-    return reply.status(201).send(result);
-  });
-  app.post('/auth/login', { schema: loginSchema }, async (request, reply) => {
-    const body = loginSchema.parse(request.body);
-
-    const result = await loginUseCase.execute(body);
-
-    return reply.status(200).send(result);
-  });
-  app.post('/auth/refresh', { schema: refreshTokenSchema }, async (request, reply) => {
-    const body = refreshTokenSchema.parse(request.body);
-
-    const result = await refreshTokenUseCase.execute(body);
-
-    return reply.status(200).send(result);
-  });
-}
+import type { FastifyInstance } from 'fastify';import { registerSchema, loginSchema, refreshTokenSchema } from '../schemas/index.js';import {  registerTenantUseCase,  loginUseCase,  refreshTokenUseCase,} from '../../container.js';export async function authRoutes(app: FastifyInstance): Promise<void> {  app.post('/auth/register', { schema: registerSchema }, async (request, reply) => {    const body = registerSchema.parse(request.body);    const result = await registerTenantUseCase.execute(body);    return reply.status(201).send(result);  });  app.post('/auth/login', { schema: loginSchema }, async (request, reply) => {    const body = loginSchema.parse(request.body);    const result = await loginUseCase.execute(body);    return reply.status(200).send(result);  });  app.post('/auth/refresh', { schema: refreshTokenSchema }, async (request, reply) => {    const body = refreshTokenSchema.parse(request.body);    const result = await refreshTokenUseCase.execute(body);    return reply.status(200).send(result);  });}

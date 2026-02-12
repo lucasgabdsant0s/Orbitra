@@ -1,5 +1,1 @@
-export interface TotpProvider {
-  generateSecret(label: string, issuer: string): { secret: string; otpauth_url: string };
-  generateToken(secret: string): string;
-  verifyToken(secret: string, token: string): boolean;
-}
+export interface TotpProvider {  generateSecret(label: string, issuer: string): { secret: string; otpauth_url: string };  generateToken(secret: string): string;  verifyToken(secret: string, token: string): boolean;}

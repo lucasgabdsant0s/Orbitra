@@ -1,29 +1,1 @@
-import type { FastifyInstance } from 'fastify';
-import { authMiddleware } from '../middlewares/auth.middleware.js';
-import { tenantMiddleware } from '../middlewares/tenant.middleware.js';
-import { paginationSchema } from '../schemas/index.js';
-import { listAuditLogsUseCase } from '../../container.js';
-import { AuditEntityType } from '../../../core/enums/index.js';
-
-export async function auditLogRoutes(app: FastifyInstance): Promise<void> {
-  app.addHook('preHandler', authMiddleware);
-  app.addHook('preHandler', tenantMiddleware);
-
-  app.get('/audit-logs', {
-    schema: { query: paginationSchema, tags: ['Audit'] }
-  }, async (request, reply) => {
-    const tenantId = (request as any).tenantId;
-    const userRole = (request as any).userRole;
-    const { page, limit } = paginationSchema.parse(request.query);
-    
-    const filters = {
-      entityType: (request.query as any).entityType as AuditEntityType,
-      entityId: (request.query as any).entityId as string,
-      userId: (request.query as any).userId as string,
-      action: (request.query as any).action as string,
-    };
-
-    const result = await listAuditLogsUseCase.execute(tenantId, userRole, { page, limit }, filters);
-    return reply.status(200).send(result);
-  });
-}
+import type { FastifyInstance } from 'fastify';import { authMiddleware } from '../middlewares/auth.middleware.js';import { tenantMiddleware } from '../middlewares/tenant.middleware.js';import { paginationSchema } from '../schemas/index.js';import { listAuditLogsUseCase } from '../../container.js';import { AuditEntityType } from '../../../core/enums/index.js';export async function auditLogRoutes(app: FastifyInstance): Promise<void> {  app.addHook('preHandler', authMiddleware);  app.addHook('preHandler', tenantMiddleware);  app.get('/audit-logs', {    schema: { query: paginationSchema, tags: ['Audit'] }  }, async (request, reply) => {    const tenantId = (request as any).tenantId;    const userRole = (request as any).userRole;    const { page, limit } = paginationSchema.parse(request.query);    const filters = {      entityType: (request.query as any).entityType as AuditEntityType,      entityId: (request.query as any).entityId as string,      userId: (request.query as any).userId as string,      action: (request.query as any).action as string,    };    const result = await listAuditLogsUseCase.execute(tenantId, userRole, { page, limit }, filters);    return reply.status(200).send(result);  });}
