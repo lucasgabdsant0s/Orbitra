@@ -391,21 +391,6 @@ npm run test:down
 
 ---
 
-## 🤝 Contributing
-
-Contributions are very welcome! 🎉
-
-1. **Fork** the repository
-2. Create your feature branch (`git checkout -b feature/my-feature`)
-3. Commit your changes (`git commit -m 'feat: add amazing feature'`)
-4. Push to the branch (`git push origin feature/my-feature`)
-5. Open a **Pull Request**
-
-> [!TIP]
-> Use [Conventional Commits](https://www.conventionalcommits.org/) to keep a clean commit history.
-
----
-
 ## 📄 License
 
 Distributed under the **MIT** License. See [`LICENSE`](./LICENSE) for more information.
@@ -415,5 +400,5 @@ Distributed under the **MIT** License. See [`LICENSE`](./LICENSE) for more infor
 ---
 
 <p align="center">
-  Made with 💜 and lots of ☕ by <a href="https://github.com/lucasgabdsant0s">Lucas Gabriel</a>
+  Made by <a href="https://github.com/lucasgabdsant0s">Lucas Gabriel</a>
 </p>
