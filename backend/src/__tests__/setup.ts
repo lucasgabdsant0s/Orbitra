@@ -25,7 +25,7 @@ async function connectWithRetry(attempts = 3, backoffMs = 5000): Promise<void> {
 }
 async function ensureTestSchema() {
   type ColumnRow = { COLUMN_NAME: string };
-  const columns = await prisma.$queryRawUnsafe<ColumnRow[]>(
+  const columns = (await prisma.$queryRawUnsafe(
     `
       SELECT COLUMN_NAME
       FROM INFORMATION_SCHEMA.COLUMNS
@@ -33,8 +33,8 @@ async function ensureTestSchema() {
         AND TABLE_NAME = 'users'
         AND COLUMN_NAME IN ('isVerified', 'totpEnabled')
     `,
-  );
-  const existing = new Set(columns.map((c) => c.COLUMN_NAME));
+  )) as ColumnRow[];
+  const existing = new Set(columns.map((c: any) => c.COLUMN_NAME));
   if (!existing.has('isVerified')) {
     await prisma.$executeRawUnsafe(
       `ALTER TABLE users ADD COLUMN isVerified BOOLEAN NOT NULL DEFAULT 0`,

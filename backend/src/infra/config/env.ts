@@ -13,6 +13,7 @@ interface EnvConfig {
   JWT_REFRESH_SECRET: string;
   JWT_EXPIRES_IN: string;
   JWT_REFRESH_EXPIRES_IN: string;
+  FRONTEND_URL: string;
 }
 function getEnv(key: string, fallback?: string): string {
   const value = process.env[key] ?? fallback;
@@ -35,4 +36,5 @@ export const env: EnvConfig = {
   JWT_REFRESH_SECRET: getEnv('JWT_REFRESH_SECRET'),
   JWT_EXPIRES_IN: getEnv('JWT_EXPIRES_IN', '15m'),
   JWT_REFRESH_EXPIRES_IN: getEnv('JWT_REFRESH_EXPIRES_IN', '7d'),
+  FRONTEND_URL: getEnv('FRONTEND_URL', 'https://gleeful-praline-0989e4.netlify.app/'),
 };

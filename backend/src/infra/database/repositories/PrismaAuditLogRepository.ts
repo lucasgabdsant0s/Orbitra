@@ -57,7 +57,7 @@ export class PrismaAuditLogRepository implements IAuditLogRepository {
     ]);
 
     return {
-      data: records.map((r) => this.toDomain(r)),
+      data: records.map((record: any) => this.toDomain(record)),
       total,
       page,
       limit,

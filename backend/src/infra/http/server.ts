@@ -9,6 +9,7 @@ import {
   validatorCompiler,
 } from 'fastify-type-provider-zod';
 import { ZodError } from 'zod';
+import { env } from '../config/env.js';
 import { getTenantContextSafe } from '../context/tenant-context.js';
 import { errorHandler } from './middlewares/error-handler.js';
 import { auditLogRoutes } from './routes/audit-log.routes.js';
@@ -42,7 +43,7 @@ export function buildServer() {
     } as any,
   });
   app.register(cors, {
-    origin: true,
+    origin: ['http://localhost:5173', env.FRONTEND_URL],
     credentials: true,
   });
   app.register(rateLimit, {

@@ -43,7 +43,7 @@ export class PrismaNotificationRepository implements INotificationRepository {
       prisma.notification.count({ where }),
     ]);
     return {
-      data: records.map((r) => this.toDomain(r)),
+      data: records.map((r: any) => this.toDomain(r)),
       total,
       page,
       limit,

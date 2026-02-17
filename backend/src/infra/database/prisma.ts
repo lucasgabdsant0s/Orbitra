@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { PrismaMariaDb } from '@prisma/adapter-mariadb';
-import { PrismaClient } from './generated/prisma/client.js';
+import { PrismaClient } from '@prisma/client';
 
 function createAdapter() {
   const isTest = process.env.NODE_ENV === 'test';

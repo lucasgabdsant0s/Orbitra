@@ -39,9 +39,11 @@ export class PrismaProjectMemberRepository implements IProjectMemberRepository {
   async listMembers(tenantId: string, projectId: string): Promise<ProjectMember[]> {
     const records = await prisma.projectMember.findMany({
       where: { projectId, tenantId },
-      include: { user: { select: { name: true, email: true, avatarUrl: true } } },
+      include: {
+        user: { select: { name: true, email: true, avatarUrl: true } },
+      },
     });
-    return records.map((r) => this.toDomain(r));
+    return records.map((r: any) => this.toDomain(r));
   }
   async updateRole(tenantId: string, projectId: string, userId: string, role: Role): Promise<void> {
     await prisma.projectMember.update({

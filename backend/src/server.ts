@@ -8,6 +8,7 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod';
+import { env } from './infra/config/env.js';
 import {
   auditLogRoutes,
   authRoutes,
@@ -25,7 +26,7 @@ const app = fastify().withTypeProvider<ZodTypeProvider>();
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
 app.register(fastifyCors, {
-  origin: true,
+  origin: ['http://localhost:5173', 'https://gleeful-praline-0989e4.netlify.app/'],
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
 });
 app.register(fastifySwagger, {

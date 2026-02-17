@@ -52,7 +52,7 @@ export class PrismaTenantRepository implements ITenantRepository {
   async findAll(): Promise<Tenant[]> {
     const records = await prisma.tenant.findMany();
     return records.map(
-      (record) =>
+      (record: any) =>
         new Tenant({
           id: record.id,
           name: record.name,

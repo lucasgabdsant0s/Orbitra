@@ -2,6 +2,9 @@
   <h1 align="center">🪐 Orbitra</h1>
 </p>
 
+> [!NOTE]
+> This documentation is also available in [Portuguese (Brazil)](./README.pt-BR.md).
+
 <p align="center">
   <a href="https://github.com/lucasgabdsant0s/Orbitra/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge" alt="License"></a>
   <img src="https://img.shields.io/badge/version-1.0.0-green.svg?style=for-the-badge" alt="Version">
@@ -131,41 +134,55 @@ orbitra/
 ```
 
 ```mermaid
-mindmap
-  root((🪐 Orbitra))
-    backend["⚙️ backend/"]
-      src["src/"]
-        core["🧠 core/"]
-          entities["entities/"]
-          interfaces["interfaces/"]
-          enums["enums/"]
-          exceptions["exceptions/"]
-        application["📦 application/"]
-          usecases["use-cases/"]
-          dtos["dtos/"]
-        infra["🔌 infra/"]
-          http["http/ (routes, middlewares)"]
-          database["database/ (prisma, repos)"]
-          providers["providers/"]
-          container["container.ts"]
-        tests["🧪 __tests__/"]
-    frontend["🎨 frontend/"]
-      frontsrc["src/"]
-        app["app/ (router, layout)"]
-        features["🎯 features/"]
-          auth["auth/"]
-          projects["projects/"]
-          tasks["tasks/"]
-          dashboard["dashboard/"]
-          comments["comments/"]
-          notifications["notifications/"]
-        components["🧩 components/ + ui/"]
-        stores["stores/ (zustand)"]
-        locales["🌐 locales/"]
-    docker["🐳 Docker"]
-      composedev["compose.dev.yml"]
-      composeprod["compose.prod.yml"]
-      composetest["docker-compose.test.yml"]
+flowchart TD
+    Root(("🪐 Orbitra"))
+
+    Backend["⚙️ Backend (Fastify)"]
+    Frontend["🎨 Frontend (React)"]
+    Docker["🐳 Infrastructure"]
+
+    Root --> Backend
+    Root --> Frontend
+    Root --> Docker
+
+    subgraph Backend_Struct ["Server Logic"]
+        direction TB
+        B1["🧠 core (Entities & Interfaces)"]
+        B2["📦 application (Use Cases)"]
+        B3["🔌 infra (Database & HTTP)"]
+        B4["🧪 tests"]
+    end
+
+    subgraph Frontend_Struct ["Client App"]
+        direction TB
+        F1["app (Router & Layout)"]
+        F2["🎯 features (Auth, Projects, Tasks)"]
+        F3["🧩 components"]
+        F4["🌐 locales"]
+    end
+
+    subgraph Docker_Struct ["Deployment"]
+        direction TB
+        D1["compose.dev.yml"]
+        D2["compose.prod.yml"]
+        D3["docker-compose.test.yml"]
+    end
+
+    Backend --> Backend_Struct
+    Frontend --> Frontend_Struct
+    Docker --> Docker_Struct
+
+    %% Styling
+    classDef default fill:#1e1e2e,stroke:#89b4fa,stroke-width:1px,color:#cdd6f4
+    classDef root fill:#7c3aed,stroke:#fff,stroke-width:2px,color:#fff
+    classDef backend fill:#3b82f6,stroke:#fff,color:#fff
+    classDef frontend fill:#ec4899,stroke:#fff,color:#fff
+    classDef docker fill:#06b6d4,stroke:#fff,color:#fff
+
+    class Root root
+    class Backend backend
+    class Frontend frontend
+    class Docker docker
 ```
 
 ---

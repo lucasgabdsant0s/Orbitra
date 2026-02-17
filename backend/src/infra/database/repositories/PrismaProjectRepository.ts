@@ -54,7 +54,7 @@ export class PrismaProjectRepository implements IProjectRepository {
     ]);
 
     return {
-      data: records.map((r) => this.toDomain(r)),
+      data: records.map((record: any) => this.toDomain(record)),
       total,
       page,
       limit,

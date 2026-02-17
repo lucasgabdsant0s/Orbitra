@@ -72,7 +72,7 @@ export class PrismaTaskRepository implements ITaskRepository {
       prisma.task.count({ where }),
     ]);
     return {
-      data: records.map((r) => this.toDomain(r)),
+      data: records.map((r: any) => this.toDomain(r)),
       total,
       page,
       limit,
@@ -113,7 +113,7 @@ export class PrismaTaskRepository implements ITaskRepository {
       prisma.task.count({ where }),
     ]);
     return {
-      data: records.map((r) => this.toDomain(r)),
+      data: records.map((r: any) => this.toDomain(r)),
       total,
       page,
       limit,
@@ -125,7 +125,9 @@ export class PrismaTaskRepository implements ITaskRepository {
       where: { id },
       data: {
         ...(data.title !== undefined && { title: data.title }),
-        ...(data.description !== undefined && { description: data.description }),
+        ...(data.description !== undefined && {
+          description: data.description,
+        }),
         ...(data.status !== undefined && { status: data.status }),
         ...(data.priority !== undefined && { priority: data.priority }),
         ...(data.assigneeId !== undefined && { assigneeId: data.assigneeId }),
@@ -145,7 +147,10 @@ export class PrismaTaskRepository implements ITaskRepository {
     return this.toDomain(updated);
   }
   async softDelete(tenantId: string, id: string): Promise<void> {
-    await prisma.task.update({ where: { id }, data: { deletedAt: new Date() } });
+    await prisma.task.update({
+      where: { id },
+      data: { deletedAt: new Date() },
+    });
   }
 
   private toDomain(record: any): Task {

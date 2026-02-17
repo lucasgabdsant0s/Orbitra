@@ -66,7 +66,7 @@ export class PrismaCommentRepository implements ICommentRepository {
     ]);
 
     return {
-      data: records.map((r) => this.toDomain(r)),
+      data: records.map((r: any) => this.toDomain(r)),
       total,
       page,
       limit,

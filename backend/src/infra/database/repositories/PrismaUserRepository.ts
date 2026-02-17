@@ -52,7 +52,7 @@ export class PrismaUserRepository implements IUserRepository {
       prisma.user.count({ where: { tenantId, deletedAt: null } }),
     ]);
     return {
-      data: records.map((r) => this.toDomain(r)),
+      data: records.map((r: any) => this.toDomain(r)),
       total,
       page,
       limit,
@@ -69,9 +69,13 @@ export class PrismaUserRepository implements IUserRepository {
         ...(data.isActive !== undefined && { isActive: data.isActive }),
         ...(data.isVerified !== undefined && { isVerified: data.isVerified }),
         ...(data.totpSecret !== undefined && { totpSecret: data.totpSecret }),
-        ...(data.totpEnabled !== undefined && { totpEnabled: data.totpEnabled }),
+        ...(data.totpEnabled !== undefined && {
+          totpEnabled: data.totpEnabled,
+        }),
         ...(data.avatarUrl !== undefined && { avatarUrl: data.avatarUrl }),
-        ...(data.passwordHash !== undefined && { passwordHash: data.passwordHash }),
+        ...(data.passwordHash !== undefined && {
+          passwordHash: data.passwordHash,
+        }),
       },
     });
     return this.toDomain(updated);
