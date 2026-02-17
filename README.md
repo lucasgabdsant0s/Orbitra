@@ -353,19 +353,24 @@ npm run test:down
 
 ### Recommended Options
 
-| Service                    | Component       | Details                                                     |
-| -------------------------- | --------------- | ----------------------------------------------------------- |
-| **Railway** / **Render**   | Backend + MySQL | Deploy directly from the repository with `compose.prod.yml` |
-| **Vercel** / **Netlify**   | Frontend        | Build with `npm run build` then serve `dist/`               |
-| **PlanetScale** / **TiDB** | Database        | Compatible serverless MySQL                                 |
-| **Fly.io**                 | Full-stack      | Complete containerized deployment                           |
+### Deployment Steps
 
-### Quick Docker Deploy (Production)
+#### 🚂 Backend (Railway)
 
-```bash
-# Use the production compose file
-docker compose -f compose.prod.yml up -d --build
-```
+1.  Create a new project on **Railway**.
+2.  Add a **MySQL** database service.
+3.  Connect your GitHub repository.
+4.  Set the **Root Directory** to `backend`.
+5.  Railway will automatically detect the `Dockerfile` and build it.
+6.  Add the necessary environment variables (Railway usually provides `MYSQL_URL` automatically, which the app now supports).
+
+#### 🌐 Frontend (Netlify)
+
+1.  Create a new site on **Netlify** and connect your GitHub repository.
+2.  Netlify will automatically detect the `netlify.toml` in the root.
+3.  Ensure the following variables are set in Netlify's **Site configuration > Environment variables**:
+    - `VITE_API_URL`: The URL of your Railway backend (e.g., `https://your-backend.up.railway.app/api`).
+4.  Trigger a build, and you're good to go!
 
 ---
 

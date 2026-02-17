@@ -4,9 +4,10 @@ import { PrismaClient } from './generated/prisma/client.js';
 
 function createAdapter() {
   const isTest = process.env.NODE_ENV === 'test';
+  const dbUrl = process.env.DATABASE_URL || process.env.MYSQL_URL;
 
-  if (isTest && process.env.DATABASE_URL) {
-    const url = new URL(process.env.DATABASE_URL);
+  if (dbUrl) {
+    const url = new URL(dbUrl);
     return new PrismaMariaDb({
       host: url.hostname,
       port: Number(url.port || '3306'),
