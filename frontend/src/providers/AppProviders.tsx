@@ -1,1 +1,26 @@
-import { QueryClientProvider } from '@tanstack/react-query';import { ReactQueryDevtools } from '@tanstack/react-query-devtools';import { Toaster } from 'sonner';import { queryClient } from '@/lib/queryClient';import { useUIStore } from '@/stores/uiStore';import { useEffect } from 'react';export function AppProviders({ children }: { children: React.ReactNode }) {  const theme = useUIStore((state) => state.theme);  useEffect(() => {    if (theme === 'dark') {      document.documentElement.classList.add('dark');    } else {      document.documentElement.classList.remove('dark');    }  }, [theme]);  return (    <QueryClientProvider client={queryClient}>      {children}      <Toaster richColors position="top-right" />      <ReactQueryDevtools initialIsOpen={false} />    </QueryClientProvider>  );}
+import { queryClient } from '@/lib/queryClient';
+import { useUIStore } from '@/stores/uiStore';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { useEffect } from 'react';
+import { Toaster } from 'sonner';
+
+export function AppProviders({ children }: { children: React.ReactNode }) {
+  const theme = useUIStore((state) => state.theme);
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme]);
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      {children}
+      <Toaster richColors position="top-right" />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  );
+}

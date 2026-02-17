@@ -1,1 +1,41 @@
-import { ProjectStatus } from '../enums/index.js';export interface ProjectProps {  id?: string;  tenantId: string;  name: string;  description?: string | null;  status?: ProjectStatus;  startDate?: Date | null;  endDate?: Date | null;  createdBy: string;  deletedAt?: Date | null;  createdAt?: Date;  updatedAt?: Date;}export class Project {  public readonly id?: string;  public tenantId: string;  public name: string;  public description: string | null;  public status: ProjectStatus;  public startDate: Date | null;  public endDate: Date | null;  public createdBy: string;  public deletedAt: Date | null;  public readonly createdAt?: Date;  public readonly updatedAt?: Date;  constructor(props: ProjectProps) {    this.id = props.id;    this.tenantId = props.tenantId;    this.name = props.name;    this.description = props.description ?? null;    this.status = props.status ?? ProjectStatus.ACTIVE;    this.startDate = props.startDate ?? null;    this.endDate = props.endDate ?? null;    this.createdBy = props.createdBy;    this.deletedAt = props.deletedAt ?? null;    this.createdAt = props.createdAt;    this.updatedAt = props.updatedAt;  }}
+export interface ProjectProps {
+  id?: string;
+  tenantId: string;
+  name: string;
+  description?: string | null;
+  status?: string;
+  startDate?: Date | null;
+  endDate?: Date | null;
+  createdBy: string;
+  deletedAt?: Date | null;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export class Project {
+  public readonly id?: string;
+  public tenantId: string;
+  public name: string;
+  public description: string | null;
+  public status: string;
+  public startDate: Date | null;
+  public endDate: Date | null;
+  public createdBy: string;
+  public deletedAt: Date | null;
+  public readonly createdAt?: Date;
+  public readonly updatedAt?: Date;
+
+  constructor(props: ProjectProps) {
+    this.id = props.id;
+    this.tenantId = props.tenantId;
+    this.name = props.name;
+    this.description = props.description ?? null;
+    this.status = props.status ?? 'ACTIVE';
+    this.startDate = props.startDate ?? null;
+    this.endDate = props.endDate ?? null;
+    this.createdBy = props.createdBy;
+    this.deletedAt = props.deletedAt ?? null;
+    this.createdAt = props.createdAt;
+    this.updatedAt = props.updatedAt;
+  }
+}

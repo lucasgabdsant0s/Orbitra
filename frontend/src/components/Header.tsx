@@ -1,1 +1,78 @@
-import { useState, useRef, useEffect } from 'react';import { Link } from 'react-router-dom';import { Button } from '@/components/ui/button';import { useAuth } from '@/features/auth/hooks';import { useUIStore } from '@/stores/uiStore';import { Moon, Sun, LogOut, Home, User, ChevronDown, Settings } from 'lucide-react';import { motion, AnimatePresence } from 'framer-motion';export function Header() {  const { user, logout } = useAuth();  const { theme, toggleTheme } = useUIStore();  const [isDropdownOpen, setIsDropdownOpen] = useState(false);  const dropdownRef = useRef<HTMLDivElement>(null);  const handleLogout = () => {    logout();    window.location.href = '/login';  };  useEffect(() => {    function handleClickOutside(event: MouseEvent) {      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {        setIsDropdownOpen(false);      }    }    document.addEventListener('mousedown', handleClickOutside);    return () => {      document.removeEventListener('mousedown', handleClickOutside);    };  }, []);  return (    <header className="border-b border-border/40 bg-background/80 backdrop-blur-md sticky top-0 z-50">      <div className="container flex items-center justify-between h-16 px-6 max-w-7xl mx-auto">        {}        <div className="flex items-center gap-8">          <Link to="/" className="flex items-center gap-2 group">            <span className="font-bold text-xl tracking-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">              Orbitra            </span>          </Link>          <nav className="hidden md:flex items-center gap-1">            <Link to="/">              <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">                <Home className="mr-2 size-4" />                Dashboard              </Button>            </Link>          </nav>        </div>        {}        <div className="flex items-center gap-4">          <Button            variant="ghost"            size="icon"            onClick={toggleTheme}            className="text-muted-foreground hover:text-foreground rounded-full"            title={theme === 'light' ? 'Alternar para modo escuro' : 'Alternar para modo claro'}          >            {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}          </Button>          <div className="relative" ref={dropdownRef}>            <button              onClick={() => setIsDropdownOpen(!isDropdownOpen)}              className="flex items-center gap-3 pl-3 pr-2 py-1.5 rounded-full border border-border/50 hover:bg-accent/50 transition-colors group focus:outline-none focus:ring-2 focus:ring-primary/20"            >              <div className="flex flex-col items-end hidden sm:flex">                <span className="text-sm font-medium leading-none group-hover:text-primary transition-colors">                  {user?.name}                </span>              </div>              <div className="size-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-medium border border-primary/20">                {user?.name?.charAt(0).toUpperCase()}              </div>              <ChevronDown size={14} className={`text-muted-foreground transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />            </button>            <AnimatePresence>              {isDropdownOpen && (                <motion.div                  initial={{ opacity: 0, y: 8, scale: 0.95 }}                  animate={{ opacity: 1, y: 0, scale: 1 }}                  exit={{ opacity: 0, y: 8, scale: 0.95 }}                  transition={{ duration: 0.15, ease: "easeOut" }}                  className="absolute right-0 top-full mt-2 w-56 rounded-xl border border-border/50 bg-card shadow-lg backdrop-blur-xl p-1.5 overflow-hidden z-50"                >                  <div className="px-2 py-2 mb-1 border-b border-border/40">                    <p className="text-sm font-medium">{user?.name}</p>                    <p className="text-xs text-muted-foreground truncate">{user?.email}</p>                  </div>                  <div className="space-y-0.5">                    <Button variant="ghost" size="sm" className="w-full justify-start text-sm h-9" disabled>                      <User className="mr-2 size-4 text-muted-foreground" />                      Perfil                    </Button>                    <Button variant="ghost" size="sm" className="w-full justify-start text-sm h-9" disabled>                      <Settings className="mr-2 size-4 text-muted-foreground" />                      Configurações                    </Button>                    <div className="h-px bg-border/40 my-1" />                    <Button                       variant="ghost"                       size="sm"                       className="w-full justify-start text-sm h-9 text-destructive hover:text-destructive hover:bg-destructive/10"                      onClick={handleLogout}                    >                      <LogOut className="mr-2 size-4" />                      Sair                    </Button>                  </div>                </motion.div>              )}            </AnimatePresence>          </div>        </div>      </div>    </header>  );}
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useAuth } from "@/features/auth/hooks";
+import { NotificationsPopover } from "@/features/notifications/components/NotificationsPopover";
+import { useTranslation } from "react-i18next";
+import { LanguageSwitcher } from "./LanguageSwitcher";
+
+export function Header() {
+  const { t } = useTranslation();
+  const { user, logout } = useAuth();
+
+  return (
+    <header className="h-20 border-b border-border bg-background/80 backdrop-blur-xl flex items-center justify-between px-10 sticky top-0 z-40">
+      <div className="flex items-center gap-6 flex-1"></div>
+
+      <div className="flex items-center gap-6">
+        <LanguageSwitcher />
+        <NotificationsPopover />
+
+        <div className="h-8 w-px bg-border" />
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              className="pl-2 pr-1 h-12 hover:bg-accent rounded-2xl gap-3 transition-all"
+            >
+              <div className="flex flex-col items-end">
+                <span className="text-sm font-bold text-foreground leading-none">
+                  {user?.name}
+                </span>
+                <span className="text-[10px] text-muted-foreground font-medium tracking-tight uppercase mt-1">
+                  Admin
+                </span>
+              </div>
+              <Avatar className="h-9 w-9 border-2 border-border">
+                <AvatarImage src={user?.avatarUrl || undefined} />
+                <AvatarFallback className="bg-primary/20 text-primary font-bold">
+                  {user?.name?.charAt(0)}
+                </AvatarFallback>
+              </Avatar>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align="end"
+            className="w-56 bg-popover border-border p-2 rounded-2xl text-popover-foreground"
+          >
+            <DropdownMenuLabel className="font-bold px-3 py-2 text-muted-foreground uppercase text-[10px] tracking-widest">
+              {t("nav.my_account")}
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator className="bg-border mx-1" />
+            <DropdownMenuItem className="rounded-xl focus:bg-accent cursor-pointer px-3 py-2.5">
+              {t("nav.profile")}
+            </DropdownMenuItem>
+            <DropdownMenuItem className="rounded-xl focus:bg-accent cursor-pointer px-3 py-2.5">
+              {t("nav.settings")}
+            </DropdownMenuItem>
+            <DropdownMenuSeparator className="bg-border mx-1" />
+            <DropdownMenuItem
+              onClick={() => logout()}
+              className="rounded-xl focus:bg-destructive/10 text-destructive focus:text-destructive cursor-pointer px-3 py-2.5"
+            >
+              {t("auth.logout")}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </header>
+  );
+}

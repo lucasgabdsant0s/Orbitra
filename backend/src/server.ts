@@ -1,1 +1,70 @@
-import { fastifyCors } from '@fastify/cors';import { fastifySwagger } from '@fastify/swagger';import ScalarApiReference from '@scalar/fastify-api-reference';import { fastify } from 'fastify';import {  auditLogRoutes,  authRoutes,  commentRoutes,  dashboardRoutes,  inviteRoutes,  notificationRoutes,  projectRoutes,  securityRoutes,  taskRoutes,  tenantRoutes,  userRoutes,} from './infra/http/routes/index.js';import {    jsonSchemaTransform,    serializerCompiler,    validatorCompiler,    type ZodTypeProvider,} from 'fastify-type-provider-zod';const app = fastify().withTypeProvider<ZodTypeProvider>();app.setValidatorCompiler(validatorCompiler);app.setSerializerCompiler(serializerCompiler);app.register(fastifyCors, {    origin: true,    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],});app.register(fastifySwagger, {    openapi: {        info: {            title: 'Orbitra',            description:                'API REST construída com Fastify para gerenciamento de projetos de empresas.',            version: '1.0.0',        },        components: {            securitySchemes: {                bearerAuth: {                    type: 'http',                    scheme: 'bearer',                    bearerFormat: 'JWT',                },            },        },    },    transform: jsonSchemaTransform,});app.register(ScalarApiReference, {    routePrefix: '/docs',});app.register(authRoutes);app.register(tenantRoutes);app.register(userRoutes);app.register(projectRoutes);app.register(taskRoutes);app.register(commentRoutes);app.register(inviteRoutes);app.register(notificationRoutes);app.register(auditLogRoutes);app.register(securityRoutes);app.register(dashboardRoutes);app.get('/', async (request, reply) => {    return reply.send('Hello World!');});app.listen({ port: 3333, host: '0.0.0.0' }).then(() => {    console.log(`Server running on http://localhost:3333`);    console.log(`Docs avaliable at http://localhost:3333/docs`);});
+import { fastifyCors } from '@fastify/cors';
+import { fastifySwagger } from '@fastify/swagger';
+import ScalarApiReference from '@scalar/fastify-api-reference';
+import { fastify } from 'fastify';
+import {
+  type ZodTypeProvider,
+  jsonSchemaTransform,
+  serializerCompiler,
+  validatorCompiler,
+} from 'fastify-type-provider-zod';
+import {
+  auditLogRoutes,
+  authRoutes,
+  commentRoutes,
+  dashboardRoutes,
+  inviteRoutes,
+  notificationRoutes,
+  projectRoutes,
+  securityRoutes,
+  taskRoutes,
+  tenantRoutes,
+  userRoutes,
+} from './infra/http/routes/index.js';
+const app = fastify().withTypeProvider<ZodTypeProvider>();
+app.setValidatorCompiler(validatorCompiler);
+app.setSerializerCompiler(serializerCompiler);
+app.register(fastifyCors, {
+  origin: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+});
+app.register(fastifySwagger, {
+  openapi: {
+    info: {
+      title: 'Orbitra',
+      description: 'API REST construída com Fastify para gerenciamento de projetos de empresas.',
+      version: '1.0.0',
+    },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
+  },
+  transform: jsonSchemaTransform,
+});
+app.register(ScalarApiReference, {
+  routePrefix: '/docs',
+});
+app.register(authRoutes);
+app.register(tenantRoutes);
+app.register(userRoutes);
+app.register(projectRoutes);
+app.register(taskRoutes);
+app.register(commentRoutes);
+app.register(inviteRoutes);
+app.register(notificationRoutes);
+app.register(auditLogRoutes);
+app.register(securityRoutes);
+app.register(dashboardRoutes);
+app.get('/', async (request, reply) => {
+  return reply.send('Hello World!');
+});
+app.listen({ port: 3333, host: '0.0.0.0' }).then(() => {
+  console.log(`Server running on http://localhost:3333`);
+  console.log(`Docs avaliable at http://localhost:3333/docs`);
+});

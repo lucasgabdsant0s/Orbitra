@@ -1,1 +1,169 @@
-import { prisma } from '../../database/prisma.js';import type {  ITaskRepository,  TaskFilters,} from '../../../core/interfaces/repositories/ITaskRepository.js';import { Task } from '../../../core/entities/Task.js';import type { TaskStatus, TaskPriority } from '../../../core/enums/index.js';import type { PaginatedResult, PaginationOptions } from '../../../core/types/index.js';export class PrismaTaskRepository implements ITaskRepository {  async create(task: Task): Promise<Task> {    const created = await prisma.task.create({      data: {        tenantId: task.tenantId,        projectId: task.projectId,        title: task.title,        description: task.description,        status: task.status,        priority: task.priority,        assigneeId: task.assigneeId,        dueDate: task.dueDate,        createdBy: task.createdBy,      },    });    return this.toDomain(created);  }  async findById(tenantId: string, id: string): Promise<Task | null> {    const record = await prisma.task.findFirst({      where: { id },    });    return record ? this.toDomain(record) : null;  }  async findAll(    tenantId: string,    options: PaginationOptions,    filters?: TaskFilters,  ): Promise<PaginatedResult<Task>> {    const { page, limit } = options;    const skip = (page - 1) * limit;    const where = {      tenantId,      ...(filters?.status && { status: filters.status }),      ...(filters?.priority && { priority: filters.priority }),      ...(filters?.assigneeId && { assigneeId: filters.assigneeId }),    };    const [records, total] = await Promise.all([      prisma.task.findMany({        where,        skip,        take: limit,        orderBy: { createdAt: 'desc' },      }),      prisma.task.count({ where }),    ]);    return {      data: records.map((r) => this.toDomain(r)),      total,      page,      limit,      totalPages: Math.ceil(total / limit),    };  }  async findAllByProject(    tenantId: string,    projectId: string,    options: PaginationOptions,    filters?: TaskFilters,  ): Promise<PaginatedResult<Task>> {    const { page, limit } = options;    const skip = (page - 1) * limit;    const where = {      projectId,      ...(filters?.status && { status: filters.status }),      ...(filters?.priority && { priority: filters.priority }),      ...(filters?.assigneeId && { assigneeId: filters.assigneeId }),    };    const [records, total] = await Promise.all([      prisma.task.findMany({        where,        skip,        take: limit,        orderBy: { createdAt: 'desc' },      }),      prisma.task.count({ where }),    ]);    return {      data: records.map((r) => this.toDomain(r)),      total,      page,      limit,      totalPages: Math.ceil(total / limit),    };  }  async update(tenantId: string, id: string, data: Partial<Task>): Promise<Task> {    const updated = await prisma.task.update({      where: { id },      data: {        ...(data.title !== undefined && { title: data.title }),        ...(data.description !== undefined && { description: data.description }),        ...(data.status !== undefined && { status: data.status }),        ...(data.priority !== undefined && { priority: data.priority }),        ...(data.assigneeId !== undefined && { assigneeId: data.assigneeId }),        ...(data.dueDate !== undefined && { dueDate: data.dueDate }),      },    });    return this.toDomain(updated);  }  async softDelete(tenantId: string, id: string): Promise<void> {    await prisma.task.update({      where: { id },      data: { deletedAt: new Date() },    });  }  private toDomain(record: any): Task {    return new Task({      id: record.id,      tenantId: record.tenantId,      projectId: record.projectId,      title: record.title,      description: record.description,      status: record.status as TaskStatus,      priority: record.priority as TaskPriority,      assigneeId: record.assigneeId,      dueDate: record.dueDate,      createdBy: record.createdBy,      deletedAt: record.deletedAt,      createdAt: record.createdAt,      updatedAt: record.updatedAt,    });  }}
+import { Task } from '../../../core/entities/Task.js';
+import type { TaskPriority, TaskStatus } from '../../../core/enums/index.js';
+import type {
+  ITaskRepository,
+  TaskFilters,
+} from '../../../core/interfaces/repositories/ITaskRepository.js';
+import type { PaginatedResult, PaginationOptions } from '../../../core/types/index.js';
+import { prisma } from '../../database/prisma.js';
+export class PrismaTaskRepository implements ITaskRepository {
+  async create(task: Task): Promise<Task> {
+    const created = await prisma.task.create({
+      data: {
+        tenantId: task.tenantId,
+        projectId: task.projectId,
+        title: task.title,
+        description: task.description,
+        status: task.status,
+        priority: task.priority,
+        assigneeId: task.assigneeId,
+        dueDate: task.dueDate,
+        createdBy: task.createdBy,
+      },
+    });
+    return this.toDomain(created);
+  }
+  async findById(tenantId: string, id: string): Promise<Task | null> {
+    const record = await prisma.task.findFirst({
+      where: { id },
+      include: {
+        assignee: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            avatarUrl: true,
+          },
+        },
+      },
+    });
+    return record ? this.toDomain(record) : null;
+  }
+  async findAll(
+    tenantId: string,
+    options: PaginationOptions,
+    filters?: TaskFilters,
+  ): Promise<PaginatedResult<Task>> {
+    const { page, limit } = options;
+    const skip = (page - 1) * limit;
+    const where = {
+      tenantId,
+      ...(filters?.status && { status: filters.status }),
+      ...(filters?.priority && { priority: filters.priority }),
+      ...(filters?.assigneeId && { assigneeId: filters.assigneeId }),
+    };
+    const [records, total] = await Promise.all([
+      prisma.task.findMany({
+        where,
+        skip,
+        take: limit,
+        orderBy: { createdAt: 'desc' },
+        include: {
+          assignee: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              avatarUrl: true,
+            },
+          },
+        },
+      }),
+      prisma.task.count({ where }),
+    ]);
+    return {
+      data: records.map((r) => this.toDomain(r)),
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    };
+  }
+  async findAllByProject(
+    tenantId: string,
+    projectId: string,
+    options: PaginationOptions,
+    filters?: TaskFilters,
+  ): Promise<PaginatedResult<Task>> {
+    const { page, limit } = options;
+    const skip = (page - 1) * limit;
+    const where = {
+      projectId,
+      ...(filters?.status && { status: filters.status }),
+      ...(filters?.priority && { priority: filters.priority }),
+      ...(filters?.assigneeId && { assigneeId: filters.assigneeId }),
+    };
+    const [records, total] = await Promise.all([
+      prisma.task.findMany({
+        where,
+        skip,
+        take: limit,
+        orderBy: { createdAt: 'desc' },
+        include: {
+          assignee: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              avatarUrl: true,
+            },
+          },
+        },
+      }),
+      prisma.task.count({ where }),
+    ]);
+    return {
+      data: records.map((r) => this.toDomain(r)),
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    };
+  }
+  async update(tenantId: string, id: string, data: Partial<Task>): Promise<Task> {
+    const updated = await prisma.task.update({
+      where: { id },
+      data: {
+        ...(data.title !== undefined && { title: data.title }),
+        ...(data.description !== undefined && { description: data.description }),
+        ...(data.status !== undefined && { status: data.status }),
+        ...(data.priority !== undefined && { priority: data.priority }),
+        ...(data.assigneeId !== undefined && { assigneeId: data.assigneeId }),
+        ...(data.dueDate !== undefined && { dueDate: data.dueDate }),
+      },
+      include: {
+        assignee: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            avatarUrl: true,
+          },
+        },
+      },
+    });
+    return this.toDomain(updated);
+  }
+  async softDelete(tenantId: string, id: string): Promise<void> {
+    await prisma.task.update({ where: { id }, data: { deletedAt: new Date() } });
+  }
+
+  private toDomain(record: any): Task {
+    return new Task({
+      id: record.id,
+      tenantId: record.tenantId,
+      projectId: record.projectId,
+      title: record.title,
+      description: record.description,
+      status: record.status as TaskStatus,
+      priority: record.priority as TaskPriority,
+      assigneeId: record.assigneeId,
+      assignee: record.assignee,
+      dueDate: record.dueDate,
+      createdBy: record.createdBy,
+      deletedAt: record.deletedAt,
+      createdAt: record.createdAt,
+      updatedAt: record.updatedAt,
+    });
+  }
+}

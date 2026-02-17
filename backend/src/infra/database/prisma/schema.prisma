@@ -1,6 +1,7 @@
 generator client {
-  provider = "prisma-client-js"
-  output   = "../generated/prisma"
+  provider        = "prisma-client-js"
+  output          = "../generated/prisma"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
@@ -12,12 +13,6 @@ enum Role {
   ADMIN
   MEMBER
   GUEST
-}
-
-enum ProjectStatus {
-  ACTIVE
-  ARCHIVED
-  COMPLETED
 }
 
 enum TaskStatus {
@@ -40,6 +35,12 @@ enum InviteStatus {
   REJECTED
 }
 
+enum ProjectStatus {
+  ACTIVE
+  ARCHIVED
+  COMPLETED
+}
+
 enum AuditAction {
   CREATE
   UPDATE
@@ -49,6 +50,7 @@ enum AuditAction {
 enum AuditEntityType {
   PROJECT
   TASK
+  COMMENT
 }
 
 enum NotificationType {
@@ -142,7 +144,6 @@ model Project {
   members  ProjectMember[]
 
   @@index([tenantId])
-  @@index([tenantId, status])
   @@map("projects")
 }
 
@@ -232,6 +233,7 @@ model ProjectMember {
 model AuditLog {
   id         String          @id @default(uuid())
   tenantId   String
+  projectId  String?
   userId     String
   entityType AuditEntityType
   entityId   String
@@ -243,6 +245,7 @@ model AuditLog {
   user   User   @relation(fields: [userId], references: [id])
 
   @@index([tenantId])
+  @@index([projectId])
   @@index([entityType, entityId])
   @@map("audit_logs")
 }

@@ -1,0 +1,272 @@
+{
+  "common": {
+    "loading": "Carregando...",
+    "search": "Pesquisar...",
+    "cancel": "Cancelar",
+    "save": "Salvar",
+    "delete": "Excluir",
+    "edit": "Editar",
+    "create": "Criar",
+    "back": "Voltar",
+    "status": {
+      "active": "Ativo",
+      "archived": "Arquivado",
+      "completed": "Concluído"
+    }
+  },
+  "dashboard": {
+    "welcome": "Olá de novo!",
+    "subtitle": "Seu Workspace está pronto.",
+    "description": "Acompanhe o progresso da sua equipe e gerencie seus projetos com precisão.",
+    "view_projects": "Ver Projetos",
+    "new_project": "Novo Projeto",
+    "total_projects": "Total de Projetos",
+    "recent_projects": {
+      "title": "Projetos Recentes",
+      "created_at": "Criado em"
+    },
+    "stats": {
+      "team_activity": "Atividade do Time",
+      "see_all": "Ver todos",
+      "no_activity": "Tudo calmo",
+      "no_activity_desc": "Atividades aparecerão aqui."
+    },
+    "activity": {
+      "created_task": "criou a tarefa",
+      "updated_task": "atualizou a tarefa",
+      "deleted_task": "excluiu a tarefa",
+      "created_comment": "comentou",
+      "updated_comment": "editou seu comentário",
+      "deleted_comment": "excluiu um comentário",
+      "created_project": "criou o projeto",
+      "updated_project": "atualizou as configurações do projeto",
+      "unknown": "{{action}} {{entity}}"
+    }
+  },
+  "kanban": {
+    "todo": "A Fazer",
+    "in_progress": "Em Progresso",
+    "done": "Concluído",
+    "blocked": "Bloqueado",
+    "drop_here": "Solte aqui",
+    "priority": {
+      "urgent": "Urgente",
+      "high": "Alta",
+      "medium": "Média",
+      "low": "Baixa"
+    }
+  },
+  "auth": {
+    "login_title": "Bem-vindo de volta",
+    "login_subtitle": "Entre na sua conta para continuar",
+    "email": "E-mail",
+    "password": "Senha",
+    "login_button": "Entrar",
+    "no_account": "Não tem uma conta?",
+    "register_link": "Registre-se",
+    "register_title": "Criar conta",
+    "register_subtitle": "Comece sua jornada com Orbitra hoje mesmo.",
+    "name": "Nome",
+    "organization_name": "Nome da Organização",
+    "organization_placeholder": "Ex: Minha Empresa Inc.",
+    "user_name": "Seu Nome",
+    "user_name_placeholder": "Seu Nome Completo",
+    "already_account": "Já tem uma conta?",
+    "login_link": "Fazer Login",
+    "logout": "Sair"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "projects": "Projetos",
+    "tasks": "Tarefas",
+    "team": "Equipe",
+    "settings": "Configurações",
+    "my_account": "Minha Conta",
+    "profile": "Perfil"
+  },
+  "projects": {
+    "title": "Projetos",
+    "subtitle": "Gerencie e acompanhe todos os seus projetos.",
+    "filter_placeholder": "Filtrar projetos...",
+    "new_project": "Novo Projeto",
+    "no_projects_title": "Nenhum projeto ainda",
+    "no_projects_desc": "Comece criando seu primeiro projeto para gerenciar suas tarefas e time.",
+    "not_found": "Projeto não encontrado",
+    "back_to_projects": "Voltar para Projetos",
+    "default_description": "Gerencie suas tarefas e prazos com eficiência e transparência.",
+    "membros": "membros",
+    "tabs": {
+      "kanban": "Kanban",
+      "comments": "Comentários",
+      "history": "Histórico"
+    },
+    "history_title": "Atividade do Projeto",
+    "history_subtitle": "Acompanhe todas as mudanças em tarefas e comentários.",
+    "create_dialog": {
+      "title": "Criar Novo Projeto",
+      "name_label": "Nome do Projeto",
+      "name_placeholder": "Ex: Website Redesign",
+      "desc_label": "Descrição",
+      "desc_placeholder": "Descreva o objetivo deste projeto...",
+      "cancel": "Cancelar",
+      "submit": "Criar Projeto",
+      "validation": {
+        "name_required": "Nome do projeto é obrigatório"
+      }
+    },
+    "edit_dialog": {
+      "title": "Editar Projeto",
+      "name_label": "Nome do Projeto",
+      "desc_label": "Descrição",
+      "submit": "Salvar Alterações",
+      "cancel": "Cancelar"
+    },
+    "history_empty": "Nenhum histórico disponível ainda.",
+    "history_actions": {
+      "created_task": "criou a tarefa \"{{task}}\"",
+      "updated_task": "atualizou a tarefa \"{{task}}\"",
+      "deleted_task": "excluiu a tarefa \"{{task}}\"",
+      "created_comment": "comentou: \"{{text}}\"",
+      "updated_comment": "editou seu comentário: \"{{text}}\"",
+      "deleted_comment": "excluiu um comentário",
+      "created_project": "criou o projeto",
+      "updated_project": "atualizou as configurações do projeto",
+      "unknown": "{{action}} {{entity}}"
+    }
+  },
+  "notifications": {
+    "title": "Notificações",
+    "new": "novas",
+    "mark_all_read": "Marcar todas como lidas",
+    "loading": "Carregando...",
+    "empty": "Você não tem notificações no momento."
+  },
+  "tasks": {
+    "title": "Minhas Tarefas",
+    "subtitle": "Visualize e gerencie suas tarefas em todos os projetos.",
+    "select_project": "Selecione um projeto...",
+    "no_project_selected": "Nenhum projeto selecionado",
+    "no_project_selected_desc": "Selecione um projeto acima para começar a visualizar as tarefas correspondentes.",
+    "no_tasks": "Nenhuma tarefa encontrada",
+    "no_tasks_desc": "Este projeto ainda não possui tarefas criadas.",
+    "details": "Detalhes da Tarefa",
+    "title_label": "Título",
+    "description_label": "Descrição",
+    "priority_label": "Prioridade",
+    "status_label": "Status",
+    "assignee_label": "Responsável",
+    "unassigned": "Sem responsável",
+    "due_date": "Data de Entrega",
+    "delete_task": "Excluir Tarefa",
+    "save_changes": "Salvar Alterações",
+    "saving": "Salvando...",
+    "confirm_delete": "Tem certeza que deseja excluir esta tarefa?",
+    "new_task": "Nova Tarefa",
+    "create_title": "Criar Nova Tarefa",
+    "create_button": "Criar Tarefa",
+    "fields": {
+      "title": "Título",
+      "description": "Descrição",
+      "assignee": "Responsável",
+      "due_date": "Prazo",
+      "priority": "Prioridade",
+      "status": "Status"
+    },
+    "placeholders": {
+      "title": "O que precisa ser feito?",
+      "description": "Adicione mais detalhes...",
+      "assignee": "Atribuir para...",
+      "due_date": "Definir prazo"
+    },
+    "validation": {
+      "title_required": "Título é obrigatório"
+    }
+  },
+  "team": {
+    "title": "Meu Time",
+    "subtitle": "Gerencie os membros da sua equipe e suas permissões.",
+    "invite_member": "Convidar Membro"
+  },
+  "settings": {
+    "title": "Configurações",
+    "subtitle": "Gerencie suas preferências pessoais e configurações da organização.",
+    "profile_tab": "Perfil",
+    "organization_tab": "Organização",
+    "profile_title": "Perfil de Usuário",
+    "profile_desc": "Gerencie suas informações pessoais e credenciais de acesso.",
+    "change_photo": "Alterar Foto",
+    "full_name": "Nome Completo",
+    "name_placeholder": "Seu nome",
+    "email_desc": "Este é o email que você usa para acessar o sistema.",
+    "account_role_admin": "Administrador",
+    "account_role_member": "Membro",
+    "account_is": "Sua conta é",
+    "save_changes": "Salvar Alterações",
+    "saving": "Salvando...",
+    "org_title": "Configurações da Organização",
+    "org_desc": "Gerencie os detalhes da sua organização e sua presença no Orbitra.",
+    "org_name": "Nome da Organização",
+    "org_name_placeholder": "Minha Empresa",
+    "org_name_desc": "Este é o nome visível da sua organização.",
+    "slug_desc": "O slug é usado na URL da sua organização e não pode ser alterado após a criação.",
+    "keep_updated": "Mantenha seus dados atualizados.",
+    "danger_zone": "Zona de Perigo",
+    "danger_zone_desc": "Ações irreversíveis para esta organização.",
+    "danger_zone_warning": "Ao excluir uma organização, todos os projetos, tarefas e membros associados serão removidos permanentemente.",
+    "delete_org": "Excluir Organização",
+    "deleting": "Excluindo...",
+    "confirm_delete_org": "Tem certeza que deseja excluir esta organização? Esta ação não pode ser desfeita."
+  },
+  "comments": {
+    "feed_title": "Feed de Comentários",
+    "placeholder": "O que você está pensando sobre este projeto?",
+    "submit": "Publicar Comentário",
+    "no_comments_title": "Nenhum comentário ainda",
+    "no_comments_desc": "Seja o primeiro a comentar e inicie a conversa sobre este projeto.",
+    "reply_to": "respondido para",
+    "edit": "Editar",
+    "delete": "Excluir",
+    "save": "Salvar",
+    "view_more": "Ver mais",
+    "view_less": "Ver menos",
+    "reply_verb": "Responder",
+    "hide_replies": "Ocultar respostas",
+    "show_replies_one": "Mostrar 1 resposta",
+    "show_replies_other": "Mostrar {{count}} respostas",
+    "reply_placeholder": "Responder a {{name}}...",
+    "confirm_delete": "Tem certeza que deseja excluir este comentário?"
+  },
+  "toasts": {
+    "tenant_created": "Tenant \"{{name}}\" criado com sucesso!",
+    "tenant_create_error": "Erro ao criar tenant",
+    "tenant_updated": "Tenant atualizado com sucesso!",
+    "tenant_update_error": "Erro ao atualizar tenant",
+    "tenant_deleted": "Tenant deletado com sucesso!",
+    "tenant_delete_error": "Erro ao deletar tenant",
+    "task_created": "Tarefa criada com sucesso!",
+    "task_create_error": "Erro ao criar tarefa",
+    "task_updated": "Tarefa atualizada com sucesso!",
+    "task_update_error": "Erro ao atualizar tarefa",
+    "task_status_update_error": "Erro ao atualizar status da tarefa",
+    "task_deleted": "Tarefa excluída com sucesso!",
+    "task_delete_error": "Erro ao excluir tarefa",
+    "project_created": "Projeto criado com sucesso!",
+    "project_create_error": "Erro ao criar projeto",
+    "project_updated": "Projeto atualizado com sucesso!",
+    "project_update_error": "Erro ao atualizar projeto",
+    "project_deleted": "Projeto excluído com sucesso!",
+    "project_delete_error": "Erro ao excluir projeto",
+    "comment_created": "Comentário enviado com sucesso!",
+    "comment_create_error": "Erro ao enviar comentário",
+    "comment_updated": "Comentário atualizado!",
+    "comment_update_error": "Erro ao atualizar comentário",
+    "comment_deleted": "Comentário removido",
+    "comment_delete_error": "Erro ao excluir comentário",
+    "welcome": "Bem-vindo, {{name}}!",
+    "login_error": "Email ou senha inválidos",
+    "account_created": "Conta criada com sucesso!",
+    "register_error": "Erro ao criar conta",
+    "profile_updated": "Perfil atualizado com sucesso!",
+    "profile_update_error": "Erro ao atualizar perfil"
+  }
+}

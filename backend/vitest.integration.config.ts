@@ -1,7 +1,6 @@
-import { defineConfig } from 'vitest/config';
 import path from 'path';
+import { defineConfig } from 'vitest/config';
 
-// Dedicated config for HTTP integration tests only.
 export default defineConfig({
   test: {
     globals: true,
@@ -9,9 +8,6 @@ export default defineConfig({
     setupFiles: ['./src/__tests__/setup.ts'],
     include: ['src/__tests__/infra/http/**/*.integration.test.ts'],
     exclude: ['**/node_modules/**', '**/dist/**', '**/generated/**'],
-    deps: {
-      inline: ['@prisma/client', '@prisma/adapter-mariadb'],
-    },
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html', 'json'],
@@ -27,4 +23,3 @@ export default defineConfig({
     },
   },
 });
-

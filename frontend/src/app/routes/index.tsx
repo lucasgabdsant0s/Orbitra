@@ -1,1 +1,3 @@
-export default function DashboardPage() {  return (    <div className="p-8">      <h1 className="text-3xl font-bold mb-4">Dashboard</h1>      <p className="text-muted-foreground">        Bem-vindo ao Orbitra! Dashboard em construção.      </p>    </div>  );}
+import { DashboardPage } from '@/features/dashboard/components/DashboardPage';
+
+export default DashboardPage;

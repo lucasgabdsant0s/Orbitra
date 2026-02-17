@@ -1,19 +1,21 @@
-# Frontend Dockerfile para desenvolvimento
+```dockerfile
+# Frontend Dockerfile for development
 FROM node:20-alpine
 
 WORKDIR /app
 
-# Copia package.json e package-lock.json
+# Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Instala dependências
+# Install dependencies
 RUN npm install
 
-# Copia todo o código
+# Copy all code
 COPY . .
 
-# Expõe porta do Vite
+# Expose Vite port
 EXPOSE 5173
 
-# Roda dev server com host 0.0.0.0 para aceitar conexões externas
+# Run dev server with host 0.0.0.0 to accept external connections
 CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+```

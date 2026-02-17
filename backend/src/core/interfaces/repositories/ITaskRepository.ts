@@ -1,1 +1,25 @@
-import type { Task } from '../../entities/Task.js';import type { TaskStatus, TaskPriority } from '../../enums/index.js';import type { PaginatedResult, PaginationOptions } from '../../types/index.js';export interface TaskFilters {  status?: TaskStatus;  priority?: TaskPriority;  assigneeId?: string;}export interface ITaskRepository {  create(task: Task): Promise<Task>;  findById(tenantId: string, id: string): Promise<Task | null>;  findAll(    tenantId: string,    options: PaginationOptions,    filters?: TaskFilters,  ): Promise<PaginatedResult<Task>>;  findAllByProject(    tenantId: string,    projectId: string,    options: PaginationOptions,    filters?: TaskFilters,  ): Promise<PaginatedResult<Task>>;  update(tenantId: string, id: string, data: Partial<Task>): Promise<Task>;  softDelete(tenantId: string, id: string): Promise<void>;}
+import type { Task } from '../../entities/Task.js';
+import type { TaskPriority, TaskStatus } from '../../enums/index.js';
+import type { PaginatedResult, PaginationOptions } from '../../types/index.js';
+export interface TaskFilters {
+  status?: TaskStatus;
+  priority?: TaskPriority;
+  assigneeId?: string;
+}
+export interface ITaskRepository {
+  create(task: Task): Promise<Task>;
+  findById(tenantId: string, id: string): Promise<Task | null>;
+  findAll(
+    tenantId: string,
+    options: PaginationOptions,
+    filters?: TaskFilters,
+  ): Promise<PaginatedResult<Task>>;
+  findAllByProject(
+    tenantId: string,
+    projectId: string,
+    options: PaginationOptions,
+    filters?: TaskFilters,
+  ): Promise<PaginatedResult<Task>>;
+  update(tenantId: string, id: string, data: Partial<Task>): Promise<Task>;
+  softDelete(tenantId: string, id: string): Promise<void>;
+}

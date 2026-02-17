@@ -1,1 +1,100 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';import { toast } from 'sonner';import { tasksApi } from './api';import {  type Task, type TaskStatus } from '@/types';export function useTasks(projectId: string) {  return useQuery({    queryKey: ['tasks', projectId],    queryFn: () => tasksApi.list(projectId),    enabled: !!projectId,  });}export function useCreateTask() {  const queryClient = useQueryClient();  return useMutation({    mutationFn: (data: {      title: string;      description?: string;      projectId: string;      status?: TaskStatus;    }) => tasksApi.create(data),    onSuccess: (newTask) => {      queryClient.invalidateQueries({ queryKey: ['tasks', newTask.projectId] });      toast.success(`Task "${newTask.title}" criada!`);    },    onError: (error: any) => {      const message = error?.response?.data?.message || 'Erro ao criar task';      toast.error(message);    },  });}export function useUpdateTask() {  const queryClient = useQueryClient();  return useMutation({    mutationFn: ({      id,      data,    }: {      id: string;      data: { title?: string; description?: string; status?: TaskStatus };    }) => tasksApi.update(id, data),    onSuccess: () => {      queryClient.invalidateQueries({ queryKey: ['tasks'] });      toast.success('Task atualizada!');    },    onError: (error: any) => {      const message = error?.response?.data?.message || 'Erro ao atualizar task';      toast.error(message);    },  });}export function useUpdateTaskStatus(projectId: string) {  const queryClient = useQueryClient();  return useMutation({    mutationFn: ({ id, status }: { id: string; status: TaskStatus }) =>      tasksApi.updateStatus(id, status),    onMutate: async ({ id, status }) => {      await queryClient.cancelQueries({ queryKey: ['tasks', projectId] });      const previousTasks = queryClient.getQueryData<Task[]>(['tasks', projectId]);      queryClient.setQueryData<Task[]>(['tasks', projectId], (old) =>        old?.map((task) => (task.id === id ? { ...task, status } : task))      );      return { previousTasks };    },    onError: (_error, _variables, context) => {      queryClient.setQueryData(['tasks', projectId], context?.previousTasks);      toast.error('Erro ao mover task');    },    onSettled: () => {      queryClient.invalidateQueries({ queryKey: ['tasks', projectId] });    },  });}export function useDeleteTask() {  const queryClient = useQueryClient();  return useMutation({    mutationFn: (id: string) => tasksApi.delete(id),    onSuccess: () => {      queryClient.invalidateQueries({ queryKey: ['tasks'] });      toast.success('Task deletada!', {      });    },    onError: (error: any) => {      const message = error?.response?.data?.message || 'Erro ao deletar task';      toast.error(message);    },  });}
+import { api } from "@/lib/api";
+import type { Task, TaskStatus, User } from "@/types";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
+import { tasksApi } from "./api";
+
+export function useTasks(
+  projectId: string,
+  filters?: { status?: string; priority?: string; assigneeId?: string },
+) {
+  return useQuery({
+    queryKey: ["tasks", projectId, filters],
+    queryFn: () => tasksApi.list(projectId, filters),
+    enabled: !!projectId,
+  });
+}
+
+export function useUsers() {
+  return useQuery({
+    queryKey: ["users"],
+    queryFn: async (): Promise<User[]> => {
+      const response = await api.get("/users");
+      return response.data.data;
+    },
+  });
+}
+
+export function useCreateTask(projectId: string) {
+  const queryClient = useQueryClient();
+  const { t } = useTranslation();
+
+  return useMutation({
+    mutationFn: (data: Partial<Task>) => tasksApi.create(projectId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks", projectId] });
+      toast.success(t("toasts.task_created"));
+    },
+    onError: (error: any) => {
+      const message =
+        error?.response?.data?.message || t("toasts.task_create_error");
+      toast.error(message);
+    },
+  });
+}
+
+export function useUpdateTask(projectId: string) {
+  const queryClient = useQueryClient();
+  const { t } = useTranslation();
+
+  return useMutation({
+    mutationFn: ({ taskId, data }: { taskId: string; data: Partial<Task> }) =>
+      tasksApi.update(taskId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks", projectId] });
+      toast.success(t("toasts.task_updated"));
+    },
+    onError: (error: any) => {
+      const message =
+        error?.response?.data?.message || t("toasts.task_update_error");
+      toast.error(message);
+    },
+  });
+}
+
+export function useUpdateTaskStatus(projectId: string) {
+  const queryClient = useQueryClient();
+  const { t } = useTranslation();
+
+  return useMutation({
+    mutationFn: ({ id, status }: { id: string; status: TaskStatus }) =>
+      tasksApi.update(id, { status }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks", projectId] });
+    },
+    onError: (error: any) => {
+      const message =
+        error?.response?.data?.message || t("toasts.task_status_update_error");
+      toast.error(message);
+    },
+  });
+}
+
+export function useDeleteTask(projectId: string) {
+  const queryClient = useQueryClient();
+  const { t } = useTranslation();
+
+  return useMutation({
+    mutationFn: (taskId: string) => tasksApi.delete(taskId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks", projectId] });
+      toast.success(t("toasts.task_deleted"));
+    },
+    onError: (error: any) => {
+      const message =
+        error?.response?.data?.message || t("toasts.task_delete_error");
+      toast.error(message);
+    },
+  });
+}

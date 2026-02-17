@@ -1,1 +1,17 @@
-import type { Comment } from '../../entities/Comment.js';import type { PaginatedResult, PaginationOptions } from '../../types/index.js';export interface CommentFilters {  parentId?: string | null;}export interface ICommentRepository {  create(comment: Comment): Promise<Comment>;  findById(tenantId: string, id: string): Promise<Comment | null>;  findAllByProject(    tenantId: string,    projectId: string,    options: PaginationOptions,    filters?: CommentFilters,  ): Promise<PaginatedResult<Comment>>;  update(tenantId: string, id: string, text: string): Promise<Comment>;  softDelete(tenantId: string, id: string): Promise<void>;}
+import type { Comment } from '../../entities/Comment.js';
+import type { PaginatedResult, PaginationOptions } from '../../types/index.js';
+export interface CommentFilters {
+  parentId?: string | null;
+}
+export interface ICommentRepository {
+  create(comment: Comment): Promise<Comment>;
+  findById(tenantId: string, id: string): Promise<Comment | null>;
+  findAllByProject(
+    tenantId: string,
+    projectId: string,
+    options: PaginationOptions,
+    filters?: CommentFilters,
+  ): Promise<PaginatedResult<Comment>>;
+  update(tenantId: string, id: string, text: string): Promise<Comment>;
+  softDelete(tenantId: string, id: string): Promise<void>;
+}

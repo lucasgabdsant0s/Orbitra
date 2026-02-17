@@ -1,65 +1,66 @@
-# Docker Compose - Desenvolvimento Orbitra
+# Docker Compose - Orbitra Development
 
-Este arquivo configura todos os serviços necessários para rodar o Orbitra em ambiente de desenvolvimento com Docker.
+This file configures all the services required to run Orbitra in a development environment using Docker.
 
-## Serviços
+## Services
 
-- **db**: MySQL 8.0 (porta 3309)
-- **api**: Backend Node.js (porta 3333)
-- **frontend**: Frontend React + Vite (porta 5173)
+- **db**: MySQL 8.0 (port 3309)
+- **api**: Node.js Backend (port 3333)
+- **frontend**: React + Vite Frontend (port 5173)
 
-## Como Usar
+## How to Use
 
-### Iniciar todos os serviços
+### Start all services
 
 ```bash
 docker-compose -f compose.dev.yml up --build
 ```
 
-### Parar os serviços
+### Stop services
 
 ```bash
 docker-compose -f compose.dev.yml down
 ```
 
-### Ver logs
+### View logs
 
 ```bash
-# Todos os serviços
+# All services
 docker-compose -f compose.dev.yml logs -f
 
-# Apenas frontend
+# Frontend only
 docker-compose -f compose.dev.yml logs -f frontend
 
-# Apenas backend
+# Backend only
 docker-compose -f compose.dev.yml logs -f api
 ```
 
-### Rebuild após mudanças
+### Rebuild after changes
 
 ```bash
 docker-compose -f compose.dev.yml up --build --force-recreate
 ```
 
-## Acessar o App
+## Access the App
 
 - **Frontend**: http://localhost:5173
 - **Backend API**: http://localhost:3333
 - **MySQL**: localhost:3309
+- **API Documentation**: http://localhost:3333/docs
 
 ## Troubleshooting
 
-### Frontend não carrega
+### Frontend not loading
 
-- Aguarde o npm install terminar (pode levar 1-2 minutos na primeira vez)
-- Verifique logs: `docker-compose -f compose.dev.yml logs frontend`
+- Wait for npm install to finish (may take 1-2 minutes the first time)
+- Check logs: `docker-compose -f compose.dev.yml logs frontend`
 
-### Erro de conexão com database
+### Database connection error
 
-- Aguarde o MySQL inicializar completamente (~30 segundos)
-- Verifique se as credenciais no `.env.development` estão corretas
+- Wait for MySQL to fully initialize (~30 seconds)
+- Verify if credentials in `.env.development` are correct
 
-### Hot reload não funciona
+### Hot reload not working
 
-- O `CHOKIDAR_USEPOLLING=true` já está configurado para Windows/WSL
-- Se ainda não funcionar, tente rebuild: `docker-compose -f compose.dev.yml up --build`
+- `CHOKIDAR_USEPOLLING=true` is already configured for Windows/WSL
+- If it still doesn't work, try rebuilding: `docker-compose -f compose.dev.yml up --build`

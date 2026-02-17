@@ -17,6 +17,7 @@ services:
       - ./backend/.env.development
     volumes:
       - ./backend:/app
+      - /app/node_modules
     ports:
       - "3333:3333"
     depends_on:
