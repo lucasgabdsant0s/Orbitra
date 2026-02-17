@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/main.ts",
-    "build": "prisma generate --schema=./src/infra/database/prisma/schema.prisma && tsc",
+    "build": "prisma generate --schema=./src/infra/database/prisma/schema.prisma && tsc && cpy \"src/infra/database/generated/**\" \"dist/infra/database/generated/\"",
     "start": "node dist/server.js",
     "test": "dotenv -e .env.test -- vitest run",
     "test:watch": "dotenv -e .env.test -- vitest",
@@ -46,6 +46,7 @@
     "@types/supertest": "^6.0.3",
     "@vitest/coverage-v8": "^4.0.18",
     "@vitest/ui": "^4.0.18",
+    "cpy-cli": "^7.0.0",
     "dotenv-cli": "^11.0.0",
     "prisma": "^7.4.0",
     "supertest": "^7.2.2",

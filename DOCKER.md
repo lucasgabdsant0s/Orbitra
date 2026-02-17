@@ -59,6 +59,7 @@ docker-compose -f compose.dev.yml up --build --force-recreate
 
 - Wait for MySQL to fully initialize (~30 seconds)
 - Verify if credentials in `.env.development` are correct
+- run: `docker exec orbitra-api-1 npx prisma db push --force-reset --accept-data-loss`
 
 ### Hot reload not working
 
