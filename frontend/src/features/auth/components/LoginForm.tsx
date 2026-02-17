@@ -1,5 +1,5 @@
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
-import { Button } from "@/components/ui/button";
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -7,21 +7,21 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { motion } from "framer-motion";
-import { Loader2, Lock, Mail } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
-import { z } from "zod";
-import { useLogin } from "../hooks";
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { motion } from 'framer-motion';
+import { Loader2, Lock, Mail } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import { z } from 'zod';
+import { useLogin } from '../hooks';
 
 const loginSchema = z.object({
-  email: z.string().email("Email inválido"),
-  password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres"),
+  email: z.string().email('Email inválido'),
+  password: z.string().min(6, 'Senha deve ter pelo menos 6 caracteres'),
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
@@ -58,49 +58,41 @@ export function LoginForm() {
             <Lock className="text-primary-foreground" size={24} />
           </div>
           <CardTitle className="text-3xl font-bold text-foreground tracking-tight">
-            {t("auth.login_title")}
+            {t('auth.login_title')}
           </CardTitle>
           <CardDescription className="text-muted-foreground font-medium">
-            {t("auth.login_subtitle")}
+            {t('auth.login_subtitle')}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div className="space-y-2">
-              <Label className="text-muted-foreground font-medium ml-1">
-                {t("auth.email")}
-              </Label>
+              <Label className="text-muted-foreground font-medium ml-1">{t('auth.email')}</Label>
               <div className="relative group">
                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                 <Input
                   placeholder="seu@email.com"
                   className="bg-secondary/50 border-border text-foreground rounded-xl h-12 pl-11 focus-visible:ring-primary/30"
-                  {...register("email")}
+                  {...register('email')}
                 />
               </div>
               {errors.email && (
-                <p className="text-sm text-destructive ml-1">
-                  {errors.email.message}
-                </p>
+                <p className="text-sm text-destructive ml-1">{errors.email.message}</p>
               )}
             </div>
             <div className="space-y-2">
-              <Label className="text-muted-foreground font-medium ml-1">
-                {t("auth.password")}
-              </Label>
+              <Label className="text-muted-foreground font-medium ml-1">{t('auth.password')}</Label>
               <div className="relative group">
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                 <Input
                   type="password"
                   placeholder="••••••••"
                   className="bg-secondary/50 border-border text-foreground rounded-xl h-12 pl-11 focus-visible:ring-primary/30"
-                  {...register("password")}
+                  {...register('password')}
                 />
               </div>
               {errors.password && (
-                <p className="text-sm text-destructive ml-1">
-                  {errors.password.message}
-                </p>
+                <p className="text-sm text-destructive ml-1">{errors.password.message}</p>
               )}
             </div>
             <Button
@@ -111,19 +103,16 @@ export function LoginForm() {
               {isPending ? (
                 <Loader2 className="animate-spin mr-2 h-4 w-4" />
               ) : (
-                t("auth.login_button")
+                t('auth.login_button')
               )}
             </Button>
           </form>
         </CardContent>
         <CardFooter className="pb-10 pt-4 flex flex-col gap-4">
           <p className="text-sm text-muted-foreground">
-            {t("auth.no_account")}{" "}
-            <Link
-              to="/register"
-              className="text-primary hover:underline font-bold"
-            >
-              {t("auth.register_link")}
+            {t('auth.no_account')}{' '}
+            <Link to="/register" className="text-primary hover:underline font-bold">
+              {t('auth.register_link')}
             </Link>
           </p>
         </CardFooter>

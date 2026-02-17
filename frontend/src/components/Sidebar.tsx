@@ -1,6 +1,6 @@
-import { useAuth } from "@/features/auth/hooks";
-import { cn } from "@/lib/utils";
-import { useUIStore } from "@/stores/uiStore";
+import { useAuth } from '@/features/auth/hooks';
+import { cn } from '@/lib/utils';
+import { useUIStore } from '@/stores/uiStore';
 import {
   CheckSquare,
   ChevronLeft,
@@ -11,10 +11,10 @@ import {
   Settings,
   Users,
   Zap,
-} from "lucide-react";
-import { useTranslation } from "react-i18next";
-import { Link, useLocation } from "react-router-dom";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+} from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { Link, useLocation } from 'react-router-dom';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 
 export function Sidebar() {
   const { t } = useTranslation();
@@ -24,18 +24,18 @@ export function Sidebar() {
   const location = useLocation();
 
   const menuItems = [
-    { icon: LayoutDashboard, label: t("nav.dashboard"), href: "/" },
-    { icon: FolderKanban, label: t("nav.projects"), href: "/projects" },
-    { icon: CheckSquare, label: t("nav.tasks"), href: "/tasks" },
-    { icon: Users, label: t("nav.team"), href: "/team" },
-    { icon: Settings, label: t("nav.settings"), href: "/settings" },
+    { icon: LayoutDashboard, label: t('nav.dashboard'), href: '/' },
+    { icon: FolderKanban, label: t('nav.projects'), href: '/projects' },
+    { icon: CheckSquare, label: t('nav.tasks'), href: '/tasks' },
+    { icon: Users, label: t('nav.team'), href: '/team' },
+    { icon: Settings, label: t('nav.settings'), href: '/settings' },
   ];
 
   return (
     <aside
       className={cn(
-        "h-screen flex flex-col transition-all duration-500 ease-in-out border-r border-sidebar-border bg-sidebar/80 backdrop-blur-3xl z-50 sticky top-0",
-        isSidebarOpen ? "w-72" : "w-24",
+        'h-screen flex flex-col transition-all duration-500 ease-in-out border-r border-sidebar-border bg-sidebar/80 backdrop-blur-3xl z-50 sticky top-0',
+        isSidebarOpen ? 'w-72' : 'w-24',
       )}
     >
       <div className="h-20 flex items-center px-6 mb-4">
@@ -63,11 +63,11 @@ export function Sidebar() {
               key={item.href}
               to={item.href}
               className={cn(
-                "flex items-center gap-4 px-4 py-4 rounded-2xl transition-all duration-300 group relative overflow-hidden",
+                'flex items-center gap-4 px-4 py-4 rounded-2xl transition-all duration-300 group relative overflow-hidden',
                 isActive
-                  ? "bg-sidebar-accent text-sidebar-primary shadow-sm ring-1 ring-sidebar-border"
-                  : "text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent/50",
-                !isSidebarOpen && "justify-center px-0",
+                  ? 'bg-sidebar-accent text-sidebar-primary shadow-sm ring-1 ring-sidebar-border'
+                  : 'text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent/50',
+                !isSidebarOpen && 'justify-center px-0',
               )}
             >
               {isActive && (
@@ -76,15 +76,13 @@ export function Sidebar() {
               <item.icon
                 size={22}
                 className={cn(
-                  "shrink-0 transition-transform duration-300 relative z-10",
-                  !isActive && "group-hover:scale-110",
-                  isActive && "fill-primary/10",
+                  'shrink-0 transition-transform duration-300 relative z-10',
+                  !isActive && 'group-hover:scale-110',
+                  isActive && 'fill-primary/10',
                 )}
               />
               {isSidebarOpen && (
-                <span className="font-bold text-sm tracking-tight relative z-10">
-                  {item.label}
-                </span>
+                <span className="font-bold text-sm tracking-tight relative z-10">{item.label}</span>
               )}
               {!isSidebarOpen && (
                 <div className="absolute left-full ml-4 px-3 py-2 bg-popover text-popover-foreground text-xs rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all whitespace-nowrap z-50 border border-border font-bold shadow-xl">
@@ -100,9 +98,8 @@ export function Sidebar() {
         {user && (
           <div
             className={cn(
-              "flex items-center p-3 rounded-2xl bg-sidebar-accent/50 border border-sidebar-border transition-all duration-300",
-              !isSidebarOpen &&
-                "justify-center px-0 bg-transparent border-none",
+              'flex items-center p-3 rounded-2xl bg-sidebar-accent/50 border border-sidebar-border transition-all duration-300',
+              !isSidebarOpen && 'justify-center px-0 bg-transparent border-none',
             )}
           >
             <Avatar className="h-10 w-10 border border-sidebar-border ring-2 ring-background">
@@ -128,32 +125,23 @@ export function Sidebar() {
           <button
             onClick={toggleSidebar}
             className={cn(
-              "flex items-center justify-center p-3 rounded-xl bg-sidebar-accent hover:bg-sidebar-accent/80 text-sidebar-foreground/60 hover:text-sidebar-foreground transition-all group flex-1",
-              !isSidebarOpen && "w-full",
+              'flex items-center justify-center p-3 rounded-xl bg-sidebar-accent hover:bg-sidebar-accent/80 text-sidebar-foreground/60 hover:text-sidebar-foreground transition-all group flex-1',
+              !isSidebarOpen && 'w-full',
             )}
           >
             {isSidebarOpen ? (
-              <ChevronLeft
-                size={20}
-                className="group-hover:-translate-x-1 transition-transform"
-              />
+              <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
             ) : (
-              <ChevronRight
-                size={20}
-                className="group-hover:translate-x-1 transition-transform"
-              />
+              <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
             )}
           </button>
           {isSidebarOpen && (
             <button
               onClick={() => logout()}
               className="flex items-center justify-center p-3 rounded-xl bg-destructive/10 hover:bg-destructive/20 text-destructive transition-all group shadow-sm"
-              title={t("auth.logout")}
+              title={t('auth.logout')}
             >
-              <LogOut
-                size={20}
-                className="group-hover:scale-110 transition-transform"
-              />
+              <LogOut size={20} className="group-hover:scale-110 transition-transform" />
             </button>
           )}
         </div>

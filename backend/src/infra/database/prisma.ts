@@ -12,7 +12,7 @@ function createAdapter() {
       port: Number(url.port || '3306'),
       user: url.username,
       password: url.password,
-      database: url.pathname.replace(/^\
+      database: url.pathname.replace(/^\//, ''),
       allowPublicKeyRetrieval: true,
       connectTimeout: Number(url.searchParams.get('connect_timeout') || '30000'),
       idleTimeout: Number(url.searchParams.get('pool_timeout') || '60000'),

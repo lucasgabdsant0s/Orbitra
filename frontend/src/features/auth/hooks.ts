@@ -1,10 +1,10 @@
-import { useAuthStore } from "@/stores/authStore";
-import type { LoginRequest, RegisterRequest, User } from "@/types";
-import { useMutation } from "@tanstack/react-query";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
-import { authApi } from "./api";
+import { useAuthStore } from '@/stores/authStore';
+import type { LoginRequest, RegisterRequest, User } from '@/types';
+import { useMutation } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+import { authApi } from './api';
 
 export function useLogin() {
   const navigate = useNavigate();
@@ -15,11 +15,11 @@ export function useLogin() {
     mutationFn: (data: LoginRequest) => authApi.login(data),
     onSuccess: (data) => {
       setAuth(data.token, data.user);
-      toast.success(t("toasts.welcome", { name: data.user.name }));
-      navigate("/");
+      toast.success(t('toasts.welcome', { name: data.user.name }));
+      navigate('/');
     },
     onError: (error: any) => {
-      const message = error?.response?.data?.message || t("toasts.login_error");
+      const message = error?.response?.data?.message || t('toasts.login_error');
       toast.error(message);
     },
   });
@@ -34,12 +34,11 @@ export function useRegister() {
     mutationFn: (data: RegisterRequest) => authApi.register(data),
     onSuccess: (data) => {
       setAuth(data.token, data.user);
-      toast.success(t("toasts.account_created"));
-      navigate("/");
+      toast.success(t('toasts.account_created'));
+      navigate('/');
     },
     onError: (error: any) => {
-      const message =
-        error?.response?.data?.message || t("toasts.register_error");
+      const message = error?.response?.data?.message || t('toasts.register_error');
       toast.error(message);
     },
   });
@@ -54,11 +53,10 @@ export function useUpdateProfile() {
       authApi.updateProfile(id, data),
     onSuccess: (updatedUser) => {
       setUser(updatedUser);
-      toast.success(t("toasts.profile_updated"));
+      toast.success(t('toasts.profile_updated'));
     },
     onError: (error: any) => {
-      const message =
-        error?.response?.data?.message || t("toasts.profile_update_error");
+      const message = error?.response?.data?.message || t('toasts.profile_update_error');
       toast.error(message);
     },
   });

@@ -1,15 +1,14 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { clsx } from "clsx";
-import { formatDistanceToNow } from "date-fns";
-import { enUS, ptBR } from "date-fns/locale";
-import { useTranslation } from "react-i18next";
+} from '@/components/ui/dropdown-menu';
+import { clsx } from 'clsx';
+import { formatDistanceToNow } from 'date-fns';
+import { enUS, ptBR } from 'date-fns/locale';
 import {
   ChevronDown,
   ChevronUp,
@@ -19,10 +18,11 @@ import {
   MoreHorizontal,
   Reply,
   Trash2,
-} from "lucide-react";
-import { useState } from "react";
-import type { Comment } from "../api";
-import { CommentForm } from "./CommentForm";
+} from 'lucide-react';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import type { Comment } from '../api';
+import { CommentForm } from './CommentForm';
 
 interface CommentItemProps {
   comment: Comment;
@@ -62,20 +62,13 @@ export function CommentItem({
       : comment.text;
 
   return (
-    <div className={clsx("group flex gap-3 relative", isReply && "mt-4")}>
-      {isReply && (
-        <div className="absolute -left-6 top-5 bottom-0 w-px bg-white/5" />
-      )}
+    <div className={clsx('group flex gap-3 relative', isReply && 'mt-4')}>
+      {isReply && <div className="absolute -left-6 top-5 bottom-0 w-px bg-white/5" />}
 
-      <Avatar
-        className={clsx(
-          "ring-2 ring-white/5 shrink-0",
-          isReply ? "size-8" : "size-10",
-        )}
-      >
+      <Avatar className={clsx('ring-2 ring-white/5 shrink-0', isReply ? 'size-8' : 'size-10')}>
         <AvatarImage src={comment.userAvatar || undefined} />
         <AvatarFallback className="bg-primary/10 text-primary text-xs">
-          {comment.userName?.charAt(0) || "?"}
+          {comment.userName?.charAt(0) || '?'}
         </AvatarFallback>
       </Avatar>
 
@@ -83,24 +76,20 @@ export function CommentItem({
         <div className="bg-white/5 border border-white/5 p-4 rounded-2xl rounded-tl-none relative transition-colors group-hover:border-white/10">
           <div className="flex items-center justify-between mb-1 gap-2">
             <div className="flex items-center gap-2 flex-wrap min-w-0">
-              <span className="font-bold text-white text-sm truncate">
-                {comment.userName}
-              </span>
+              <span className="font-bold text-white text-sm truncate">{comment.userName}</span>
 
               {parentUserName && (
                 <div className="flex items-center gap-1.5 text-[10px] text-zinc-500 bg-white/5 px-2 py-0.5 rounded-full border border-white/5">
                   <CornerDownRight size={10} className="text-primary/50" />
-                  <span>{t("comments.reply_to")}</span>
-                  <span className="text-zinc-300 font-medium">
-                    {parentUserName}
-                  </span>
+                  <span>{t('comments.reply_to')}</span>
+                  <span className="text-zinc-300 font-medium">{parentUserName}</span>
                 </div>
               )}
 
               <span className="text-[10px] text-zinc-600 uppercase tracking-tighter shrink-0">
                 {formatDistanceToNow(new Date(comment.createdAt), {
                   addSuffix: true,
-                  locale: i18n.language === "pt" ? ptBR : enUS,
+                  locale: i18n.language === 'pt' ? ptBR : enUS,
                 })}
               </span>
             </div>
@@ -117,17 +106,14 @@ export function CommentItem({
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="bg-zinc-900 border-white/10 text-white rounded-xl">
-                  <DropdownMenuItem
-                    onClick={() => setIsEditing(true)}
-                    className="focus:bg-white/5"
-                  >
-                    <Edit2 size={12} className="mr-2" /> {t("comments.edit")}
+                  <DropdownMenuItem onClick={() => setIsEditing(true)} className="focus:bg-white/5">
+                    <Edit2 size={12} className="mr-2" /> {t('comments.edit')}
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onClick={() => onDelete(comment.id)}
                     className="focus:bg-white/5 text-red-100 focus:text-red-400"
                   >
-                    <Trash2 size={12} className="mr-2" /> {t("comments.delete")}
+                    <Trash2 size={12} className="mr-2" /> {t('comments.delete')}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -137,7 +123,7 @@ export function CommentItem({
           {isEditing ? (
             <CommentForm
               initialValue={comment.text}
-              submitLabel={t("comments.save")}
+              submitLabel={t('comments.save')}
               onSubmit={(text) => {
                 onEdit(comment.id, text);
                 setIsEditing(false);
@@ -159,11 +145,11 @@ export function CommentItem({
                 >
                   {isExpanded ? (
                     <>
-                      {t("comments.view_less")} <ChevronUp size={12} />
+                      {t('comments.view_less')} <ChevronUp size={12} />
                     </>
                   ) : (
                     <>
-                      {t("comments.view_more")} <ChevronDown size={12} />
+                      {t('comments.view_more')} <ChevronDown size={12} />
                     </>
                   )}
                 </Button>
@@ -180,7 +166,7 @@ export function CommentItem({
               onClick={() => setIsReplying(!isReplying)}
               className="h-auto p-0 text-xs text-zinc-500 hover:text-primary font-semibold transition-colors"
             >
-              <Reply size={12} className="mr-1" /> {t("comments.reply_verb")}
+              <Reply size={12} className="mr-1" /> {t('comments.reply_verb')}
             </Button>
           )}
 
@@ -193,21 +179,17 @@ export function CommentItem({
             >
               <MessageSquare size={12} className="text-primary/60" />
               {showReplies ? (
-                <>{t("comments.hide_replies")}</>
+                <>{t('comments.hide_replies')}</>
               ) : (
                 <>
                   {comment.replies!.length === 1
-                    ? t("comments.show_replies_one")
-                    : t("comments.show_replies_other", {
+                    ? t('comments.show_replies_one')
+                    : t('comments.show_replies_other', {
                         count: comment.replies!.length,
                       })}
                 </>
               )}
-              {showReplies ? (
-                <ChevronUp size={12} />
-              ) : (
-                <ChevronDown size={12} />
-              )}
+              {showReplies ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
             </Button>
           )}
         </div>
@@ -216,10 +198,10 @@ export function CommentItem({
           <div className="mt-4 animate-in slide-in-from-top-2 duration-200">
             <CommentForm
               autoFocus
-              placeholder={t("comments.reply_placeholder", {
+              placeholder={t('comments.reply_placeholder', {
                 name: comment.userName,
               })}
-              submitLabel={t("comments.reply_verb")}
+              submitLabel={t('comments.reply_verb')}
               onSubmit={(text) => {
                 onReply(comment.id, text);
                 setIsReplying(false);

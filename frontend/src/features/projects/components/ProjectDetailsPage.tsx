@@ -1,12 +1,12 @@
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CommentSection } from "@/features/comments/components/CommentSection";
-import { useComments } from "@/features/comments/hooks";
-import { CreateTaskDialog } from "@/features/tasks/components/CreateTaskDialog";
-import { KanbanBoard } from "@/features/tasks/components/KanbanBoard";
-import { useUsers } from "@/features/tasks/hooks";
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { CommentSection } from '@/features/comments/components/CommentSection';
+import { useComments } from '@/features/comments/hooks';
+import { CreateTaskDialog } from '@/features/tasks/components/CreateTaskDialog';
+import { KanbanBoard } from '@/features/tasks/components/KanbanBoard';
+import { useUsers } from '@/features/tasks/hooks';
 import {
   Calendar,
   ChevronLeft,
@@ -15,13 +15,13 @@ import {
   MessageSquare,
   Settings,
   Users as UsersIcon,
-} from "lucide-react";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useNavigate, useParams } from "react-router-dom";
-import { useProject } from "../hooks";
-import { ProjectHistory } from "./ProjectHistory";
-import { ProjectSettingsDialog } from "./ProjectSettingsDialog";
+} from 'lucide-react';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useProject } from '../hooks';
+import { ProjectHistory } from './ProjectHistory';
+import { ProjectSettingsDialog } from './ProjectSettingsDialog';
 
 export function ProjectDetailsPage() {
   const { t } = useTranslation();
@@ -39,12 +39,8 @@ export function ProjectDetailsPage() {
   if (!project) {
     return (
       <div className="flex flex-col items-center justify-center h-[60vh] space-y-4">
-        <h2 className="text-2xl font-bold text-foreground">
-          {t("projects.not_found")}
-        </h2>
-        <Button onClick={() => navigate("/projects")}>
-          {t("projects.back_to_projects")}
-        </Button>
+        <h2 className="text-2xl font-bold text-foreground">{t('projects.not_found')}</h2>
+        <Button onClick={() => navigate('/projects')}>{t('projects.back_to_projects')}</Button>
       </div>
     );
   }
@@ -58,7 +54,7 @@ export function ProjectDetailsPage() {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => navigate("/projects")}
+                onClick={() => navigate('/projects')}
                 className="h-8 text-muted-foreground hover:text-foreground -ml-2 p-1"
               >
                 <ChevronLeft className="h-4 w-4" />
@@ -67,11 +63,11 @@ export function ProjectDetailsPage() {
                 {project.name}
               </h1>
               <Badge className="bg-secondary text-secondary-foreground border-border text-[10px] uppercase font-black tracking-widest px-2 py-0 border">
-                {project.status === "ACTIVE"
-                  ? t("common.status.active")
-                  : project.status === "ARCHIVED"
-                    ? t("common.status.archived")
-                    : t("common.status.completed")}
+                {project.status === 'ACTIVE'
+                  ? t('common.status.active')
+                  : project.status === 'ARCHIVED'
+                    ? t('common.status.archived')
+                    : t('common.status.completed')}
               </Badge>
             </div>
 
@@ -79,15 +75,13 @@ export function ProjectDetailsPage() {
               <div className="flex items-center gap-1.5 uppercase tracking-widest">
                 <Calendar size={12} className="text-primary" />
                 <span>
-                  {project.createdAt
-                    ? new Date(project.createdAt).toLocaleDateString()
-                    : "N/A"}
+                  {project.createdAt ? new Date(project.createdAt).toLocaleDateString() : 'N/A'}
                 </span>
               </div>
               <div className="flex items-center gap-1.5 uppercase tracking-widest border-l border-border pl-4">
                 <UsersIcon size={12} className="text-primary" />
                 <span>
-                  {users?.length || 0} {t("projects.membros")}
+                  {users?.length || 0} {t('projects.membros')}
                 </span>
               </div>
             </div>
@@ -100,7 +94,7 @@ export function ProjectDetailsPage() {
               variant="outline"
               className="bg-secondary border-border text-muted-foreground hover:text-foreground rounded-xl h-9 text-xs font-bold"
             >
-              <Settings className="mr-2 h-4 w-4" /> {t("nav.settings")}
+              <Settings className="mr-2 h-4 w-4" /> {t('nav.settings')}
             </Button>
           </div>
         </div>
@@ -114,15 +108,13 @@ export function ProjectDetailsPage() {
                 value="kanban"
                 className="bg-transparent border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent rounded-none px-0 py-4 text-muted-foreground data-[state=active]:text-foreground font-semibold transition-all"
               >
-                <LayoutDashboard className="mr-2 h-4 w-4" />{" "}
-                {t("projects.tabs.kanban")}
+                <LayoutDashboard className="mr-2 h-4 w-4" /> {t('projects.tabs.kanban')}
               </TabsTrigger>
               <TabsTrigger
                 value="comments"
                 className="bg-transparent border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent rounded-none px-0 py-4 text-muted-foreground data-[state=active]:text-foreground font-semibold transition-all"
               >
-                <MessageSquare className="mr-2 h-4 w-4" />{" "}
-                {t("projects.tabs.comments")}
+                <MessageSquare className="mr-2 h-4 w-4" /> {t('projects.tabs.comments')}
                 {commentsData?.total !== undefined && (
                   <span className="ml-2 bg-secondary text-[10px] px-1.5 py-0.5 rounded-full">
                     {commentsData.total}
@@ -133,17 +125,13 @@ export function ProjectDetailsPage() {
                 value="history"
                 className="bg-transparent border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent rounded-none px-0 py-4 text-muted-foreground data-[state=active]:text-foreground font-semibold transition-all"
               >
-                <History className="mr-2 h-4 w-4" />{" "}
-                {t("projects.tabs.history")}
+                <History className="mr-2 h-4 w-4" /> {t('projects.tabs.history')}
               </TabsTrigger>
             </TabsList>
           </div>
 
           <div className="flex-1 min-h-0 overflow-hidden px-4 md:px-10 flex flex-col">
-            <TabsContent
-              value="kanban"
-              className="flex-1 min-h-0 m-0 outline-none flex flex-col"
-            >
+            <TabsContent value="kanban" className="flex-1 min-h-0 m-0 outline-none flex flex-col">
               <KanbanBoard projectId={id!} />
             </TabsContent>
 
@@ -161,11 +149,9 @@ export function ProjectDetailsPage() {
               <div className="py-10 max-w-4xl mx-auto h-full">
                 <div className="mb-8">
                   <h3 className="text-2xl font-bold text-foreground tracking-tight">
-                    {t("projects.history_title")}
+                    {t('projects.history_title')}
                   </h3>
-                  <p className="text-muted-foreground mt-1">
-                    {t("projects.history_subtitle")}
-                  </p>
+                  <p className="text-muted-foreground mt-1">{t('projects.history_subtitle')}</p>
                 </div>
 
                 <div className="bg-card border border-border rounded-3xl overflow-hidden backdrop-blur-sm shadow-sm">

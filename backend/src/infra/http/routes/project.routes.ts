@@ -52,11 +52,7 @@ export async function projectRoutes(app: FastifyInstance): Promise<void> {
       const query = projectFilterSchema.parse(request.query);
       const tenantId = (request as any).tenantId;
       const { page, limit } = query;
-      const result = await listProjectsUseCase.execute(
-        tenantId,
-        { page, limit },
-        {},
-      );
+      const result = await listProjectsUseCase.execute(tenantId, { page, limit }, {});
       return reply.status(200).send(result);
     },
   );

@@ -1,5 +1,5 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,11 +7,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useAuth } from "@/features/auth/hooks";
-import { NotificationsPopover } from "@/features/notifications/components/NotificationsPopover";
-import { useTranslation } from "react-i18next";
-import { LanguageSwitcher } from "./LanguageSwitcher";
+} from '@/components/ui/dropdown-menu';
+import { useAuth } from '@/features/auth/hooks';
+import { NotificationsPopover } from '@/features/notifications/components/NotificationsPopover';
+import { useTranslation } from 'react-i18next';
+import { LanguageSwitcher } from './LanguageSwitcher';
 
 export function Header() {
   const { t } = useTranslation();
@@ -34,9 +34,7 @@ export function Header() {
               className="pl-2 pr-1 h-12 hover:bg-accent rounded-2xl gap-3 transition-all"
             >
               <div className="flex flex-col items-end">
-                <span className="text-sm font-bold text-foreground leading-none">
-                  {user?.name}
-                </span>
+                <span className="text-sm font-bold text-foreground leading-none">{user?.name}</span>
                 <span className="text-[10px] text-muted-foreground font-medium tracking-tight uppercase mt-1">
                   Admin
                 </span>
@@ -54,21 +52,21 @@ export function Header() {
             className="w-56 bg-popover border-border p-2 rounded-2xl text-popover-foreground"
           >
             <DropdownMenuLabel className="font-bold px-3 py-2 text-muted-foreground uppercase text-[10px] tracking-widest">
-              {t("nav.my_account")}
+              {t('nav.my_account')}
             </DropdownMenuLabel>
             <DropdownMenuSeparator className="bg-border mx-1" />
             <DropdownMenuItem className="rounded-xl focus:bg-accent cursor-pointer px-3 py-2.5">
-              {t("nav.profile")}
+              {t('nav.profile')}
             </DropdownMenuItem>
             <DropdownMenuItem className="rounded-xl focus:bg-accent cursor-pointer px-3 py-2.5">
-              {t("nav.settings")}
+              {t('nav.settings')}
             </DropdownMenuItem>
             <DropdownMenuSeparator className="bg-border mx-1" />
             <DropdownMenuItem
               onClick={() => logout()}
               className="rounded-xl focus:bg-destructive/10 text-destructive focus:text-destructive cursor-pointer px-3 py-2.5"
             >
-              {t("auth.logout")}
+              {t('auth.logout')}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

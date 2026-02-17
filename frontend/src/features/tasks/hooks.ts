@@ -1,16 +1,16 @@
-import { api } from "@/lib/api";
-import type { Task, TaskStatus, User } from "@/types";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
-import { tasksApi } from "./api";
+import { api } from '@/lib/api';
+import type { Task, TaskStatus, User } from '@/types';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
+import { tasksApi } from './api';
 
 export function useTasks(
   projectId: string,
   filters?: { status?: string; priority?: string; assigneeId?: string },
 ) {
   return useQuery({
-    queryKey: ["tasks", projectId, filters],
+    queryKey: ['tasks', projectId, filters],
     queryFn: () => tasksApi.list(projectId, filters),
     enabled: !!projectId,
   });
@@ -18,9 +18,9 @@ export function useTasks(
 
 export function useUsers() {
   return useQuery({
-    queryKey: ["users"],
+    queryKey: ['users'],
     queryFn: async (): Promise<User[]> => {
-      const response = await api.get("/users");
+      const response = await api.get('/users');
       return response.data.data;
     },
   });
@@ -33,12 +33,11 @@ export function useCreateTask(projectId: string) {
   return useMutation({
     mutationFn: (data: Partial<Task>) => tasksApi.create(projectId, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tasks", projectId] });
-      toast.success(t("toasts.task_created"));
+      queryClient.invalidateQueries({ queryKey: ['tasks', projectId] });
+      toast.success(t('toasts.task_created'));
     },
     onError: (error: any) => {
-      const message =
-        error?.response?.data?.message || t("toasts.task_create_error");
+      const message = error?.response?.data?.message || t('toasts.task_create_error');
       toast.error(message);
     },
   });
@@ -52,12 +51,11 @@ export function useUpdateTask(projectId: string) {
     mutationFn: ({ taskId, data }: { taskId: string; data: Partial<Task> }) =>
       tasksApi.update(taskId, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tasks", projectId] });
-      toast.success(t("toasts.task_updated"));
+      queryClient.invalidateQueries({ queryKey: ['tasks', projectId] });
+      toast.success(t('toasts.task_updated'));
     },
     onError: (error: any) => {
-      const message =
-        error?.response?.data?.message || t("toasts.task_update_error");
+      const message = error?.response?.data?.message || t('toasts.task_update_error');
       toast.error(message);
     },
   });
@@ -71,11 +69,10 @@ export function useUpdateTaskStatus(projectId: string) {
     mutationFn: ({ id, status }: { id: string; status: TaskStatus }) =>
       tasksApi.update(id, { status }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tasks", projectId] });
+      queryClient.invalidateQueries({ queryKey: ['tasks', projectId] });
     },
     onError: (error: any) => {
-      const message =
-        error?.response?.data?.message || t("toasts.task_status_update_error");
+      const message = error?.response?.data?.message || t('toasts.task_status_update_error');
       toast.error(message);
     },
   });
@@ -88,12 +85,11 @@ export function useDeleteTask(projectId: string) {
   return useMutation({
     mutationFn: (taskId: string) => tasksApi.delete(taskId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tasks", projectId] });
-      toast.success(t("toasts.task_deleted"));
+      queryClient.invalidateQueries({ queryKey: ['tasks', projectId] });
+      toast.success(t('toasts.task_deleted'));
     },
     onError: (error: any) => {
-      const message =
-        error?.response?.data?.message || t("toasts.task_delete_error");
+      const message = error?.response?.data?.message || t('toasts.task_delete_error');
       toast.error(message);
     },
   });

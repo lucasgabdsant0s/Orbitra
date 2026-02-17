@@ -1,7 +1,7 @@
-import type { Project } from "@/types";
-import { ArrowRight, FolderKanban } from "lucide-react";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import type { Project } from '@/types';
+import { ArrowRight, FolderKanban } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 interface RecentProjectsProps {
   projects: Project[];
@@ -54,7 +54,7 @@ export function RecentProjects({ projects, isLoading }: RecentProjectsProps) {
               {project.name}
             </h3>
             <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
-              {t("dashboard.recent_projects.created_at")}{" "}
+              {t('dashboard.recent_projects.created_at')}{' '}
               {new Date(project.createdAt).toLocaleDateString(i18n.language)}
             </p>
           </div>

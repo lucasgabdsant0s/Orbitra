@@ -80,6 +80,6 @@ export class PrismaAuditLogRepository implements IAuditLogRepository {
         userName: record.user.name,
         userAvatar: record.user.avatarUrl,
       }),
-    } as any); 
+    } as any);
   }
 }

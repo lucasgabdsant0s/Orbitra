@@ -1,24 +1,12 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { cn } from "@/lib/utils";
-import { type Task, TaskPriority } from "@/types";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { motion } from "framer-motion";
-import {
-  AlertCircle,
-  ArrowDown,
-  ArrowRight,
-  ArrowUp,
-  GripVertical,
-} from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
+import { type Task, TaskPriority } from '@/types';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { motion } from 'framer-motion';
+import { AlertCircle, ArrowDown, ArrowRight, ArrowUp, GripVertical } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface KanbanTaskCardProps {
   task: Task;
@@ -28,44 +16,39 @@ interface KanbanTaskCardProps {
 
 const priorityStyles = {
   [TaskPriority.URGENT]: {
-    border:
-      "border-red-500/40 hover:border-red-500/60 shadow-[0_0_20px_-5px_rgba(239,68,68,0.3)]",
-    bg: "bg-gradient-to-br from-red-500/10 via-red-500/5 to-transparent",
-    indicator: "bg-red-500 shadow-[0_0_15px_rgba(239,68,68,1)]",
-    text: "text-red-400 font-black",
+    border: 'border-red-500/40 hover:border-red-500/60 shadow-[0_0_20px_-5px_rgba(239,68,68,0.3)]',
+    bg: 'bg-gradient-to-br from-red-500/10 via-red-500/5 to-transparent',
+    indicator: 'bg-red-500 shadow-[0_0_15px_rgba(239,68,68,1)]',
+    text: 'text-red-400 font-black',
     icon: <AlertCircle size={12} className="text-red-400" />,
   },
   [TaskPriority.HIGH]: {
     border:
-      "border-orange-500/40 hover:border-orange-500/60 shadow-[0_0_20px_-5px_rgba(249,115,22,0.3)]",
-    bg: "bg-gradient-to-br from-orange-500/10 via-orange-500/5 to-transparent",
-    indicator: "bg-orange-500 shadow-[0_0_15px_rgba(249,115,22,1)]",
-    text: "text-orange-400 font-black",
+      'border-orange-500/40 hover:border-orange-500/60 shadow-[0_0_20px_-5px_rgba(249,115,22,0.3)]',
+    bg: 'bg-gradient-to-br from-orange-500/10 via-orange-500/5 to-transparent',
+    indicator: 'bg-orange-500 shadow-[0_0_15px_rgba(249,115,22,1)]',
+    text: 'text-orange-400 font-black',
     icon: <ArrowUp size={12} className="text-orange-400" />,
   },
   [TaskPriority.MEDIUM]: {
     border:
-      "border-primary/40 hover:border-primary/60 shadow-[0_0_20px_-5px_rgba(var(--primary-rgb),0.3)]",
-    bg: "bg-gradient-to-br from-primary/10 via-primary/5 to-transparent",
-    indicator: "bg-primary shadow-[0_0_15px_rgba(var(--primary-rgb),1)]",
-    text: "text-primary font-black",
+      'border-primary/40 hover:border-primary/60 shadow-[0_0_20px_-5px_rgba(var(--primary-rgb),0.3)]',
+    bg: 'bg-gradient-to-br from-primary/10 via-primary/5 to-transparent',
+    indicator: 'bg-primary shadow-[0_0_15px_rgba(var(--primary-rgb),1)]',
+    text: 'text-primary font-black',
     icon: <ArrowRight size={12} className="text-primary" />,
   },
   [TaskPriority.LOW]: {
     border:
-      "border-blue-500/40 hover:border-blue-500/60 shadow-[0_0_20px_-5px_rgba(59,130,246,0.3)]",
-    bg: "bg-gradient-to-br from-blue-500/10 via-blue-500/5 to-transparent",
-    indicator: "bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,1)]",
-    text: "text-blue-400 font-black",
+      'border-blue-500/40 hover:border-blue-500/60 shadow-[0_0_20px_-5px_rgba(59,130,246,0.3)]',
+    bg: 'bg-gradient-to-br from-blue-500/10 via-blue-500/5 to-transparent',
+    indicator: 'bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,1)]',
+    text: 'text-blue-400 font-black',
     icon: <ArrowDown size={12} className="text-blue-400" />,
   },
 };
 
-export function KanbanTaskCard({
-  task,
-  isDragging,
-  onClick,
-}: KanbanTaskCardProps) {
+export function KanbanTaskCard({ task, isDragging, onClick }: KanbanTaskCardProps) {
   const { t } = useTranslation();
   const {
     attributes,
@@ -92,25 +75,25 @@ export function KanbanTaskCard({
     >
       <Card
         className={cn(
-          "cursor-pointer backdrop-blur-xl transition-all duration-500 group relative overflow-hidden rounded-[1.25rem] border hover:shadow-2xl",
+          'cursor-pointer backdrop-blur-xl transition-all duration-500 group relative overflow-hidden rounded-[1.25rem] border hover:shadow-2xl',
           priorityStyles[task.priority].border,
           priorityStyles[task.priority].bg,
           isDragging
-            ? "shadow-2xl ring-2 ring-primary/40 rotate-[1deg] z-50 bg-card/90"
-            : "bg-card/40 hover:bg-card/60",
+            ? 'shadow-2xl ring-2 ring-primary/40 rotate-[1deg] z-50 bg-card/90'
+            : 'bg-card/40 hover:bg-card/60',
         )}
         onClick={onClick}
       >
         <div
           className={cn(
-            "absolute left-0 top-0 bottom-0 w-1.5 opacity-100 transition-opacity",
-            priorityStyles[task.priority].indicator.split(" ")[0],
+            'absolute left-0 top-0 bottom-0 w-1.5 opacity-100 transition-opacity',
+            priorityStyles[task.priority].indicator.split(' ')[0],
           )}
         />
 
         <div
           className={cn(
-            "absolute left-4 top-4 w-3 h-3 rounded-full border-2 border-background/20 z-10",
+            'absolute left-4 top-4 w-3 h-3 rounded-full border-2 border-background/20 z-10',
             priorityStyles[task.priority].indicator,
           )}
         />
@@ -141,7 +124,7 @@ export function KanbanTaskCard({
             {priorityStyles[task.priority].icon}
             <span
               className={cn(
-                "text-[10px] uppercase font-black tracking-[0.2em]",
+                'text-[10px] uppercase font-black tracking-[0.2em]',
                 priorityStyles[task.priority].text,
               )}
             >

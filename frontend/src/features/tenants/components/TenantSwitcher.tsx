@@ -74,7 +74,6 @@ export function TenantSwitcher({ className }: { className?: string }) {
                     <CommandItem
                       key={tenant.id}
                       onSelect={() => {
-                        
                         console.log('Switch to:', tenant.id);
                         setOpen(false);
                       }}

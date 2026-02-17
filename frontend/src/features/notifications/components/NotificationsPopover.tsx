@@ -1,21 +1,17 @@
-import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { cn } from "@/lib/utils";
-import { formatDistanceToNow } from "date-fns";
-import { enUS, ptBR } from "date-fns/locale";
-import { Bell, Check, CheckCheck } from "lucide-react";
-import { useTranslation } from "react-i18next";
-import type { AppNotification } from "../api";
+import { Button } from '@/components/ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { cn } from '@/lib/utils';
+import { formatDistanceToNow } from 'date-fns';
+import { enUS, ptBR } from 'date-fns/locale';
+import { Bell, Check, CheckCheck } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import type { AppNotification } from '../api';
 import {
   useMarkAllNotificationsAsRead,
   useMarkNotificationAsRead,
   useNotifications,
-} from "../hooks";
+} from '../hooks';
 
 export function NotificationsPopover() {
   const { t, i18n } = useTranslation();
@@ -24,8 +20,7 @@ export function NotificationsPopover() {
   const { mutate: markAllAsRead } = useMarkAllNotificationsAsRead();
 
   const notifications = result?.data || [];
-  const unreadCount =
-    notifications.filter((n: AppNotification) => !n.isRead).length || 0;
+  const unreadCount = notifications.filter((n: AppNotification) => !n.isRead).length || 0;
 
   return (
     <Popover>
@@ -47,11 +42,11 @@ export function NotificationsPopover() {
       >
         <div className="flex items-center justify-between p-4 border-b border-border bg-accent/20">
           <h4 className="text-sm font-bold text-foreground leading-none">
-            {t("notifications.title")}
+            {t('notifications.title')}
           </h4>
           <div className="flex items-center gap-2">
             <span className="text-[10px] bg-primary/20 text-primary px-1.5 py-0.5 rounded font-bold uppercase">
-              {unreadCount} {t("notifications.new")}
+              {unreadCount} {t('notifications.new')}
             </span>
             {unreadCount > 0 && (
               <Button
@@ -59,7 +54,7 @@ export function NotificationsPopover() {
                 size="icon"
                 className="h-6 w-6 hover:bg-accent text-muted-foreground hover:text-foreground"
                 onClick={() => markAllAsRead()}
-                title={t("notifications.mark_all_read")}
+                title={t('notifications.mark_all_read')}
               >
                 <CheckCheck size={14} />
               </Button>
@@ -70,14 +65,12 @@ export function NotificationsPopover() {
           {isLoading ? (
             <div className="p-8 text-center">
               <div className="animate-spin size-5 border-2 border-primary border-t-transparent rounded-full mx-auto mb-3" />
-              <p className="text-xs text-zinc-500">
-                {t("notifications.loading")}
-              </p>
+              <p className="text-xs text-zinc-500">{t('notifications.loading')}</p>
             </div>
           ) : notifications.length === 0 ? (
             <div className="p-8 text-center">
               <p className="text-xs text-muted-foreground font-medium">
-                {t("notifications.empty")}
+                {t('notifications.empty')}
               </p>
             </div>
           ) : (
@@ -86,17 +79,17 @@ export function NotificationsPopover() {
                 <div
                   key={notification.id}
                   className={cn(
-                    "group flex items-start gap-4 p-4 transition-all hover:bg-accent/50",
-                    !notification.isRead && "bg-primary/5",
+                    'group flex items-start gap-4 p-4 transition-all hover:bg-accent/50',
+                    !notification.isRead && 'bg-primary/5',
                   )}
                 >
                   <div className="flex-1 space-y-1.5 min-w-0">
                     <p
                       className={cn(
-                        "text-xs leading-relaxed break-words",
+                        'text-xs leading-relaxed break-words',
                         notification.isRead
-                          ? "text-muted-foreground"
-                          : "text-foreground font-medium",
+                          ? 'text-muted-foreground'
+                          : 'text-foreground font-medium',
                       )}
                     >
                       {notification.message}
@@ -105,7 +98,7 @@ export function NotificationsPopover() {
                       <p className="text-[10px] text-zinc-500 font-medium">
                         {formatDistanceToNow(new Date(notification.createdAt), {
                           addSuffix: true,
-                          locale: i18n.language === "pt" ? ptBR : enUS,
+                          locale: i18n.language === 'pt' ? ptBR : enUS,
                         })}
                       </p>
                     </div>

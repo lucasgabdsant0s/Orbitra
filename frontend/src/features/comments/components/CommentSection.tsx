@@ -1,34 +1,23 @@
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useAuthStore } from "@/stores/authStore";
-import { AlertCircle, MessageSquare } from "lucide-react";
-import type { Comment } from "../api";
-import {
-  useComments,
-  useCreateComment,
-  useDeleteComment,
-  useUpdateComment,
-} from "../hooks";
-import { CommentForm } from "./CommentForm";
-import { CommentItem } from "./CommentItem";
+import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useAuthStore } from '@/stores/authStore';
+import { AlertCircle, MessageSquare } from 'lucide-react';
+import type { Comment } from '../api';
+import { useComments, useCreateComment, useDeleteComment, useUpdateComment } from '../hooks';
+import { CommentForm } from './CommentForm';
+import { CommentItem } from './CommentItem';
 
 interface CommentSectionProps {
   projectId: string;
 }
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 
 export function CommentSection({ projectId }: CommentSectionProps) {
   const { t } = useTranslation();
   const { user } = useAuthStore();
-  const {
-    data: commentsData,
-    isLoading,
-    error,
-    refetch,
-  } = useComments(projectId, { limit: 100 });
-  const { mutate: createComment, isPending: isCreating } =
-    useCreateComment(projectId);
+  const { data: commentsData, isLoading, error, refetch } = useComments(projectId, { limit: 100 });
+  const { mutate: createComment, isPending: isCreating } = useCreateComment(projectId);
   const { mutate: updateComment } = useUpdateComment(projectId);
   const { mutate: deleteComment } = useDeleteComment(projectId);
 
@@ -84,9 +73,7 @@ export function CommentSection({ projectId }: CommentSectionProps) {
         <div className="size-16 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto text-red-500">
           <AlertCircle size={32} />
         </div>
-        <h3 className="text-xl font-bold text-white">
-          Ops! Erro ao carregar comentários
-        </h3>
+        <h3 className="text-xl font-bold text-white">Ops! Erro ao carregar comentários</h3>
         <p className="text-zinc-500 text-sm max-w-sm mx-auto">
           Ocorreu um problema ao buscar a conversa. Tente recarregar a página.
           {(error as any)?.response?.data?.message && (
@@ -95,11 +82,7 @@ export function CommentSection({ projectId }: CommentSectionProps) {
             </span>
           )}
         </p>
-        <Button
-          variant="outline"
-          onClick={() => refetch()}
-          className="border-white/10 text-white"
-        >
+        <Button variant="outline" onClick={() => refetch()} className="border-white/10 text-white">
           Tentar Novamente
         </Button>
       </div>
@@ -111,7 +94,7 @@ export function CommentSection({ projectId }: CommentSectionProps) {
       <div className="space-y-6">
         <h3 className="text-xl font-bold text-white flex items-center gap-2">
           <MessageSquare className="text-primary" size={20} />
-          {t("comments.feed_title")}
+          {t('comments.feed_title')}
           <span className="ml-2 bg-white/5 text-[10px] px-2 py-1 rounded-full text-zinc-500 font-medium">
             {comments.length}
           </span>
@@ -119,10 +102,10 @@ export function CommentSection({ projectId }: CommentSectionProps) {
 
         <div className="bg-white/5 border border-white/5 p-6 rounded-[2.5rem] shadow-xl shadow-black/20">
           <CommentForm
-            placeholder={t("comments.placeholder")}
+            placeholder={t('comments.placeholder')}
             onSubmit={(text) => createComment({ text })}
             isSubmitting={isCreating}
-            submitLabel={t("comments.submit")}
+            submitLabel={t('comments.submit')}
           />
         </div>
       </div>
@@ -133,12 +116,8 @@ export function CommentSection({ projectId }: CommentSectionProps) {
             <div className="size-20 rounded-full bg-white/5 flex items-center justify-center border border-white/10 shadow-inner">
               <MessageSquare className="text-zinc-700 font-light" size={40} />
             </div>
-            <h3 className="text-xl font-bold text-white">
-              {t("comments.no_comments_title")}
-            </h3>
-            <p className="max-w-md text-zinc-500 text-sm">
-              {t("comments.no_comments_desc")}
-            </p>
+            <h3 className="text-xl font-bold text-white">{t('comments.no_comments_title')}</h3>
+            <p className="max-w-md text-zinc-500 text-sm">{t('comments.no_comments_desc')}</p>
           </div>
         ) : (
           commentThreads.map((thread) => (
@@ -149,7 +128,7 @@ export function CommentSection({ projectId }: CommentSectionProps) {
               onReply={(parentId, text) => createComment({ text, parentId })}
               onEdit={(id, text) => updateComment({ id, text })}
               onDelete={(id) => {
-                if (confirm(t("comments.confirm_delete"))) {
+                if (confirm(t('comments.confirm_delete'))) {
                   deleteComment(id);
                 }
               }}

@@ -1,9 +1,9 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { useUsers } from "@/features/tasks/hooks";
-import { Mail, MoreVertical, Shield } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { useUsers } from '@/features/tasks/hooks';
+import { Mail, MoreVertical, Shield } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export function TeamPage() {
   const { t } = useTranslation();
@@ -15,10 +15,7 @@ export function TeamPage() {
         <div className="h-10 w-48 bg-white/5 animate-pulse rounded-xl" />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[1, 2, 3].map((i) => (
-            <div
-              key={i}
-              className="h-48 bg-white/5 animate-pulse rounded-[2rem]"
-            />
+            <div key={i} className="h-48 bg-white/5 animate-pulse rounded-[2rem]" />
           ))}
         </div>
       </div>
@@ -30,14 +27,12 @@ export function TeamPage() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <h1 className="text-4xl font-extrabold tracking-tight text-foreground mb-2">
-            {t("team.title")}
+            {t('team.title')}
           </h1>
-          <p className="text-muted-foreground font-medium">
-            {t("team.subtitle")}
-          </p>
+          <p className="text-muted-foreground font-medium">{t('team.subtitle')}</p>
         </div>
         <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl px-6 shadow-[0_0_20px_rgba(var(--primary-rgb),0.3)]">
-          {t("team.invite_member")}
+          {t('team.invite_member')}
         </Button>
       </div>
 
@@ -79,7 +74,7 @@ export function TeamPage() {
                 Admin
               </Badge>
               <span className="text-muted-foreground text-[10px] font-bold uppercase tracking-widest">
-                {t("common.status.active")}
+                {t('common.status.active')}
               </span>
             </div>
           </div>
