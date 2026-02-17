@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-  <em>Kanban boards, drag & drop, dark mode, Clean Architecture — all in one place.</em>
+  <em>Kanban boards, drag & drop, dark mode, Clean Architecture all in one place.</em>
 </p>
 
 ---
@@ -33,7 +33,6 @@
 | 🏗️  | **Clean Architecture**   | DDD-inspired backend with Use Cases & Dependency Injection             |
 | 🎨  | **Premium UI**           | Dark mode, glassmorphism, animations powered by Framer Motion          |
 | ⚡  | **Optimistic Updates**   | Instant UX feedback with TanStack Query                                |
-| ⌨️  | **Command Palette**      | Quick navigation with `⌘K` (cmdk)                                      |
 | 🌐  | **Internationalization** | Full i18n support (PT-BR / EN)                                         |
 | 📊  | **Analytics Dashboard**  | Overview with metrics and charts                                       |
 | 🔔  | **Notifications**        | Real-time notification system                                          |
