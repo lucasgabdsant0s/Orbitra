@@ -1,3 +1,4 @@
+import { ConfirmationDialog } from '@/components/ConfirmationDialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -7,12 +8,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useAuthStore } from '@/stores/authStore';
 import { useDeleteUser, useToggleUserActive, useUsers } from '@/features/tasks/hooks';
+import { useAuthStore } from '@/stores/authStore';
 import { Mail, MoreVertical, Shield, Trash2, UserX } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
-import { ConfirmationDialog } from '@/components/ConfirmationDialog';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { InviteMemberDialog } from './InviteMemberDialog';
 
 export function TeamPage() {

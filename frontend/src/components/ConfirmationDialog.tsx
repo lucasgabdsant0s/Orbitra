@@ -7,8 +7,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { buttonVariants } from "@/components/ui/button";
+} from '@/components/ui/alert-dialog';
 
 interface ConfirmationDialogProps {
   isOpen: boolean;
@@ -27,24 +26,26 @@ export function ConfirmationDialog({
   onConfirm,
   title,
   description,
-  confirmText = "Confirm",
-  cancelText = "Cancel",
-  variant = 'default'
+  confirmText = 'Confirm',
+  cancelText = 'Cancel',
+  variant = 'default',
 }: ConfirmationDialogProps) {
   return (
     <AlertDialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
-          <AlertDialogDescription>
-            {description}
-          </AlertDialogDescription>
+          <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={onClose}>{cancelText}</AlertDialogCancel>
-          <AlertDialogAction 
+          <AlertDialogAction
             onClick={onConfirm}
-            className={variant === 'destructive' ? "bg-destructive text-destructive-foreground hover:bg-destructive/90" : ""}
+            className={
+              variant === 'destructive'
+                ? 'bg-destructive text-destructive-foreground hover:bg-destructive/90'
+                : ''
+            }
           >
             {confirmText}
           </AlertDialogAction>

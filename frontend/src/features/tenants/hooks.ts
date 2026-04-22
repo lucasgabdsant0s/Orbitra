@@ -66,7 +66,11 @@ export function useCreateInvite() {
   const { t } = useTranslation();
 
   return useMutation({
-    mutationFn: ({ tenantId, email, role }: { tenantId: string; email: string; role: 'ADMIN' | 'MEMBER' | 'GUEST' }) =>
+    mutationFn: ({
+      tenantId,
+      email,
+      role,
+    }: { tenantId: string; email: string; role: 'ADMIN' | 'MEMBER' | 'GUEST' }) =>
       tenantsApi.createInvite(tenantId, { email, role }),
     onSuccess: () => {
       toast.success(t('toasts.invite_sent'));

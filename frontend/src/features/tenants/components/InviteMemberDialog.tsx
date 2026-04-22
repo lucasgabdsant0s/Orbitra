@@ -10,7 +10,13 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { useAuthStore } from '@/stores/authStore';
 import { Copy } from 'lucide-react';
 import { useState } from 'react';
@@ -100,7 +106,10 @@ export function InviteMemberDialog() {
 
           <div className="space-y-2">
             <Label>{t('team.invite_dialog.role_label')}</Label>
-            <Select value={role} onValueChange={(value: 'ADMIN' | 'MEMBER' | 'GUEST') => setRole(value)}>
+            <Select
+              value={role}
+              onValueChange={(value: 'ADMIN' | 'MEMBER' | 'GUEST') => setRole(value)}
+            >
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>

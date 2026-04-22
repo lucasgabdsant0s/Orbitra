@@ -20,10 +20,10 @@ import { Input } from '@/components/ui/input';
 import { useAuth } from '@/features/auth/hooks';
 import { useDeleteTenant, useTenants, useUpdateTenant } from '@/features/tenants/hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Shield } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
-import { Shield } from 'lucide-react';
 
 const tenantSettingsSchema = z.object({
   name: z.string().min(2, 'O nome deve ter pelo menos 2 caracteres.'),

@@ -74,7 +74,9 @@ export function InviteWelcomePage() {
       <Card className="w-full max-w-lg bg-card/50 backdrop-blur-2xl border-border rounded-[2rem]">
         <CardHeader>
           <CardTitle>{t('invite.welcome_title', { company: companyName })}</CardTitle>
-          <CardDescription>{t('invite.welcome_description', { email: invite.email })}</CardDescription>
+          <CardDescription>
+            {t('invite.welcome_description', { email: invite.email })}
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">

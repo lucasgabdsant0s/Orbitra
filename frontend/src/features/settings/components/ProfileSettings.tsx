@@ -20,11 +20,11 @@ import {
 import { Input } from '@/components/ui/input';
 import { useAuth, useUpdateProfile } from '@/features/auth/hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { z } from 'zod';
-import { useRef } from 'react';
 import { toast } from 'sonner';
+import { z } from 'zod';
 
 const profileSettingsSchema = z.object({
   name: z.string().min(2, 'O nome deve ter pelo menos 2 caracteres.'),
