@@ -21,7 +21,7 @@ export const refreshTokenSchema = z.object({
 export const updateUserSchema = z.object({
   name: z.string().min(2).optional(),
   email: z.string().email().optional(),
-  avatarUrl: z.string().url().nullable().optional(),
+  avatarUrl: z.string().nullable().optional(),
   role: z.enum(['OWNER', 'ADMIN', 'MEMBER', 'GUEST']).optional(),
   isActive: z.boolean().optional(),
 });

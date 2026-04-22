@@ -55,8 +55,8 @@ export async function inviteRoutes(app: FastifyInstance): Promise<void> {
       const { token } = tokenParamSchema.parse(request.params);
       const { tenantId } = request.params as any;
       const { name, password } = acceptInviteSchema.parse(request.body);
-      await acceptInviteUseCase.execute(tenantId, token, password, name);
-      return reply.status(204).send();
+      const result = await acceptInviteUseCase.execute(tenantId, token, password, name);
+      return reply.status(200).send(result);
     },
   );
 }

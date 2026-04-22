@@ -14,6 +14,11 @@ interface EnvConfig {
   JWT_EXPIRES_IN: string;
   JWT_REFRESH_EXPIRES_IN: string;
   FRONTEND_URL: string;
+  SMTP_HOST?: string;
+  SMTP_PORT?: number;
+  SMTP_USER?: string;
+  SMTP_PASS?: string;
+  SMTP_FROM?: string;
 }
 function getEnv(key: string, fallback?: string): string {
   const value = process.env[key] ?? fallback;
@@ -36,5 +41,10 @@ export const env: EnvConfig = {
   JWT_REFRESH_SECRET: getEnv('JWT_REFRESH_SECRET'),
   JWT_EXPIRES_IN: getEnv('JWT_EXPIRES_IN', '15m'),
   JWT_REFRESH_EXPIRES_IN: getEnv('JWT_REFRESH_EXPIRES_IN', '7d'),
-  FRONTEND_URL: getEnv('FRONTEND_URL', 'https://gleeful-praline-0989e4.netlify.app/'),
+  FRONTEND_URL: getEnv('FRONTEND_URL', 'http://localhost:5180'),
+  SMTP_HOST: process.env.SMTP_HOST,
+  SMTP_PORT: process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : undefined,
+  SMTP_USER: process.env.SMTP_USER,
+  SMTP_PASS: process.env.SMTP_PASS,
+  SMTP_FROM: process.env.SMTP_FROM,
 };

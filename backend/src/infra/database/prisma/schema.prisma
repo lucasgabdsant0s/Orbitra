@@ -72,7 +72,7 @@ model User {
   isVerified   Boolean   @default(false)
   totpSecret   String?
   totpEnabled  Boolean   @default(false)
-  avatarUrl    String?
+  avatarUrl    String?   @db.MediumText
   deletedAt    DateTime?
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt

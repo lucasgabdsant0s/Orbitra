@@ -57,6 +57,7 @@ export class RegisterTenantUseCase {
         name: user.name,
         email: user.email,
         role: user.role,
+        tenantId: tenant.id!,
       },
       accessToken,
       refreshToken,

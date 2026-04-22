@@ -39,11 +39,15 @@ interface ProjectSettingsDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
+import { ConfirmationDialog } from '@/components/ConfirmationDialog';
+import { useState } from 'react';
+
 export function ProjectSettingsDialog({ project, open, onOpenChange }: ProjectSettingsDialogProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { mutate: updateProject, isPending: isUpdating } = useUpdateProject();
   const { mutate: deleteProject, isPending: isDeleting } = useDeleteProject();
+  const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
 
   const {
     register,
@@ -71,13 +75,12 @@ export function ProjectSettingsDialog({ project, open, onOpenChange }: ProjectSe
   };
 
   const handleDelete = () => {
-    if (confirm(t('projects.settings.confirm_delete'))) {
-      deleteProject(project.id, {
-        onSuccess: () => {
-          navigate('/projects');
-        },
-      });
-    }
+    deleteProject(project.id, {
+      onSuccess: () => {
+        navigate('/projects');
+      },
+    });
+    setIsConfirmDeleteOpen(false);
   };
 
   return (
@@ -146,7 +149,7 @@ export function ProjectSettingsDialog({ project, open, onOpenChange }: ProjectSe
               <Button
                 type="button"
                 variant="destructive"
-                onClick={handleDelete}
+                onClick={() => setIsConfirmDeleteOpen(true)}
                 disabled={isDeleting}
                 className="rounded-xl h-10 px-4 bg-destructive/10 hover:bg-destructive/20 text-destructive border border-destructive/10 shadow-none"
               >
@@ -175,6 +178,17 @@ export function ProjectSettingsDialog({ project, open, onOpenChange }: ProjectSe
           </div>
         </form>
       </DialogContent>
+
+      <ConfirmationDialog
+        isOpen={isConfirmDeleteOpen}
+        onClose={() => setIsConfirmDeleteOpen(false)}
+        onConfirm={handleDelete}
+        title={t('projects.settings.delete_project')}
+        description={t('projects.settings.confirm_delete')}
+        confirmText={t('common.confirm')}
+        cancelText={t('common.cancel')}
+        variant="destructive"
+      />
     </Dialog>
   );
 }

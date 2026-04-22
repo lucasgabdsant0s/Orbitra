@@ -8,7 +8,7 @@ export interface RegisterTenantInput {
 
 export interface RegisterTenantOutput {
   tenant: { id: string; name: string; slug: string };
-  user: { id: string; name: string; email: string; role: string };
+  user: { id: string; name: string; email: string; role: string; tenantId: string };
   accessToken: string;
   refreshToken: string;
 }
@@ -150,9 +150,11 @@ export interface CreateInviteInput {
 export interface InviteOutput {
   id: string;
   tenantId: string;
+  tenantName?: string;
   email: string;
   role: string;
   token: string;
+  inviteLink?: string;
   status: string;
   expiresAt: Date;
   createdAt: Date;

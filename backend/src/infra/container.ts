@@ -14,6 +14,8 @@ import { InMemoryCacheProvider } from './providers/InMemoryCacheProvider.js';
 import { JwtTokenProvider } from './providers/JwtTokenProvider.js';
 import { MockMailProvider } from './providers/MockMailProvider.js';
 import { OtpLibTotpProvider } from './providers/OtpLibTotpProvider.js';
+import { SmtpMailProvider } from './providers/SmtpMailProvider.js';
+import { env } from './config/env.js';
 
 import { ListAuditLogsUseCase } from '../application/use-cases/audit-log/index.js';
 import { ListProjectHistoryUseCase } from '../application/use-cases/audit/index.js';
@@ -77,7 +79,8 @@ const emailVerificationRepository = new PrismaEmailVerificationRepository();
 const hashProvider = new BcryptHashProvider();
 const tokenProvider = new JwtTokenProvider();
 const totpProvider = new OtpLibTotpProvider();
-const mailProvider = new MockMailProvider();
+const mailProvider =
+  env.SMTP_HOST && env.SMTP_FROM ? new SmtpMailProvider() : new MockMailProvider();
 export const cacheProvider = new InMemoryCacheProvider();
 
 export const registerTenantUseCase = new RegisterTenantUseCase(
@@ -201,12 +204,15 @@ export const createInviteUseCase = new CreateInviteUseCase(
   mailProvider,
 );
 
-export const verifyInviteUseCase = new VerifyInviteUseCase(inviteRepository);
+export const verifyInviteUseCase = new VerifyInviteUseCase(inviteRepository, tenantRepository);
 
 export const acceptInviteUseCase = new AcceptInviteUseCase(
   inviteRepository,
   userRepository,
   tenantRepository,
+  hashProvider,
+  tokenProvider,
+  refreshTokenRepository,
 );
 
 export const listNotificationsUseCase = new ListNotificationsUseCase(notificationRepository);

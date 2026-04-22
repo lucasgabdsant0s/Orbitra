@@ -25,6 +25,7 @@ import { tenantRoutes } from './routes/tenant.routes.js';
 import { userRoutes } from './routes/user.routes.js';
 export function buildServer() {
   const app = Fastify({
+    bodyLimit: 10 * 1024 * 1024, // 10MB
     logger: {
       transport: {
         target: 'pino-pretty',
@@ -43,7 +44,7 @@ export function buildServer() {
     } as any,
   });
   app.register(cors, {
-    origin: ['http://localhost:5173', env.FRONTEND_URL],
+    origin: ['http://localhost:5180', env.FRONTEND_URL],
     credentials: true,
   });
   app.register(rateLimit, {

@@ -267,7 +267,7 @@ cp .env.example .env
 docker compose -f compose.dev.yml up --build
 
 # 4. Open in your browser
-# Frontend → http://localhost:5173
+# Frontend → http://localhost:5180
 # Backend  → http://localhost:3333/docs
 ```
 
@@ -299,7 +299,7 @@ npm run dev
 ```bash
 # After starting the application:
 
-# 1. Go to http://localhost:5173
+# 1. Go to http://localhost:5180
 # 2. Register with your name, email, and password
 # 3. A tenant (workspace) will be created automatically
 # 4. Create your first project

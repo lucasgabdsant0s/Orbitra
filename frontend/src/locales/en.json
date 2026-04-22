@@ -8,6 +8,9 @@
     "edit": "Edit",
     "create": "Create",
     "back": "Back",
+    "save_changes": "Save Changes",
+    "confirm": "Confirm",
+    "forbidden": "Access Denied",
     "status": {
       "active": "Active",
       "archived": "Archived",
@@ -139,6 +142,16 @@
       "created_project": "created the project",
       "updated_project": "updated project settings",
       "unknown": "{{action}} {{entity}}"
+    },
+    "settings": {
+      "title": "Project Settings",
+      "name_label": "Project Name",
+      "desc_label": "Description",
+      "status_label": "Status",
+      "danger_zone": "Danger Zone",
+      "danger_zone_desc": "Irreversible actions for this project.",
+      "delete_project": "Delete Project",
+      "confirm_delete": "Are you sure you want to delete this project?"
     }
   },
   "notifications": {
@@ -192,11 +205,45 @@
   "team": {
     "title": "My Team",
     "subtitle": "Manage your team members and their permissions.",
-    "invite_member": "Invite Member"
+    "invite_member": "Invite Member",
+    "roles": {
+      "owner": "Owner",
+      "admin": "Administrator",
+      "member": "Member",
+      "guest": "Guest"
+    },
+    "status": {
+      "inactive": "Inactive"
+    },
+    "deactivate_member": "Deactivate member",
+    "reactivate_member": "Reactivate member",
+    "delete_member": "Delete member",
+    "confirm_deactivate": "Are you sure you want to deactivate this member?",
+    "confirm_reactivate": "Are you sure you want to reactivate this member?",
+    "confirm_delete": "Are you sure you want to delete this member? This action cannot be undone.",
+    "invite_dialog": {
+      "title": "Invite a new member",
+      "description": "Choose the role and send an email invite with a direct sign-up link.",
+      "email_label": "Member email",
+      "role_label": "Role and permissions",
+      "generated_link": "Invite link",
+      "send_button": "Send invite",
+      "copy_button": "Copy link"
+    }
+  },
+  "invite": {
+    "default_company_name": "your company",
+    "welcome_title": "Welcome to {{company}}",
+    "welcome_description": "You were invited with {{email}}. Create your user to join the workspace.",
+    "selected_role": "Granted role",
+    "create_account_button": "Create account",
+    "invalid_title": "Invalid or expired invite",
+    "invalid_description": "This invite link is no longer valid. Ask an administrator for a new invite."
   },
   "settings": {
     "title": "Settings",
     "subtitle": "Manage your personal preferences and organization settings.",
+    "only_admin_can_configure": "Only administrators can manage organization settings.",
     "profile_tab": "Profile",
     "organization_tab": "Organization",
     "profile_title": "User Profile",
@@ -274,6 +321,18 @@
     "account_created": "Account created successfully!",
     "register_error": "Error creating account",
     "profile_updated": "Profile updated successfully!",
-    "profile_update_error": "Error updating profile"
+    "profile_update_error": "Error updating profile",
+    "invite_sent": "Invite sent successfully!",
+    "invite_send_error": "Error sending invite",
+    "invite_link_copied": "Invite link copied",
+    "invite_link_copy_error": "Could not copy invite link automatically",
+    "invite_accepted": "User created successfully! Please login to continue.",
+    "invite_accept_error": "Could not accept this invite",
+    "invite_missing_tenant": "Could not identify your company to create the invite",
+    "user_deactivated": "Member deactivated successfully!",
+    "user_reactivated": "Member reactivated successfully!",
+    "user_update_error": "Could not update member",
+    "user_deleted": "Member deleted successfully!",
+    "user_delete_error": "Could not delete member"
   }
 }

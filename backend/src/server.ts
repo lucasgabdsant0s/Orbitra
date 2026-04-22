@@ -26,7 +26,7 @@ const app = fastify().withTypeProvider<ZodTypeProvider>();
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
 app.register(fastifyCors, {
-  origin: ['http://localhost:5173', 'https://gleeful-praline-0989e4.netlify.app/'],
+  origin: ['http://localhost:5180', 'https://gleeful-praline-0989e4.netlify.app/'],
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
 });
 app.register(fastifySwagger, {

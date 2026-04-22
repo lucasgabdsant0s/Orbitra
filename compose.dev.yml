@@ -8,11 +8,19 @@ services:
       - "3309:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
 
   api:
     image: node:20-alpine
     working_dir: /app
-    command: sh -c "npm install && npm run dev"
+    command: >
+      sh -c "npm install &&
+      npx prisma generate --schema=./src/infra/database/prisma/schema.prisma &&
+      npm run dev"
     env_file:
       - ./backend/.env.development
     volumes:
@@ -21,7 +29,8 @@ services:
     ports:
       - "3333:3333"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   frontend:
     image: node:20-alpine
@@ -38,9 +47,10 @@ services:
       - ./frontend:/app
       - /app/node_modules
     ports:
-      - "5173:5173"
+      - "5180:5180"
     depends_on:
-      - api
+      api:
+        condition: service_started
 
 volumes:
   mysql_data:

@@ -8,6 +8,9 @@
     "edit": "Editar",
     "create": "Criar",
     "back": "Voltar",
+    "save_changes": "Salvar Alterações",
+    "confirm": "Confirmar",
+    "forbidden": "Acesso Negado",
     "status": {
       "active": "Ativo",
       "archived": "Arquivado",
@@ -21,15 +24,13 @@
     "view_projects": "Ver Projetos",
     "new_project": "Novo Projeto",
     "total_projects": "Total de Projetos",
+    "team_activity": "Atividade do Time",
+    "see_all": "Ver todos",
+    "no_activity": "Tudo calmo",
+    "no_activity_desc": "Atividades aparecerão aqui.",
     "recent_projects": {
       "title": "Projetos Recentes",
       "created_at": "Criado em"
-    },
-    "stats": {
-      "team_activity": "Atividade do Time",
-      "see_all": "Ver todos",
-      "no_activity": "Tudo calmo",
-      "no_activity_desc": "Atividades aparecerão aqui."
     },
     "activity": {
       "created_task": "criou a tarefa",
@@ -132,6 +133,16 @@
       "created_project": "criou o projeto",
       "updated_project": "atualizou as configurações do projeto",
       "unknown": "{{action}} {{entity}}"
+    },
+    "settings": {
+      "title": "Configurações do Projeto",
+      "name_label": "Nome do Projeto",
+      "desc_label": "Descrição",
+      "status_label": "Status",
+      "danger_zone": "Zona de Perigo",
+      "danger_zone_desc": "Ações irreversíveis para este projeto.",
+      "delete_project": "Excluir Projeto",
+      "confirm_delete": "Tem certeza que deseja excluir este projeto?"
     }
   },
   "notifications": {
@@ -185,11 +196,45 @@
   "team": {
     "title": "Meu Time",
     "subtitle": "Gerencie os membros da sua equipe e suas permissões.",
-    "invite_member": "Convidar Membro"
+    "invite_member": "Convidar Membro",
+    "roles": {
+      "owner": "Dono",
+      "admin": "Administrador",
+      "member": "Membro",
+      "guest": "Convidado"
+    },
+    "status": {
+      "inactive": "Inativo"
+    },
+    "deactivate_member": "Desativar membro",
+    "reactivate_member": "Reativar membro",
+    "delete_member": "Excluir membro",
+    "confirm_deactivate": "Tem certeza que deseja desativar este membro?",
+    "confirm_reactivate": "Tem certeza que deseja reativar este membro?",
+    "confirm_delete": "Tem certeza que deseja excluir este membro? Esta ação não pode ser desfeita.",
+    "invite_dialog": {
+      "title": "Convidar novo membro",
+      "description": "Escolha o cargo e envie um convite por email com link direto de cadastro.",
+      "email_label": "E-mail do membro",
+      "role_label": "Cargo e permissões",
+      "generated_link": "Link do convite",
+      "send_button": "Enviar convite",
+      "copy_button": "Copiar link"
+    }
+  },
+  "invite": {
+    "default_company_name": "sua empresa",
+    "welcome_title": "Seja bem-vinda a {{company}}",
+    "welcome_description": "Você foi convidada com o email {{email}}. Crie seu usuário para entrar na plataforma.",
+    "selected_role": "Permissão liberada",
+    "create_account_button": "Criar usuário",
+    "invalid_title": "Convite inválido ou expirado",
+    "invalid_description": "Esse link não está mais disponível. Peça um novo convite para o administrador."
   },
   "settings": {
     "title": "Configurações",
     "subtitle": "Gerencie suas preferências pessoais e configurações da organização.",
+    "only_admin_can_configure": "Apenas administradores podem gerenciar as configurações da organização.",
     "profile_tab": "Perfil",
     "organization_tab": "Organização",
     "profile_title": "Perfil de Usuário",
@@ -267,6 +312,18 @@
     "account_created": "Conta criada com sucesso!",
     "register_error": "Erro ao criar conta",
     "profile_updated": "Perfil atualizado com sucesso!",
-    "profile_update_error": "Erro ao atualizar perfil"
+    "profile_update_error": "Erro ao atualizar perfil",
+    "invite_sent": "Convite enviado com sucesso!",
+    "invite_send_error": "Erro ao enviar convite",
+    "invite_link_copied": "Link do convite copiado",
+    "invite_link_copy_error": "Não foi possível copiar o link automaticamente",
+    "invite_accepted": "Usuário criado com sucesso! Faça login para continuar.",
+    "invite_accept_error": "Não foi possível aceitar este convite",
+    "invite_missing_tenant": "Não foi possível identificar sua empresa para gerar o convite",
+    "user_deactivated": "Membro desativado com sucesso!",
+    "user_reactivated": "Membro reativado com sucesso!",
+    "user_update_error": "Não foi possível atualizar o membro",
+    "user_deleted": "Membro excluído com sucesso!",
+    "user_delete_error": "Não foi possível excluir o membro"
   }
 }

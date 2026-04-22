@@ -4,6 +4,7 @@ import { TeamPage } from '@/features/tenants/components/TeamPage';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { ProtectedLayout } from './layout';
 import DashboardPage from './routes/index';
+import InvitePage from './routes/invite';
 import LoginPage from './routes/login';
 import ProjectsPage from './routes/projects';
 import RegisterPage from './routes/register';
@@ -16,6 +17,7 @@ export function AppRouter() {
         {}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/invite/:tenantId/:token" element={<InvitePage />} />
 
         {}
         <Route element={<ProtectedLayout />}>

@@ -33,6 +33,12 @@ export class PrismaUserRepository implements IUserRepository {
     });
     return record ? this.toDomain(record) : null;
   }
+  async findByEmailWithDeleted(tenantId: string, email: string): Promise<User | null> {
+    const record = await prisma.user.findFirst({
+      where: { tenantId, email },
+    });
+    return record ? this.toDomain(record) : null;
+  }
   async findByEmailGlobal(email: string): Promise<User | null> {
     const record = await prisma.user.findFirst({
       where: { email, deletedAt: null },
@@ -76,6 +82,7 @@ export class PrismaUserRepository implements IUserRepository {
         ...(data.passwordHash !== undefined && {
           passwordHash: data.passwordHash,
         }),
+        ...(data.deletedAt !== undefined && { deletedAt: data.deletedAt }),
       },
     });
     return this.toDomain(updated);

@@ -4,8 +4,24 @@ export interface User {
   name: string;
   tenantId: string | null;
   role: 'OWNER' | 'ADMIN' | 'MEMBER' | 'GUEST';
+  isActive?: boolean;
   avatarUrl?: string | null;
   createdAt?: string;
+}
+
+export type InviteRole = 'ADMIN' | 'MEMBER' | 'GUEST';
+
+export interface Invite {
+  id: string;
+  tenantId: string;
+  tenantName?: string;
+  email: string;
+  role: InviteRole;
+  token: string;
+  inviteLink?: string;
+  status: string;
+  expiresAt: string;
+  createdAt: string;
 }
 
 export interface Tenant {

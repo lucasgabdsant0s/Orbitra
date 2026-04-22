@@ -12,6 +12,8 @@ async function main() {
       host: '0.0.0.0',
     });
     console.log(`Orbitra API running at http://localhost:${env.PORT}`);
+    console.log(`Orbitra Docs running at http://localhost:${env.PORT}/docs`);
+    console.log(`Orbitra Frontend running at http://localhost:5180`);
   } catch (error) {
     console.error('Error starting server:', error);
     await prisma.$disconnect();

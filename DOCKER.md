@@ -43,7 +43,7 @@ docker-compose -f compose.dev.yml up --build --force-recreate
 
 ## Access the App
 
-- **Frontend**: http://localhost:5173
+- **Frontend**: http://localhost:5180
 - **Backend API**: http://localhost:3333
 - **MySQL**: localhost:3309
 - **API Documentation**: http://localhost:3333/docs

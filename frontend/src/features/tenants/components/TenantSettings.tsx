@@ -23,6 +23,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
+import { Shield } from 'lucide-react';
 
 const tenantSettingsSchema = z.object({
   name: z.string().min(2, 'O nome deve ter pelo menos 2 caracteres.'),
@@ -62,6 +63,22 @@ export function TenantSettings() {
       deleteTenant(currentTenant.id);
     }
   };
+
+  const isAdmin = user?.role === 'ADMIN' || user?.role === 'OWNER';
+
+  if (!isAdmin) {
+    return (
+      <div className="flex flex-col items-center justify-center p-12 text-center space-y-4 bg-card/50 rounded-[2.5rem] border border-border">
+        <div className="p-4 bg-destructive/10 rounded-full text-destructive">
+          <Shield size={32} />
+        </div>
+        <div className="space-y-1">
+          <h3 className="text-xl font-bold">{t('common.forbidden')}</h3>
+          <p className="text-muted-foreground">{t('settings.only_admin_can_configure')}</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!currentTenant) {
     return <div>{t('common.loading')}</div>;

@@ -61,3 +61,53 @@ export function useDeleteTenant() {
     },
   });
 }
+
+export function useCreateInvite() {
+  const { t } = useTranslation();
+
+  return useMutation({
+    mutationFn: ({ tenantId, email, role }: { tenantId: string; email: string; role: 'ADMIN' | 'MEMBER' | 'GUEST' }) =>
+      tenantsApi.createInvite(tenantId, { email, role }),
+    onSuccess: () => {
+      toast.success(t('toasts.invite_sent'));
+    },
+    onError: (error: any) => {
+      const message = error?.response?.data?.message || t('toasts.invite_send_error');
+      toast.error(message);
+    },
+  });
+}
+
+export function useVerifyInvite(tenantId?: string, token?: string) {
+  return useQuery({
+    queryKey: ['invite', tenantId, token],
+    queryFn: () => tenantsApi.verifyInvite(tenantId!, token!),
+    enabled: Boolean(tenantId && token),
+    retry: false,
+  });
+}
+
+export function useAcceptInvite() {
+  const { t } = useTranslation();
+
+  return useMutation({
+    mutationFn: ({
+      tenantId,
+      token,
+      name,
+      password,
+    }: {
+      tenantId: string;
+      token: string;
+      name: string;
+      password: string;
+    }) => tenantsApi.acceptInvite(tenantId, token, { name, password }),
+    onSuccess: () => {
+      toast.success(t('toasts.invite_accepted'));
+    },
+    onError: (error: any) => {
+      const message = error?.response?.data?.message || t('toasts.invite_accept_error');
+      toast.error(message);
+    },
+  });
+}

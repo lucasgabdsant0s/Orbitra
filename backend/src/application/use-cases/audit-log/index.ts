@@ -13,9 +13,6 @@ export class ListAuditLogsUseCase {
     options: PaginationOptions,
     filters?: AuditLogFilters,
   ): Promise<PaginatedResult<AuditLog>> {
-    if (userRole !== 'ADMIN' && userRole !== 'OWNER') {
-      throw new ForbiddenError('Only admins can view audit logs.');
-    }
     return this.auditLogRepository.findAll(tenantId, options, filters);
   }
 }

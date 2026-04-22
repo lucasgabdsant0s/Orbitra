@@ -23,6 +23,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
+import { useRef } from 'react';
+import { toast } from 'sonner';
 
 const profileSettingsSchema = z.object({
   name: z.string().min(2, 'O nome deve ter pelo menos 2 caracteres.'),
@@ -35,6 +37,7 @@ export function ProfileSettings() {
   const { t } = useTranslation();
   const { user } = useAuth();
   const { mutate: updateProfile, isPending: isUpdating } = useUpdateProfile();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const form = useForm<ProfileSettingsForm>({
     resolver: zodResolver(profileSettingsSchema),
@@ -47,6 +50,59 @@ export function ProfileSettings() {
   const onSubmit = (data: ProfileSettingsForm) => {
     if (!user) return;
     updateProfile({ id: user.id, data });
+  };
+
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file || !user) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const img = new Image();
+      img.onload = () => {
+        try {
+          const canvas = document.createElement('canvas');
+          const MAX_WIDTH = 400;
+          const MAX_HEIGHT = 400;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width *= MAX_HEIGHT / height;
+              height = MAX_HEIGHT;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx?.drawImage(img, 0, 0, width, height);
+          const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+
+          updateProfile({
+            id: user.id,
+            data: { avatarUrl: compressedBase64 },
+          });
+        } catch (err) {
+          console.error('Error compressing image:', err);
+          toast.error(t('toasts.profile_update_error'));
+        }
+      };
+      img.onerror = () => {
+        toast.error(t('toasts.profile_update_error'));
+      };
+      img.src = reader.result as string;
+    };
+    reader.onerror = () => {
+      toast.error(t('toasts.profile_update_error'));
+    };
+    reader.readAsDataURL(file);
   };
 
   return (
@@ -65,7 +121,19 @@ export function ProfileSettings() {
                   {user?.name?.charAt(0).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
-              <Button variant="outline" type="button">
+              <input
+                type="file"
+                ref={fileInputRef}
+                className="hidden"
+                accept="image/*"
+                onChange={handleFileChange}
+              />
+              <Button
+                variant="outline"
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isUpdating}
+              >
                 {t('settings.change_photo')}
               </Button>
             </div>
