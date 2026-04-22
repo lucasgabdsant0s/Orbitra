@@ -1,5 +1,5 @@
 import { api } from '@/lib/api';
-import type { Invite, InviteRole, Tenant } from '@/types';
+import type { AuthResponse, Invite, InviteRole, Tenant } from '@/types';
 export const tenantsApi = {
   list: async (): Promise<Tenant[]> => {
     const response = await api.get('/tenants');

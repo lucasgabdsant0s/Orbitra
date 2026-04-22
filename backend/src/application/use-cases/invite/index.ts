@@ -15,12 +15,8 @@ import type { IInviteRepository } from '../../../core/interfaces/repositories/II
 import type { IRefreshTokenRepository } from '../../../core/interfaces/repositories/IRefreshTokenRepository.js';
 import type { ITenantRepository } from '../../../core/interfaces/repositories/ITenantRepository.js';
 import type { IUserRepository } from '../../../core/interfaces/repositories/IUserRepository.js';
-import type {
-  CreateInviteInput,
-  InviteOutput,
-  LoginOutput,
-} from '../../dtos/index.js';
 import { env } from '../../../infra/config/env.js';
+import type { CreateInviteInput, InviteOutput, LoginOutput } from '../../dtos/index.js';
 
 export class CreateInviteUseCase {
   constructor(

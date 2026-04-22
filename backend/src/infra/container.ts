@@ -1,3 +1,4 @@
+import { env } from './config/env.js';
 import { PrismaAuditLogRepository } from './database/repositories/PrismaAuditLogRepository.js';
 import { PrismaCommentRepository } from './database/repositories/PrismaCommentRepository.js';
 import { PrismaEmailVerificationRepository } from './database/repositories/PrismaEmailVerificationRepository.js';
@@ -15,7 +16,6 @@ import { JwtTokenProvider } from './providers/JwtTokenProvider.js';
 import { MockMailProvider } from './providers/MockMailProvider.js';
 import { OtpLibTotpProvider } from './providers/OtpLibTotpProvider.js';
 import { SmtpMailProvider } from './providers/SmtpMailProvider.js';
-import { env } from './config/env.js';
 
 import { ListAuditLogsUseCase } from '../application/use-cases/audit-log/index.js';
 import { ListProjectHistoryUseCase } from '../application/use-cases/audit/index.js';
